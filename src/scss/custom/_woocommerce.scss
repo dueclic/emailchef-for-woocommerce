@@ -1,0 +1,42 @@
+@import "../variables";
+
+.tr-info-color {
+  color: $infoColor;
+  background-color: $infoBackgroundColor;
+  label {
+    color: #000;
+    padding-left: 21px;
+  }
+  td {
+    padding-left: 21px;
+  }
+}
+
+#check_login_data {
+  padding-left: 30px;
+  color: $infoColor;
+
+  &.success {
+    color: $successColor;
+  }
+  &.error {
+    color: $errorColor;
+    font-weight: bold;
+  }
+
+}
+
+#check_lists {
+  padding-left: 30px;
+  color: $infoColor;
+}
+
+.emailchef-logo {
+  img {
+    margin-left: 0;
+    display: block;
+  }
+}
+.social-foot {
+  text-decoration: none;
+}

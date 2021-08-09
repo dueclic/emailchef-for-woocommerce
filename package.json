@@ -1,0 +1,39 @@
+{
+  "name": "emailchef-for-woocommerce",
+  "version": "2.0.0",
+  "description": "Easily send emails from your WordPress website using turboSMTP's services",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp",
+    "watch:css": "gulp scss:watch",
+    "watch:js": "gulp js:watch",
+    "build:css": "gulp styles",
+    "build:js": "gulp scripts",
+    "watch": "gulp watch",
+    "clean": "gulp clean"
+  },
+  "author": "dueclic",
+  "license": "GPLv3",
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssimport": "^7.0.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-uglify": "^3.0.2",
+    "jquery": "^1.4.1"
+  },
+  "dependencies": {
+    "chart.js": "^2.9.3",
+    "daterangepicker": "^3.0.5",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-clean": "^0.4.0",
+    "gulp-sourcemaps": "^2.6.5"
+  }
+}
