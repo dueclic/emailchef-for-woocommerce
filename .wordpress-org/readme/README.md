@@ -4,7 +4,7 @@ Contributors: dueclic
 Tags: emailchef,eMailChef,email marketing,mail,email,newsletter,woocommerce,e-commerce,ecommerce,email automation, email campaigns 
 Requires at least:5.0.0 
 Tested up to: 5.8 
-Stable tag: 3.2
+Stable tag: 3.3
 WC requires at least: 5.0.0 
 WC tested up to: 5.5.2
 License: GPLv2 or later
