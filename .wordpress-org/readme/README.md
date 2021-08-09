@@ -4,9 +4,9 @@ Contributors: dueclic
 Tags: emailchef,eMailChef,email marketing,mail,email,newsletter,woocommerce,e-commerce,ecommerce,email automation, email campaigns 
 Requires at least:5.0.0 
 Tested up to: 5.8 
-Stable tag: 3.0
+Stable tag: 3.1
 WC requires at least: 5.0.0 
-WC tested up to: 5.5.1 
+WC tested up to: 5.5.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,7 +34,11 @@ The eMailChef for WooCommerce plugin enables you to:
 * Create **targeted marketing actions** to save **abandoned shopping carts**, rewards for **recurring orders** and **
   more** follow up practices
 
-== Frequently Asked Questions == = Can I customize custom fields data? = Yes, you can do it. You must to use the <code>
+== Frequently Asked Questions == 
+
+= Can I customize custom fields data? = 
+
+Yes, you can do it. You must to use the <code>
 emailchef_customer_data</code> filter hook. Below you can see a useful code snippet as example of use (you must to put
 this in a custom plugin or the <code>functions.php</code> file of your active theme):
 
@@ -49,7 +53,9 @@ if (isset($customer[$custom_field_placeholder])){ $customer[$custom_field_placeh
 add_filter('emailchef_customer_data', 'emailchef_customer_data', 10, 4);
 </code>
 
-= Can I change Abandoned Cart image size? = Yes, you can do it. You must to use the <code>
+= Can I change Abandoned Cart image size? = 
+
+Yes, you can do it. You must to use the <code>
 emailchef_abandoned_cart_image_size</code> filter hook. Below you can see a useful code snippet as example of use (you
 must to put this in a custom plugin or the <code>functions.php</code> file of your active theme):
 
