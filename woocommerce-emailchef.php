@@ -5,7 +5,7 @@
 * Description: Using this WooCommerce plugin, eMailChef can communicate with your online store and it creates easy, simply and automatic targeted campaigns.
 * Author: dueclic
 * Author URI: https://www.dueclic.com
-* Version: 3.1
+* Version: 3.2
 * Tested up: 5.8
 * WC requires at least: 4.0.0
 * WC tested up to: 5.5.2
