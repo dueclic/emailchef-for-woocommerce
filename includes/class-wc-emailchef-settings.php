@@ -330,7 +330,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 			?>
             <div class="emailchef-logo">
                 <img src="<?php
-				echo plugins_url( "img/emailchef.png",
+				echo plugins_url( "dist/img/emailchef.png",
 					dirname( __FILE__ ) ); ?>">
             </div>
 			<?php

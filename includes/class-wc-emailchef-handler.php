@@ -57,7 +57,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$email_text = str_replace( "[[firstname]]", $firstname, $email_text );
 			$email_text = str_replace( "[[subscribe]]", $email_url, $email_text );
 			$email_text = str_replace( "[[unsubscribe]]", $email_url_unsub, $email_text );
-			$email_text = str_replace( "[[image]]", plugins_url( "img/placeholder.png", WC_EMAILCHEF_FILE ), $email_text );
+			$email_text = str_replace( "[[image]]", plugins_url( "dist/img/placeholder.png", WC_EMAILCHEF_FILE ), $email_text );
 
 			$headers = array( 'Content-Type: text/html; charset=UTF-8' );
 
