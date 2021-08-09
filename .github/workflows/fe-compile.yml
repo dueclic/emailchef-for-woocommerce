@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - 'src/**'
+    tags-ignore:
+      - '*'
 
 jobs:
   grunt-build:
