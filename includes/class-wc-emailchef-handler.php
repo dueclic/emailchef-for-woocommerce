@@ -954,7 +954,8 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			wp_json_encode(
 				array(
 					"type" => "success",
-					"text" => "Carrelli abbandonati sincronizzati",
+					"text" => __( "Abandoned cart was successfully synced",
+						"emailchef-for-woocommerce" )
 				)
 			)
 			);
