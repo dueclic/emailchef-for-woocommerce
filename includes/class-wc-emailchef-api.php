@@ -12,7 +12,6 @@ class WC_Emailchef_Api {
 	private $authkey = false;
 
 	public function __construct( $username, $password ) {
-		$this->api_url = apply_filters('emailchef_api_url', $this->api_url);
 		$this->process_login( $username, $password );
 	}
 
@@ -20,7 +19,13 @@ class WC_Emailchef_Api {
 		return $this->isLogged;
 	}
 
+	private function authkey_name(){
+		return apply_filters('emailchef_api_authkey_name', 'authkey');
+	}
+
+
 	private function process_login( $username, $password ) {
+
 
 		$response = $this->getDecodedJson( "/login", array(
 
@@ -29,10 +34,10 @@ class WC_Emailchef_Api {
 
 		), "POST", "/api" );
 
-		if ( ! isset( $response['authkey'] ) ) {
+		if ( ! isset( $response[$this->authkey_name()] ) ) {
 			$this->lastError = $response['message'];
 		} else {
-			$this->authkey  = $response['authkey'];
+			$this->authkey  = $response[$this->authkey_name()];
 			$this->isLogged = true;
 		}
 
@@ -40,14 +45,12 @@ class WC_Emailchef_Api {
 
 	protected function get( $route, $args = array(), $type = "POST", $prefix = "/apps/api/v1" ) {
 
-		$url = $this->api_url . $prefix . $route;
+		$url = apply_filters("emailchef_api_url", $this->api_url) . $prefix . $route;
 
 		$auth = array();
 
 		if ( $this->authkey !== false ) {
-			$auth = array(
-				'authkey' => $this->authkey
-			);
+			$auth[$this->authkey_name()] = $this->authkey;
 		}
 		$args = array(
 			'body'   => array_merge( $auth, $args ),
