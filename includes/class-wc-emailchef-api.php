@@ -6,15 +6,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WC_Emailchef_Api {
 
-	protected $base_api_url = "https://app.emailchef.com";
-	protected $api_url;
+	protected $api_url = "https://app.emailchef.com";
 	public $lastError;
 	private $isLogged = false;
 	private $authkey = false;
 
 	public function __construct( $username, $password ) {
-		$this->base_api_url = apply_filters('emailchef_api_url', $this->base_api_url);
-		$this->api_url = $this->base_api_url."/api";
+		$this->api_url = apply_filters('emailchef_api_url', $this->api_url);
 		$this->process_login( $username, $password );
 	}
 
@@ -29,7 +27,7 @@ class WC_Emailchef_Api {
 			'username' => $username,
 			'password' => $password
 
-		) );
+		), "POST", "/api" );
 
 		if ( ! isset( $response['authkey'] ) ) {
 			$this->lastError = $response['message'];
@@ -40,9 +38,9 @@ class WC_Emailchef_Api {
 
 	}
 
-	protected function get( $route, $args = array(), $type = "POST" ) {
+	protected function get( $route, $args = array(), $type = "POST", $prefix = "/apps/api/v1" ) {
 
-		$url = $this->api_url . $route;
+		$url = $this->api_url . $prefix . $route;
 
 		$auth = array();
 
@@ -66,8 +64,8 @@ class WC_Emailchef_Api {
 
 	}
 
-	protected function getDecodedJson( $route, $args = array(), $type = "POST" ) {
-		return json_decode( $this->get( $route, $args, $type ), true );
+	protected function getDecodedJson( $route, $args = array(), $type = "POST", $prefix = "/apps/api/v1" ) {
+		return json_decode( $this->get( $route, $args, $type, $prefix ), true );
 	}
 
 }
