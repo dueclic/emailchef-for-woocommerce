@@ -6,13 +6,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WC_Emailchef_Api {
 
-	protected $api_url = "https://app.emailchef.com/api";
+	protected $base_api_url = "https://app.emailchef.com";
+	protected $api_url;
 	public $lastError;
 	private $isLogged = false;
 	private $authkey = false;
 
 	public function __construct( $username, $password ) {
-		$this->api_url = apply_filters('emailchef_api_url', $this->api_url);
+		$this->base_api_url = apply_filters('emailchef_api_url', $this->base_api_url);
+		$this->api_url = $this->base_api_url."/api";
 		$this->process_login( $username, $password );
 	}
 

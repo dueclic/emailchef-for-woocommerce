@@ -728,9 +728,8 @@ class WC_Emailchef extends WC_Emailchef_Api
 
     public function __construct($username, $password)
     {
-
         parent::__construct($username, $password);
-        $this->api_url = $this->api_url."/v1";
+	    $this->api_url = $this->base_api_url."/apps/api/v1";
     }
 
     private function best_get($route, $args, $asArray, $type = "POST")
