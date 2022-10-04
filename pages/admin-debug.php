@@ -1,5 +1,11 @@
 <div class="wrap">
 
+    <h1 class="wp-heading-line">
+        API Url
+    </h1>
+
+    <p><strong><?php echo WCEC()->get_api_url(); ?></strong></p>
+
     <h1 class="wp-heading-inline"><?php
 		_e( "Abandoned carts", "emailchef-for-woocommerce" ); ?></h1>
 

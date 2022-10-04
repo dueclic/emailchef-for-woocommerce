@@ -722,11 +722,15 @@ class WC_Emailchef extends WC_Emailchef_Api
 
     }
 
+	public function getApiUrl(){
+		return $this->api_url;
+	}
+
     public function __construct($username, $password)
     {
 
         parent::__construct($username, $password);
-        $this->api_url = "https://app.emailchef.com/apps/api/v1";
+        $this->api_url = $this->api_url."/v1";
     }
 
     private function best_get($route, $args, $asArray, $type = "POST")
@@ -748,9 +752,7 @@ class WC_Emailchef extends WC_Emailchef_Api
 
     public function get_meta_integrations()
     {
-        $integrations = $this->best_get("/meta/integrations", array(), true, "GET");
-
-        return $integrations;
+	    return $this->best_get("/meta/integrations", array(), true, "GET");
     }
 
 

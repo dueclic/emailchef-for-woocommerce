@@ -12,6 +12,7 @@ class WC_Emailchef_Api {
 	private $authkey = false;
 
 	public function __construct( $username, $password ) {
+		$this->api_url = apply_filters('emailchef_api_url', $this->api_url);
 		$this->process_login( $username, $password );
 	}
 

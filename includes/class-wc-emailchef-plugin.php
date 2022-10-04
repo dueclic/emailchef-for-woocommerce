@@ -428,6 +428,10 @@ final class WC_Emailchef_Plugin {
 		return $this->emailchef->isLogged();
 	}
 
+    public function get_api_url(){
+        return $this->emailchef->getApiUrl();
+    }
+
 	/**
 	 * Set plugin constants
 	 */
