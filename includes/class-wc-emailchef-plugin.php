@@ -102,6 +102,7 @@ final class WC_Emailchef_Plugin {
 		foreach ( $options as $option ) {
 			delete_option( "wc_emailchef_" . $option );
 		}
+        delete_transient('ecwc_authkey');
 	}
 
 	/**

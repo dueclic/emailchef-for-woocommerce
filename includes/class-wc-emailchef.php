@@ -883,7 +883,7 @@ class WC_Emailchef extends WC_Emailchef_Api
             $lists = $this->lists($args);
 
             if (!$lists) {
-                return false;
+                return [];
             }
 
             $results = array();

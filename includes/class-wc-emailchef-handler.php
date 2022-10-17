@@ -516,7 +516,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 		public function check_policy() {
 
 			$wcec = WCEC();
-			if ( $wcec->emailchef()->get_policy() !== 'premium' ) {
+			if ( $wcec->emailchef()->isLogged() && $wcec->emailchef()->get_policy() !== 'premium' ) {
 				update_option( $this->prefixed_setting( "policy_type" ), "dopt" );
 			}
 

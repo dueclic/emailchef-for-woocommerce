@@ -246,7 +246,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 		}
 
 		public function get_lists() {
-			if ( $this->emailchef() ) {
+			if ( $this->emailchef()->isLogged() ) {
 				$lists = $this->emailchef()->wrap_list();
 			} else {
 				return false;

@@ -26,21 +26,27 @@ class WC_Emailchef_Api {
 
 	private function process_login( $username, $password ) {
 
+		if (!$authkey = get_transient('ecwc_authkey')) {
 
-		$response = $this->getDecodedJson( "/login", array(
+			$response = $this->getDecodedJson( "/login", array(
+				'username' => $username,
+				'password' => $password
+			), "POST", "/api" );
 
-			'username' => $username,
-			'password' => $password
+			if ( ! isset( $response[ $this->authkey_name() ] ) ) {
+				$authkey = false;
+				$this->lastError = $response['message'];
+			} else {
+				$authkey = $response[ $this->authkey_name() ];
+				set_transient('ecwc_authkey', $authkey, 60 * 60 * 24 * 365);
+			}
 
-		), "POST", "/api" );
-
-		if ( ! isset( $response[$this->authkey_name()] ) ) {
-			$this->lastError = $response['message'];
-		} else {
-			$this->authkey  = $response[$this->authkey_name()];
-			$this->isLogged = true;
 		}
 
+		if ($authkey !== false) {
+			$this->authkey  = $authkey;
+			$this->isLogged = true;
+		}
 	}
 
 	protected function get( $route, $args = array(), $type = "POST", $prefix = "/apps/api/v1" ) {
@@ -60,10 +66,13 @@ class WC_Emailchef_Api {
 		$args = apply_filters( "ec_wc_get_args", $args );
 
 		$response = wp_remote_request( $url, $args );
+		$status_code = wp_remote_retrieve_response_code($response);
 
-		$body     = wp_remote_retrieve_body( $response );
+		if ($status_code !== 200){
+			delete_transient('ecwc_authkey');
+		}
 
-		return $body;
+		return wp_remote_retrieve_body( $response );
 
 	}
 
