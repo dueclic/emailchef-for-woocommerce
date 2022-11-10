@@ -716,7 +716,14 @@ class WC_Emailchef extends WC_Emailchef_Api
     public function get_policy()
     {
 
-        $account = $this->best_get("/accounts/current", array(), true, "GET");
+        $account = $this->best_get("/accounts/current?with_policy_details=1", array(), true, "GET");
+
+		if ( isset($account['policy_details'])){
+			if ($account['policy_details']['single_optin'] ){
+				return 'premium';
+			}
+			return 'safe';
+		}
 
         return $account['mode'];
 

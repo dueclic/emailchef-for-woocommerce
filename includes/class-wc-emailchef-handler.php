@@ -714,10 +714,9 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			add_action( 'wp_footer', array( $this, 'maybe_abandoned_cart_sync' ) );
 			add_action( 'wp_footer', array( $this, 'trigger_send_abandoned_carts' ) );
-			add_action( 'wp_footer', array( $this, 'trigger_send_abandoned_carts' ) );
 
 			add_action( 'admin_footer', array( $this, 'trigger_send_abandoned_carts' ) );
-			add_action( 'admin_footer', array( $this, 'trigger_send_abandoned_carts' ) );
+			add_action( 'admin_footer', array( $this, 'maybe_abandoned_cart_sync' ) );
 
 			add_action( 'admin_menu', array( $this, 'add_debug_page' ), 10 );
 
