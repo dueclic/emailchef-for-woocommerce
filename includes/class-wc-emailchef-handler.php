@@ -699,7 +699,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				$this,
 				'sync_abandoned_carts'
 			) );
-			add_action( 'upgrader_process_complete', array( $this, 'upgrade_also_list' ), 10, 2 );
+			//add_action( 'upgrader_process_complete', array( $this, 'upgrade_also_list' ), 10, 2 );
 			add_action(
 				'wp_ajax_nopriv_' . $this->namespace . '_sync_abandoned_carts',
 				array( $this, 'sync_abandoned_carts' )
