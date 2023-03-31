@@ -6,9 +6,9 @@
 * Author: dueclic
 * Author URI: https://www.dueclic.com
 * Version: 4.4
-* Tested up: 6.2
+* Tested up: 6.1.1
 * WC requires at least: 5.0.0
-* WC tested up to: 7.5.1
+* WC tested up to: 7.4.0
 * Text Domain: emailchef-for-woocommerce
 * Domain Path: /languages/
 * License: GPL v3
