@@ -3,8 +3,8 @@
 Contributors: dueclic 
 Tags: emailchef,eMailChef,email marketing,mail,email,newsletter,woocommerce,e-commerce,ecommerce,email automation, email campaigns 
 Requires at least:5.0.0 
-Tested up to: 6.2
-Stable tag: 4.5
+Tested up to: 6.3
+Stable tag: 4.6
 WC requires at least: 5.0.0 
 WC tested up to: 7.5.1
 License: GPLv2 or later
@@ -70,6 +70,10 @@ add_filter('emailchef_abandoned_cart_image_size', 'emailchef_abandoned_cart_imag
 </code>
 
 == Changelog ==
+
+= 4.6 =
+* Tested up WooCommerce 8.0.2
+* Tested up WordPress 6.3
 
 = 4.5 =
 * Tested up WooCommerce 7.5.1
