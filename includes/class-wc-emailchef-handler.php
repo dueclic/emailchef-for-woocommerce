@@ -450,6 +450,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				'/subscribe/(?P<list_id>\d+)/(?P<customer_email>(.*))',
 				array(
 					'methods'  => 'GET',
+					'permission_callback' => __return_true(),
 					'callback' => array( $this, "subscribe_email" ),
 					'args'     => array(
 						'list_id'        => array(
@@ -478,6 +479,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				'/is_active',
 				array(
 					'methods'  => 'GET',
+					'permission_callback' => __return_true(),
 					'callback' => array( $this, "emailchef_is_active" ),
 					'args'     => array()
 				)
@@ -488,14 +490,15 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				'/unsubscribe/(?P<list_id>\d+)/(?P<customer_email>(.*))',
 				array(
 					'methods'  => 'GET',
+					'permission_callback' => __return_true(),
 					'callback' => array( $this, "unsubscribe_email" ),
 					'args'     => array(
-						'list_id'        => array(
+						'list_id'             => array(
 							'validate_callback' => function ( $param, $request, $key ) {
 								return get_option( $this->prefixed_setting( "list" ) ) == $param;
 							},
 						),
-						'customer_email' => array(
+						'customer_email'      => array(
 							'validate_callback' => function ( $param, $request, $key ) {
 
 								$double_opt = $this->wcec->double_opt_in();
@@ -908,7 +911,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					'ab_cart_prod_url_pr_hr'     => $product->get_permalink(),
 					'ab_cart_prod_url_img_pr_hr' => $product->get_image(
 						apply_filters( 'emailchef_abandoned_cart_image_size', 'woocommerce_thumbnail' )
-                    ),
+					),
 					'ab_cart_prod_id_pr_hr'      => $product->get_id(),
 					'ab_cart_date'               => date( "Y-m-d" ),
 				);
