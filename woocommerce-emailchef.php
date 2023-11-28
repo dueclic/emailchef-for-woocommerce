@@ -1,8 +1,8 @@
 <?php
 /*
-* Plugin Name: eMailChef for WooCommerce
+* Plugin Name: Emailchef for WooCommerce
 * Plugin Uri: http://emailchef.com/email-marketing-woocommerce-emailchef/
-* Description: Using this WooCommerce plugin, eMailChef can communicate with your online store and it creates easy, simply and automatic targeted campaigns.
+* Description: Using this WooCommerce plugin, Emailchef can communicate with your online store and it creates easy, simply and automatic targeted campaigns.
 * Author: dueclic
 * Author URI: https://www.dueclic.com
 * Version: 4.7

@@ -81,7 +81,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$wcec        = $this->wcec->emailchef();
 
 			if ( $customer_id == 0 ) {
-				$this->wcec->log( __( "Guest synchronization to eMailChef in progress", "emailchef-for-woocommerce" ) );
+				$this->wcec->log( __( "Guest synchronization to Emailchef in progress", "emailchef-for-woocommerce" ) );
 				$success = $wcec->sync_guest( $list_id, $order_id, isset( $_POST['wc_emailchef_opt_in'] ) );
 
 				if ( $success ) {
@@ -121,7 +121,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			} else {
 
 				$this->wcec->log(
-					sprintf( __( "Customer synchronization to eMailChef in progress (Customer ID: %d)",
+					sprintf( __( "Customer synchronization to Emailchef in progress (Customer ID: %d)",
 						"emailchef-for-woocommerce" ), $customer_id )
 				);
 
@@ -670,13 +670,13 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 		public function hooks() {
 
 			/**
-			 * Choice position of eMailChef consent
+			 * Choice position of Emailchef consent
 			 */
 
 			add_action( 'woocommerce_after_checkout_billing_form', array( $this, 'add_emailchef_consent' ) );
 
 			/**
-			 * Save eMailChef consent
+			 * Save Emailchef consent
 			 */
 
 			add_action( 'user_register', array( $this, 'save_emailchef_consent' ), 10, 1 );
@@ -726,7 +726,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 		}
 
 		public function add_debug_page() {
-			$debug_name = 'eMailChef DEBUG';
+			$debug_name = 'Emailchef DEBUG';
 			$debug_slug = 'emailchef-debug';
 			$debug_cap  = 'manage_options';
 			add_submenu_page(
@@ -781,7 +781,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			if ( current_user_can( 'manage_options' ) ) {
 				$args = array(
 					'id'    => 'wc_ec',
-					'title' => __( 'eMailChef', 'emailchef-for-woocommerce' ),
+					'title' => __( 'Emailchef', 'emailchef-for-woocommerce' ),
 					'href'  => '#',
 					'meta'  => array( 'class' => 'my-empty-cart' )
 				);
@@ -922,7 +922,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					$this->wcec->log(
 						sprintf(
 							__(
-								"Synchronization of abandoned cart for user %d in eMailChef list %d successfully done",
+								"Synchronization of abandoned cart for user %d in Emailchef list %d successfully done",
 								"emailchef-for-woocommerce"
 							),
 							$customer_id,
@@ -942,7 +942,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				} else {
 					$this->wcec->log(
 						sprintf(
-							__( "Synchronization of abandoned cart for user %d in eMailChef list %d failed",
+							__( "Synchronization of abandoned cart for user %d in Emailchef list %d failed",
 								"emailchef-for-woocommerce" ),
 							$customer_id,
 							$list_id
@@ -1005,10 +1005,10 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$this->wcec->emailchef()->upsert_integration( $list );
 			$this->wcec->emailchef()->sync_list( $list, $all );
 			if ( $all ) {
-				$this->wcec->log( sprintf( __( "Synchronization and custom fields creation for eMailChef list %d",
+				$this->wcec->log( sprintf( __( "Synchronization and custom fields creation for Emailchef list %d",
 					"emailchef-for-woocommerce" ), $list ) );
 			} else {
-				$this->wcec->log( sprintf( __( "Custom fields creation for eMailChef list %d",
+				$this->wcec->log( sprintf( __( "Custom fields creation for Emailchef list %d",
 					"emailchef-for-woocommerce" ), $list ) );
 			}
 

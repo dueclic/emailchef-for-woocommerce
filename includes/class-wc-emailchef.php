@@ -18,7 +18,7 @@ class WC_Emailchef extends WC_Emailchef_Api
 
     /**
      *
-     * eMailChef sync initial list
+     * Emailchef sync initial list
      *
      * @param $list_id
      * @param bool $all if not all, only custom fields will be created
@@ -40,7 +40,7 @@ class WC_Emailchef extends WC_Emailchef_Api
         if ($all) {
             $data = array();
 
-            WCEC()->log(sprintf(__("[START] Synchronization and custom fields creation for eMailChef list %d",
+            WCEC()->log(sprintf(__("[START] Synchronization and custom fields creation for Emailchef list %d",
                 "emailchef-for-woocommerce"), $list_id));
 
             foreach ($customers as $customer) {
@@ -100,7 +100,7 @@ class WC_Emailchef extends WC_Emailchef_Api
 
     /**
      *
-     * eMailChef sync order change
+     * Emailchef sync order change
      *
      * @param $list_id
      * @param $customer_id
@@ -293,7 +293,7 @@ class WC_Emailchef extends WC_Emailchef_Api
 
     /**
      *
-     * eMailChef gateway send email
+     * Emailchef gateway send email
      *
      * @param $to
      * @param $subject
@@ -762,7 +762,7 @@ class WC_Emailchef extends WC_Emailchef_Api
 
 
     /**
-     * Get integrations from eMailChef List
+     * Get integrations from Emailchef List
      *
      * @param $list_id
      *
@@ -777,7 +777,7 @@ class WC_Emailchef extends WC_Emailchef_Api
     }
 
     /**
-     * Upsert integrations yo eMailChef List
+     * Upsert integrations yo Emailchef List
      *
      * @param $list_id
      *
@@ -797,7 +797,7 @@ class WC_Emailchef extends WC_Emailchef_Api
     }
 
     /**
-     * Upsert integrations yo eMailChef List
+     * Upsert integrations yo Emailchef List
      *
      * @param $list_id
      * @param $integration_id
@@ -832,7 +832,7 @@ class WC_Emailchef extends WC_Emailchef_Api
     }
 
     /**
-     * Get integrations from eMailChef List
+     * Get integrations from Emailchef List
      *
      * @param $list_id
      *

@@ -1,17 +1,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: eMailChef for WooCommerce\n"
-"POT-Creation-Date: 2021-05-18 09:51+0200\n"
-"PO-Revision-Date: 2021-05-18 09:52+0200\n"
+"POT-Creation-Date: 2023-11-28 15:48+0100\n"
+"PO-Revision-Date: 2023-11-28 15:50+0100\n"
 "Last-Translator: Andrea <andrea@debbaweb.it>\n"
 "Language-Team: \n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.3\n"
-"X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.1\n"
+"X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: woocommerce-emailchef.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -21,9 +21,10 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: cli/import.php:21 includes/class-wc-emailchef-handler.php:1025
-#, php-format
-msgid "Synchronization and custom fields creation for eMailChef list %d"
+#: cli/import.php:21 includes/class-wc-emailchef-handler.php:1008
+#, fuzzy, php-format
+#| msgid "Synchronization and custom fields creation for eMailChef list %d"
+msgid "Synchronization and custom fields creation for Emailchef list %d"
 msgstr "Sincronizzazione e creazione dei Custom Fields (Lista %d)"
 
 #: conf/custom_fields.php:30
@@ -174,25 +175,25 @@ msgstr "Carrello abbandonato - Data"
 msgid "Store Registration - Date"
 msgstr "Registrazione negozio - Data"
 
-#: includes/class-wc-emailchef-handler.php:21
+#: includes/class-wc-emailchef-handler.php:19
 msgid "emailChef"
 msgstr "emailChef"
 
-#: includes/class-wc-emailchef-handler.php:55
+#: includes/class-wc-emailchef-handler.php:50
 msgid "Confirm your email to receive our newsletter"
 msgstr "Conferma la tua email per ricevere le nostre newsletter"
 
-#: includes/class-wc-emailchef-handler.php:90
-msgid "Guest synchronization to eMailChef in progress"
-msgstr "Preparo sincronizzazione dell’utente guest su emailChef"
+#: includes/class-wc-emailchef-handler.php:84
+msgid "Guest synchronization to Emailchef in progress"
+msgstr "Preparo sincronizzazione dell’utente guest su Emailchef"
 
-#: includes/class-wc-emailchef-handler.php:102
-#: includes/class-wc-emailchef-handler.php:152
+#: includes/class-wc-emailchef-handler.php:96
+#: includes/class-wc-emailchef-handler.php:146
 #, php-format
 msgid "Opt-in sent via email to user %d in list %d"
 msgstr "Conferma consenso inviato via email all’utente %d nella lista %d"
 
-#: includes/class-wc-emailchef-handler.php:114
+#: includes/class-wc-emailchef-handler.php:108
 #, php-format
 msgid ""
 "Insert failure in list %d for updated data of guest customer (Order %d from "
@@ -201,12 +202,12 @@ msgstr ""
 "Mancato inserimento nella lista %d dei dati aggiornati del Cliente guest "
 "(Passaggio dell’ordine %d da stato %s a %s). Errore: %s"
 
-#: includes/class-wc-emailchef-handler.php:130
+#: includes/class-wc-emailchef-handler.php:124
 #, php-format
-msgid "Customer synchronization to eMailChef in progress (Customer ID: %d)"
+msgid "Customer synchronization to Emailchef in progress (Customer ID: %d)"
 msgstr "Preparo sincronizzazione del Cliente %d"
 
-#: includes/class-wc-emailchef-handler.php:160
+#: includes/class-wc-emailchef-handler.php:154
 #, php-format
 msgid ""
 "Insert success in list %d for updated data of customer %d (Order %d from "
@@ -215,7 +216,7 @@ msgstr ""
 "Importazione nella lista %d dei dati aggiornati del cliente %d (Passaggio di "
 "ordine %d dallo stato %s to %s)"
 
-#: includes/class-wc-emailchef-handler.php:176
+#: includes/class-wc-emailchef-handler.php:170
 #, php-format
 msgid ""
 "Insert failure in list %d for updated data of customer %d (order id: %d, "
@@ -224,32 +225,32 @@ msgstr ""
 "Mancato inserimento nella lista %d dei dati aggiornati del Cliente %d "
 "(Passaggio dell’ordine %d da stato %s a %s). Errore: %s"
 
-#: includes/class-wc-emailchef-handler.php:263
+#: includes/class-wc-emailchef-handler.php:255
 #, php-format
 msgid "Synchronization customer %d in list %d done (Newsletter status: %s)."
 msgstr ""
 "Sincronizzazione utente %d nella lista %d avvenuta con successo (Stato "
 "newsletter: %s)."
 
-#: includes/class-wc-emailchef-handler.php:286
+#: includes/class-wc-emailchef-handler.php:278
 #, php-format
 msgid "Synchronization customer %d in list %d failed"
 msgstr "Sincronizzazione utente %d nella lista %d non avvenuta"
 
-#: includes/class-wc-emailchef-handler.php:611
+#: includes/class-wc-emailchef-handler.php:597
 #, php-format
 msgid "Abandoned cart successfully emptied for customer %d in table %s"
 msgstr ""
 "Svuotato il carrello abbandonato per utente %d nella tabella %s  avvenuta "
 "con successo."
 
-#: includes/class-wc-emailchef-handler.php:621
+#: includes/class-wc-emailchef-handler.php:607
 #, php-format
 msgid "Abandoned carty emptying failed for customer %d in table %s"
 msgstr ""
 "Svuotamento carrello abbandonato per utente %d nella tabella %s non avvenuta"
 
-#: includes/class-wc-emailchef-handler.php:662
+#: includes/class-wc-emailchef-handler.php:648
 #, php-format
 msgid ""
 "Synchronization of abandoned cart for user %d in table %s successfully done"
@@ -257,7 +258,7 @@ msgstr ""
 "Sincronizzazione carrello abbandonato per utente %d nella tabella %s  "
 "avvenuta con successo."
 
-#: includes/class-wc-emailchef-handler.php:672
+#: includes/class-wc-emailchef-handler.php:658
 #, php-format
 msgid ""
 "Synchronization of abandoned cart for user %d in table %s successfully failed"
@@ -265,123 +266,129 @@ msgstr ""
 "Sincronizzazione carrello abbandonato per utente %d nella tabella %s non "
 "avvenuta"
 
-#: includes/class-wc-emailchef-handler.php:799
+#: includes/class-wc-emailchef-handler.php:784
 #: includes/class-wc-emailchef-settings.php:40
-msgid "eMailChef"
-msgstr "eMailChef"
+msgid "Emailchef"
+msgstr "Emailchef"
 
-#: includes/class-wc-emailchef-handler.php:806
+#: includes/class-wc-emailchef-handler.php:791
 msgid "Send abandoned carts"
 msgstr "Invia carrelli abbandonati"
 
-#: includes/class-wc-emailchef-handler.php:940
+#: includes/class-wc-emailchef-handler.php:925
 #, php-format
 msgid ""
-"Synchronization of abandoned cart for user %d in eMailChef list %d "
+"Synchronization of abandoned cart for user %d in Emailchef list %d "
 "successfully done"
 msgstr ""
 "Sincronizzazione carrello abbandonato per utente %d nella lista %d  avvenuta "
 "con successo"
 
-#: includes/class-wc-emailchef-handler.php:960
+#: includes/class-wc-emailchef-handler.php:945
 #, php-format
 msgid ""
-"Synchronization of abandoned cart for user %d in eMailChef list %d failed"
+"Synchronization of abandoned cart for user %d in Emailchef list %d failed"
 msgstr ""
 "Sincronizzazione carrello abbandonato per utente %d nella lista %d non "
 "avvenuta"
 
-#: includes/class-wc-emailchef-handler.php:1028
-#, php-format
-msgid "Custom fields creation for eMailChef list %d"
-msgstr "Creazione di campi personalizzati per lista eMailChef %d"
+#: includes/class-wc-emailchef-handler.php:959
+msgid "Abandoned cart was successfully synced"
+msgstr ""
+"Svuotato il carrello abbandonato per utente %d nella tabella %s  avvenuta "
+"con successo."
 
-#: includes/class-wc-emailchef-handler.php:1085
+#: includes/class-wc-emailchef-handler.php:1011
+#, php-format
+msgid "Custom fields creation for Emailchef list %d"
+msgstr "Creazione di campi personalizzati per lista Emailchef %d"
+
+#: includes/class-wc-emailchef-handler.php:1065
 msgid "Language was loaded, do you want refresh this page with new language?"
 msgstr ""
 "La lingua è stata caricata, vuoi aggiornare questa pagina nella lingua "
 "scelta?"
 
-#: includes/class-wc-emailchef-handler.php:1121
-#: includes/class-wc-emailchef-handler.php:1148
-#: includes/class-wc-emailchef-handler.php:1180
+#: includes/class-wc-emailchef-handler.php:1099
+#: includes/class-wc-emailchef-handler.php:1125
+#: includes/class-wc-emailchef-handler.php:1156
 msgid "User or password are wrong"
 msgstr "Username o password non corretti"
 
-#: includes/class-wc-emailchef-handler.php:1126
+#: includes/class-wc-emailchef-handler.php:1104
 msgid "Insert your username and password to display your lists"
 msgstr "Inserisci username e password per ottenere le tue liste"
 
-#: includes/class-wc-emailchef-handler.php:1153
+#: includes/class-wc-emailchef-handler.php:1130
 msgid "Provide your username and password"
 msgstr "Inserisci username e password"
 
-#: includes/class-wc-emailchef-handler.php:1166
+#: includes/class-wc-emailchef-handler.php:1143
 msgid "Valid username and password"
 msgstr "Username e password corretti"
 
-#: includes/class-wc-emailchef-handler.php:1185
+#: includes/class-wc-emailchef-handler.php:1161
 msgid "Provide your username and password."
 msgstr "Inserisci username e password"
 
-#: includes/class-wc-emailchef-handler.php:1192
-#: includes/class-wc-emailchef-plugin.php:150
+#: includes/class-wc-emailchef-handler.php:1168
+#: includes/class-wc-emailchef-plugin.php:151
 msgid "Provide a name for this new list."
 msgstr "Inserisci un nome per la nuova lista"
 
-#: includes/class-wc-emailchef-handler.php:1216
+#: includes/class-wc-emailchef-handler.php:1192
 msgid "List successfully created."
 msgstr "Lista creata con successo."
 
-#: includes/class-wc-emailchef-handler.php:1221
+#: includes/class-wc-emailchef-handler.php:1197
 #, php-format
 msgid "List created sucessfully (ID: %d, name: %s, description: %s)"
 msgstr "Creata lista %d (Nome: %s, Descrizione: %s)"
 
-#: includes/class-wc-emailchef-handler.php:1232
+#: includes/class-wc-emailchef-handler.php:1208
 msgid "Error occurs while creating the new list: "
 msgstr "Lista non creata:"
 
-#: includes/class-wc-emailchef-handler.php:1237
+#: includes/class-wc-emailchef-handler.php:1213
 #, php-format
 msgid ""
 "Error occurs while creating the new list (Name: %s, Description: %s). Error: "
 "%s"
 msgstr "Lista non creata (Nome: %s, Descrizione: %s). Errore: %s"
 
-#: includes/class-wc-emailchef-plugin.php:144
+#: includes/class-wc-emailchef-plugin.php:145
 msgid "Verifying your login data..."
 msgstr "Controllo dati di accesso in corso…"
 
-#: includes/class-wc-emailchef-plugin.php:146
+#: includes/class-wc-emailchef-plugin.php:147
 msgid "Incorrect login credentials."
 msgstr "I dati inseriti sono errati."
 
-#: includes/class-wc-emailchef-plugin.php:148
+#: includes/class-wc-emailchef-plugin.php:149
 msgid "List name"
 msgstr "Nome della lista"
 
-#: includes/class-wc-emailchef-plugin.php:152
+#: includes/class-wc-emailchef-plugin.php:153
 msgid "Create ?"
 msgstr "Crea ?"
 
-#: includes/class-wc-emailchef-plugin.php:154
+#: includes/class-wc-emailchef-plugin.php:155
 msgid "List description"
 msgstr "Descrizione della lista"
 
-#: includes/class-wc-emailchef-plugin.php:156
+#: includes/class-wc-emailchef-plugin.php:157
 msgid "Provide a description for this new list."
 msgstr "Inserisci la descrizione della nuova lista."
 
-#: includes/class-wc-emailchef-plugin.php:158
+#: includes/class-wc-emailchef-plugin.php:159
 msgid "Undo"
 msgstr "Annulla"
 
-#: includes/class-wc-emailchef-plugin.php:160
+#: includes/class-wc-emailchef-plugin.php:161
 msgid "Create"
 msgstr "Crea"
 
-#: includes/class-wc-emailchef-plugin.php:162
+#: includes/class-wc-emailchef-plugin.php:163
 msgid ""
 "By creating a new list, you confirm its compliance with the privacy policy "
 "and the CAN-SPAM Act."
@@ -389,34 +396,34 @@ msgstr ""
 "Creando una nuova lista certifichi che è conforme alla politica Anti-SPAM e "
 "all’ informativa sulla privacy"
 
-#: includes/class-wc-emailchef-plugin.php:224
-msgid "Well! Now that you activated eMailChef for WooCommerce, go to the "
+#: includes/class-wc-emailchef-plugin.php:225
+msgid "Well! Now that you activated Emailchef for WooCommerce, go to the "
 msgstr ""
-"Bene! Ora che hai attivato eMailChef for WooCommerce, procedi subito con la "
+"Bene! Ora che hai attivato Emailchef for WooCommerce, procedi subito con la "
 
-#: includes/class-wc-emailchef-plugin.php:227
+#: includes/class-wc-emailchef-plugin.php:228
 msgid "configuration"
 msgstr "configurazione"
 
-#: includes/class-wc-emailchef-plugin.php:307
+#: includes/class-wc-emailchef-plugin.php:308
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: includes/class-wc-emailchef-plugin.php:309
+#: includes/class-wc-emailchef-plugin.php:310
 msgid "Instruction manual"
 msgstr "Manuale di istruzioni"
 
-#: includes/class-wc-emailchef-plugin.php:329
+#: includes/class-wc-emailchef-plugin.php:330
 msgid "This plugin is powered by"
 msgstr "Questo plugin è sviluppato da"
 
-#: includes/class-wc-emailchef-plugin.php:400
+#: includes/class-wc-emailchef-plugin.php:401
 msgid "Signup to our newsletter"
 msgstr "Iscriviti alla nostra newsletter"
 
 #: includes/class-wc-emailchef-settings.php:90
-msgid "Configure your eMailChef account using your authentication data."
-msgstr "Configura il tuo account eMailChef utilizzando i tuoi dati di accesso."
+msgid "Configure your Emailchef account using your authentication data."
+msgstr "Configura il tuo account Emailchef utilizzando i tuoi dati di accesso."
 
 #: includes/class-wc-emailchef-settings.php:99
 msgid "Language"
@@ -440,30 +447,30 @@ msgstr "emailChef username"
 
 #: includes/class-wc-emailchef-settings.php:117
 #, php-format
-msgid "%sSignup now in eMailChef for creating a new account."
-msgstr "%sRegistrati ad eMailChef per ottenere da subito un account."
+msgid "%sSignup now in Emailchef for creating a new account."
+msgstr "%sRegistrati ad Emailchef per ottenere da subito un account."
 
 #: includes/class-wc-emailchef-settings.php:122
-msgid "Provide your eMailChef username"
-msgstr "Inserisci lo username del tuo account eMailChef"
+msgid "Provide your Emailchef username"
+msgstr "Inserisci lo username del tuo account Emailchef"
 
 #: includes/class-wc-emailchef-settings.php:126
-msgid "You must provide eMailChef username for list synchronization."
+msgid "You must provide Emailchef username for list synchronization."
 msgstr ""
-"L’ username dell’account eMailChef è necessario per sincronizzare le liste."
+"L’ username dell’account Emailchef è necessario per sincronizzare le liste."
 
 #: includes/class-wc-emailchef-settings.php:132
-msgid "eMailChef password"
-msgstr "eMailChef password"
+msgid "Emailchef password"
+msgstr "Emailchef password"
 
 #: includes/class-wc-emailchef-settings.php:135
-msgid "Provide your eMailChef password"
-msgstr "Inserisci la password del tuo account eMailChef"
+msgid "Provide your Emailchef password"
+msgstr "Inserisci la password del tuo account Emailchef"
 
 #: includes/class-wc-emailchef-settings.php:139
-msgid "You must provide eMailChef password for list synchronization."
+msgid "You must provide Emailchef password for list synchronization."
 msgstr ""
-"La password dell’ account eMailChef è necessaria per sincronizzare le liste."
+"La password dell’ account Emailchef è necessaria per sincronizzare le liste."
 
 #: includes/class-wc-emailchef-settings.php:147
 msgid "List"
@@ -524,12 +531,12 @@ msgstr ""
 "Impossibile ottenere la lista correttamente. I dati inseriti sono corretti?"
 
 #: includes/class-wc-emailchef-settings.php:243
-msgid "No lists found in your eMailChef account"
-msgstr "Nessuna lista trovata all’interno del tuo account emailChef"
+msgid "No lists found in your Emailchef account"
+msgstr "Nessuna lista trovata all’interno del tuo account Emailchef"
 
 #: includes/class-wc-emailchef-settings.php:266
-msgid "No lists configured in your eMailChef account"
-msgstr "Nessuna lista configurata nel tuo account emailChef"
+msgid "No lists configured in your Emailchef account"
+msgstr "Nessuna lista configurata nel tuo account Emailchef"
 
 #: includes/class-wc-emailchef-settings.php:301
 #, php-format
@@ -559,10 +566,10 @@ msgstr "Prima sincronizzazione non scelta per la lista %d"
 #: includes/class-wc-emailchef.php:43
 #, php-format
 msgid ""
-"[START] Synchronization and custom fields creation for eMailChef list %d"
+"[START] Synchronization and custom fields creation for Emailchef list %d"
 msgstr ""
 "[START] Sincronizzazione e creazione di campi personalizzati per la lista "
-"eMailChef %d"
+"Emailchef %d"
 
 #: includes/class-wc-emailchef.php:67 includes/class-wc-emailchef.php:83
 #, php-format
@@ -574,66 +581,65 @@ msgstr "[PROGRESSO] Sincronizzazione della lista %d, blocco di %d contatti."
 msgid "[ERROR] Synchronization of the list %d, details : %s"
 msgstr "[ERRORE] Sincronizzazione della lista %d, dettagli : %s"
 
-#: pages/admin-debug.php:4
+#: pages/admin-debug.php:10
 msgid "Abandoned carts"
 msgstr "Carrelli abbandonati"
 
-#: pages/admin-debug.php:11
+#: pages/admin-debug.php:17
 msgid "User"
 msgstr "Utente"
 
-#: pages/admin-debug.php:15
+#: pages/admin-debug.php:21
 msgid "Email"
 msgstr "Email"
 
-#: pages/admin-debug.php:19
+#: pages/admin-debug.php:25
 msgid "Product image"
 msgstr "Immagine prodotto"
 
-#: pages/admin-debug.php:23
+#: pages/admin-debug.php:29
 msgid "Product name"
 msgstr "Nome Prodotto"
 
-#: pages/admin-debug.php:27
+#: pages/admin-debug.php:33
 msgid "Product price"
 msgstr "Prezzo prodotto"
 
-#: pages/admin-debug.php:31
+#: pages/admin-debug.php:37
 msgid "Created"
 msgstr "Creato"
 
-#: pages/admin-debug.php:35
+#: pages/admin-debug.php:41
 msgid "Force Sync"
 msgstr "Forza sincronizzazione"
 
-#: pages/admin-debug.php:105
+#: pages/admin-debug.php:111
 msgid "Sync"
 msgstr "Sincronizza"
 
-#. Plugin Name of the plugin/theme
-msgid "eMailChef for WooCommerce"
-msgstr "eMailChef for WooCommerce"
+#~ msgid "eMailChef"
+#~ msgstr "eMailChef"
 
-#. Plugin URI of the plugin/theme
-msgid "http://emailchef.com/email-marketing-woocommerce-emailchef/"
-msgstr "http://emailchef.com/it/email-marketing-con-woocommerce-e-emailchef/"
+#~ msgid "eMailChef for WooCommerce"
+#~ msgstr "eMailChef for WooCommerce"
 
-#. Description of the plugin/theme
-msgid ""
-"Using this WooCommerce plugin, eMailChef can communicate with your online "
-"store and it creates easy, simply and automatic targeted campaigns."
-msgstr ""
-"Grazie al plugin per WooCommerce, eMailChef è capace di comunicare con il "
-"tuo shop online e ti consente di creare campagne mirate per i tuoi clienti, "
-"in maniera rapida, semplice e automatica."
+#~ msgid "http://emailchef.com/email-marketing-woocommerce-emailchef/"
+#~ msgstr ""
+#~ "http://emailchef.com/it/email-marketing-con-woocommerce-e-emailchef/"
 
-#. Author of the plugin/theme
-msgid "dueclic"
-msgstr "dueclic"
+#~ msgid ""
+#~ "Using this WooCommerce plugin, eMailChef can communicate with your online "
+#~ "store and it creates easy, simply and automatic targeted campaigns."
+#~ msgstr ""
+#~ "Grazie al plugin per WooCommerce, eMailChef è capace di comunicare con il "
+#~ "tuo shop online e ti consente di creare campagne mirate per i tuoi "
+#~ "clienti, in maniera rapida, semplice e automatica."
 
-#. Author URI of the plugin/theme
-msgid "https://www.dueclic.com"
-msgstr "https://www.dueclic.com"
+#~ msgid "dueclic"
+#~ msgstr "dueclic"
+
+#~ msgid "https://www.dueclic.com"
+#~ msgstr "https://www.dueclic.com"
 
 #~ msgid "Subscription confirmation"
 #~ msgstr "Conferma la sottoscrizione"

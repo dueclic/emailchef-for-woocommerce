@@ -1,7 +1,7 @@
-=== eMailChef for WooCommerce === 
+=== Emailchef for WooCommerce === 
 
 Contributors: dueclic 
-Tags: emailchef,eMailChef,email marketing,mail,email,newsletter,woocommerce,e-commerce,ecommerce,email automation, email campaigns 
+Tags: emailchef,Emailchef,email marketing,mail,email,newsletter,woocommerce,e-commerce,ecommerce,email automation, email campaigns 
 Requires at least:5.0.0 
 Tested up to: 6.3
 Stable tag: 4.7
@@ -10,7 +10,7 @@ WC tested up to: 8.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Using this WooCommerce plugin, eMailChef can communicate with your online store and it creates easy, simply and
+Using this WooCommerce plugin, Emailchef can communicate with your online store and it creates easy, simply and
 automatic targeted campaigns.
 
 == Description ==
@@ -18,16 +18,16 @@ automatic targeted campaigns.
 When you own an e-commerce website, email marketing becomes one of the most powerful and effective tools to boost sales
 and to earn your customers loyalty.
 
-Using this WooCommerce plugin, eMailChef can communicate with your online store and it creates easy, simply and
+Using this WooCommerce plugin, Emailchef can communicate with your online store and it creates easy, simply and
 automatic targeted campaigns.
 
-The eMailChef for WooCommerce plugin enables you to:
+The Emailchef for WooCommerce plugin enables you to:
 
-* **Transfer information about your customers and their orders** to your eMailChef account
+* **Transfer information about your customers and their orders** to your Emailchef account
 
 * You can **create segmentations of customers** according to their orders, abandoned carts, etc.
 
-* **Manage and sync newsletter subscriptions** between WooCommerce and eMailChef.
+* **Manage and sync newsletter subscriptions** between WooCommerce and Emailchef.
 
 * **Save money with automatic newsletters** to keep your customers involved
 
@@ -173,11 +173,11 @@ add_filter('emailchef_abandoned_cart_image_size', 'emailchef_abandoned_cart_imag
 
 = 1.5 =
 
-* New deferred import with eMailChef
+* New deferred import with Emailchef
 
 = 1.1 =
 
-* New connection with eMailChef
+* New connection with Emailchef
 * Extended compatibility to WP 4.9.2 and WooCommerce 3.2.6
 * Bugfixes
 
@@ -187,21 +187,21 @@ add_filter('emailchef_abandoned_cart_image_size', 'emailchef_abandoned_cart_imag
 
 == Screenshots ==
 
-1. Access eMailChef account
+1. Access Emailchef account
 
-2. Configure eMailChef account
+2. Configure Emailchef account
 
-3. Create a new eMailChef list
+3. Create a new Emailchef list
 
 == Upgrade Notice ==
 
 = 1.5 =
 
-* New deferred import with eMailChef
+* New deferred import with Emailchef
 
 = 1.1 =
 
-* New connection with eMailChef
+* New connection with Emailchef
 * Extended compatibility to WP 4.9.2 and WooCommerce 3.2.6
 * Bugfixes
 

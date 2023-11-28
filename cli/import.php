@@ -14,9 +14,9 @@ $wcec = WCEC();
 
 $list = get_option("wc_emailchef_list");
 
-echo "=> eMailChef List: ".$list."\n";
+echo "=> Emailchef List: ".$list."\n";
 
 $wcec->emailchef()->upsert_integration($list);
 $wcec->emailchef()->sync_list($list);
-$wcec->log(sprintf(__("Synchronization and custom fields creation for eMailChef list %d",
+$wcec->log(sprintf(__("Synchronization and custom fields creation for Emailchef list %d",
 	"emailchef-for-woocommerce"), $list));

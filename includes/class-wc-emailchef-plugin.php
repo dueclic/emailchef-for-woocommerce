@@ -222,7 +222,7 @@ final class WC_Emailchef_Plugin {
 
                 <div class="notice notice-success is-dismissible">
                     <p><?php
-						echo __( 'Well! Now that you activated eMailChef for WooCommerce, go to the ',
+						echo __( 'Well! Now that you activated Emailchef for WooCommerce, go to the ',
 								'emailchef-for-woocommerce' ) . '<a href="'
 						     . WC_EMAILCHEF_SETTINGS_URL . '">'
 						     . __( 'configuration',
@@ -402,7 +402,7 @@ final class WC_Emailchef_Plugin {
 	}
 
 	public function get_platform() {
-		return "eMailChef for WooCommerce";
+		return "Emailchef for WooCommerce";
 	}
 
 	public function display_opt_in() {
@@ -420,7 +420,7 @@ final class WC_Emailchef_Plugin {
 	}
 
 	/**
-	 * Check if eMailChef login is valid
+	 * Check if Emailchef login is valid
 	 *
 	 * @return bool
 	 */

@@ -37,7 +37,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 		public function __construct() {
 			$this->id        = "emailchef";
 			$this->namespace = "wc_" . $this->id;
-			$this->label     = __( "eMailChef", "emailchef-for-woocommerce" );
+			$this->label     = __( "Emailchef", "emailchef-for-woocommerce" );
 			$this->init();
 			$this->hooks();
 		}
@@ -87,7 +87,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 					array(
 						'title' => '',
 						'type'  => 'title',
-						'desc'  => __( 'Configure your eMailChef account using your authentication data.',
+						'desc'  => __( 'Configure your Emailchef account using your authentication data.',
 							'emailchef-for-woocommerce' ),
 						'id'    => 'general_options',
 					),
@@ -114,29 +114,29 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 					'title'       => __( 'emailChef username',
 						'emailchef-for-woocommerce' ),
 					'type'        => 'text',
-					'desc'        => sprintf( __( '%sSignup now in eMailChef for creating a new account.',
+					'desc'        => sprintf( __( '%sSignup now in Emailchef for creating a new account.',
 						'emailchef-for-woocommerce' ),
 						'<br/><a href="https://www.emailchef.com" target="_blank">',
 						'</a>'
 					),
-					'placeholder' => __( 'Provide your eMailChef username',
+					'placeholder' => __( 'Provide your Emailchef username',
 						'emailchef-for-woocommerce' ),
 					'default'     => '',
 					'css'         => 'min-width:350px;',
-					'desc_tip'    => __( "You must provide eMailChef username for list synchronization.",
+					'desc_tip'    => __( "You must provide Emailchef username for list synchronization.",
 						'emailchef-for-woocommerce' ),
 				);
 
 				$settings[] = array(
 					'id'          => $this->prefixed_setting( 'api_pass' ),
-					'title'       => __( 'eMailChef password',
+					'title'       => __( 'Emailchef password',
 						'emailchef-for-woocommerce' ),
 					'type'        => 'password',
-					'placeholder' => __( 'Provide your eMailChef password',
+					'placeholder' => __( 'Provide your Emailchef password',
 						'emailchef-for-woocommerce' ),
 					'default'     => '',
 					'css'         => 'min-width:350px;',
-					'desc_tip'    => __( 'You must provide eMailChef password for list synchronization.',
+					'desc_tip'    => __( 'You must provide Emailchef password for list synchronization.',
 						'emailchef-for-woocommerce' ),
 				);
 
@@ -240,7 +240,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 
 		public function emailchef_no_lists_found() {
 			echo $this->send_msg(
-				__( 'No lists found in your eMailChef account',
+				__( 'No lists found in your Emailchef account',
 					'emailchef-for-woocommerce' )
 			);
 		}
@@ -263,7 +263,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 
 			if ( count( $lists ) === 0 ) {
 				$default = array(
-					'no_lists' => __( 'No lists configured in your eMailChef account',
+					'no_lists' => __( 'No lists configured in your Emailchef account',
 						'emailchef-for-woocommerce' ),
 				);
 
