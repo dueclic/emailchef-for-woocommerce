@@ -3,10 +3,10 @@
 Contributors: dueclic 
 Tags: emailchef,Emailchef,email marketing,mail,email,newsletter,woocommerce,e-commerce,ecommerce,email automation, email campaigns 
 Requires at least:5.0.0 
-Tested up to: 6.3
+Tested up to: 6.4.1
 Stable tag: 4.7
 WC requires at least: 5.0.0 
-WC tested up to: 8.0.3
+WC tested up to: 8.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,6 +70,10 @@ add_filter('emailchef_abandoned_cart_image_size', 'emailchef_abandoned_cart_imag
 </code>
 
 == Changelog ==
+
+= 4.8 =
+* rebrand product name
+* Extended compatibility to WP 6.5.1 and WC 8.3.1
 
 = 4.7 =
 * fix register_rest_route, permission_callback missing notice
