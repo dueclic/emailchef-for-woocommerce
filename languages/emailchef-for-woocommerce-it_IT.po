@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: eMailChef for WooCommerce\n"
-"POT-Creation-Date: 2023-11-28 15:48+0100\n"
-"PO-Revision-Date: 2023-11-28 15:50+0100\n"
+"Project-Id-Version: Emailchef for WooCommerce\n"
+"POT-Creation-Date: 2023-11-28 16:05+0100\n"
+"PO-Revision-Date: 2023-11-28 16:05+0100\n"
 "Last-Translator: Andrea <andrea@debbaweb.it>\n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -22,8 +22,7 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: cli/import.php:21 includes/class-wc-emailchef-handler.php:1008
-#, fuzzy, php-format
-#| msgid "Synchronization and custom fields creation for eMailChef list %d"
+#, php-format
 msgid "Synchronization and custom fields creation for Emailchef list %d"
 msgstr "Sincronizzazione e creazione dei Custom Fields (Lista %d)"
 
@@ -616,67 +615,3 @@ msgstr "Forza sincronizzazione"
 #: pages/admin-debug.php:111
 msgid "Sync"
 msgstr "Sincronizza"
-
-#~ msgid "eMailChef"
-#~ msgstr "eMailChef"
-
-#~ msgid "eMailChef for WooCommerce"
-#~ msgstr "eMailChef for WooCommerce"
-
-#~ msgid "http://emailchef.com/email-marketing-woocommerce-emailchef/"
-#~ msgstr ""
-#~ "http://emailchef.com/it/email-marketing-con-woocommerce-e-emailchef/"
-
-#~ msgid ""
-#~ "Using this WooCommerce plugin, eMailChef can communicate with your online "
-#~ "store and it creates easy, simply and automatic targeted campaigns."
-#~ msgstr ""
-#~ "Grazie al plugin per WooCommerce, eMailChef è capace di comunicare con il "
-#~ "tuo shop online e ti consente di creare campagne mirate per i tuoi "
-#~ "clienti, in maniera rapida, semplice e automatica."
-
-#~ msgid "dueclic"
-#~ msgstr "dueclic"
-
-#~ msgid "https://www.dueclic.com"
-#~ msgstr "https://www.dueclic.com"
-
-#~ msgid "Subscription confirmation"
-#~ msgstr "Conferma la sottoscrizione"
-
-#~ msgid "Hi"
-#~ msgstr "Ciao"
-
-#~ msgid "thank you for subscribing to our email list."
-#~ msgstr "grazie per esserti iscritto alla nostra mailing list."
-
-#~ msgid ""
-#~ "To finalize your subscription, you'll need to confirm that you have "
-#~ "received this email"
-#~ msgstr ""
-#~ "Per confermare la sottoscrizione, devi dimostrare di aver ricevuto questa "
-#~ "email"
-
-#~ msgid "by clicking the link below:"
-#~ msgstr "cliccando sul link seguente:"
-
-#~ msgid "Yes, I want to subscribe"
-#~ msgstr "Si, voglio essere iscritto"
-
-#~ msgid "If you subscribed by mistake or no longer wish to hear from us,"
-#~ msgstr ""
-#~ "Se invece hai richiesto la sottoscrizione per sbaglio, o non l’hai "
-#~ "proprio richiesta"
-
-#~ msgid ""
-#~ "please click the link below to remove your email address from our list:"
-#~ msgstr "clicca il link seguente per essere rimosso dalla nostra lista:"
-
-#~ msgid "Click here to unsubscribe."
-#~ msgstr "Desidero disiscrivermi."
-
-#~ msgid "Impostazioni"
-#~ msgstr "Settings"
-
-#~ msgid "Iscriviti alla nostra newsletter"
-#~ msgstr "Signup to our newsletter"
