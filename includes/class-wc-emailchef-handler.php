@@ -450,7 +450,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				'/subscribe/(?P<list_id>\d+)/(?P<customer_email>(.*))',
 				array(
 					'methods'  => 'GET',
-					'permission_callback' => __return_true(),
+					'permission_callback' => '__return_true',
 					'callback' => array( $this, "subscribe_email" ),
 					'args'     => array(
 						'list_id'        => array(
@@ -479,7 +479,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				'/is_active',
 				array(
 					'methods'  => 'GET',
-					'permission_callback' => __return_true(),
+					'permission_callback' => '__return_true',
 					'callback' => array( $this, "emailchef_is_active" ),
 					'args'     => array()
 				)
@@ -490,7 +490,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				'/unsubscribe/(?P<list_id>\d+)/(?P<customer_email>(.*))',
 				array(
 					'methods'  => 'GET',
-					'permission_callback' => __return_true(),
+					'permission_callback' => '__return_true',
 					'callback' => array( $this, "unsubscribe_email" ),
 					'args'     => array(
 						'list_id'             => array(

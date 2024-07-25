@@ -58,7 +58,12 @@ class WC_Emailchef_Customer
             $this->meta();
         }
 
-        return esc_html($this->meta[$meta][0]);
+		if (isset($this->meta[$meta])){
+			return esc_html($this->meta[$meta][0]);
+		}
+
+		return "";
+
     }
 
     public function getCurrency()

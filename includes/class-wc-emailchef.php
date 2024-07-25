@@ -444,8 +444,7 @@ class WC_Emailchef extends WC_Emailchef_Api
     }
 
     private function _prepare_customer_data($customer, $list_id, $ec_id = 0){
-    	$customer = apply_filters('emailchef_customer_data', $customer, $list_id, $ec_id);
-    	return $customer;
+	    return apply_filters('emailchef_customer_data', $customer, $list_id, $ec_id);
 	}
 
     private function update_customer($list_id, $customer, $ec_id)
