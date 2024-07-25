@@ -1,7 +1,7 @@
 === Emailchef for WooCommerce === 
 
 Contributors: dueclic 
-Tags: emailchef,Emailchef,email marketing,mail,email,newsletter,woocommerce,e-commerce,ecommerce,email automation, email campaigns 
+Tags: emailchef,newsletter,woocommerce,ecommerce,email 
 Requires at least:5.0.0 
 Tested up to: 6.6
 Stable tag: 5.0
