@@ -213,6 +213,12 @@ final class WC_Emailchef_Plugin {
 
 		add_action( "woocommerce_loaded", array( $this, "set_logger" ), 10 );
 
+		add_action( 'before_woocommerce_init', function() {
+			if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', WC_EMAILCHEF_FILE, true );
+			}
+		} );
+
 		add_action( "ec_footer_copyright",
 			array( $this, 'dueclic_copyright' ) );
 
@@ -236,10 +242,10 @@ final class WC_Emailchef_Plugin {
 			}
 		} );
 
-		add_action( 'admin_footer', array( $this, 'abcart_js' ) );
+		add_action( 'admin_footer', array( $this, 'emailchef_debug_js' ) );
 	}
 
-	public function abcart_js() {
+	public function emailchef_debug_js() {
 		$screen = get_current_screen();
 		if ( $screen->id === 'admin_page_emailchef-debug' ) {
 			?>
@@ -259,6 +265,24 @@ final class WC_Emailchef_Plugin {
                                 },
                                 function (response) {
                                     console.log("Abandoned cart synced successfully");
+                                    location.reload();
+                                }
+                            );
+                        });
+                    });
+
+                    $(document).ready(function () {
+                        $('.button-rebuild-customfields').on('click', function (evt) {
+                            evt.preventDefault();
+                            var userId = $(this).data('user-id');
+                            var ajaxurl = '<?php echo admin_url( 'admin-ajax.php' ); ?>';
+                            $.post(
+                                ajaxurl,
+                                {
+                                    'action': '<?php echo $this->namespace; ?>_rebuild_customfields'
+                                },
+                                function (response) {
+                                    console.log("Recover custom fields successfully");
                                     location.reload();
                                 }
                             );
@@ -503,7 +527,7 @@ final class WC_Emailchef_Plugin {
 			foreach ( $initial as $key => $init_value ) {
 				$value = get_option( $this->prefixed_setting( $key ) );
 
-				$settings[ $key ] = $value ? $value : $init_value;
+				$settings[ $key ] = $value ?: $init_value;
 			}
 
 			$settings       = apply_filters( 'wc_emailchef_settings',

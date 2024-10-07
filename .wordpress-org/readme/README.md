@@ -4,7 +4,7 @@ Contributors: dueclic
 Tags: emailchef,newsletter,woocommerce,ecommerce,email 
 Requires at least:5.0.0 
 Tested up to: 6.6
-Stable tag: 5.0
+Stable tag: 5.1
 WC requires at least: 5.0.0 
 WC tested up to: 8.3.1
 License: GPLv2 or later
@@ -70,6 +70,9 @@ add_filter('emailchef_abandoned_cart_image_size', 'emailchef_abandoned_cart_imag
 </code>
 
 == Changelog ==
+
+= 5.1 =
+* HPos Compatibility
 
 = 5.0 =
 * REST API - bugfixes

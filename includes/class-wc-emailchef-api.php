@@ -9,7 +9,7 @@ class WC_Emailchef_Api {
 	protected $api_url = "https://app.emailchef.com";
 	public $lastError;
 	private $isLogged = false;
-	private $authkey = false;
+	protected $authkey = false;
 
 	public function __construct( $username, $password ) {
 		$this->process_login( $username, $password );
@@ -20,12 +20,15 @@ class WC_Emailchef_Api {
 	}
 
 	private function authkey_name(){
-		return apply_filters('emailchef_api_authkey_name', 'authkey');
+		return defined("EMAILCHEF_API_AUTHKEY_NAME") ? EMAILCHEF_API_AUTHKEY_NAME : 'authkey';
+	}
+
+	public function getApiUrl(){
+		return defined("EMAILCHEF_API_URL") ? EMAILCHEF_API_URL : $this->api_url;
 	}
 
 
 	private function process_login( $username, $password ) {
-
 		if (!$authkey = get_transient('ecwc_authkey')) {
 
 			$response = $this->getDecodedJson( "/login", array(
@@ -51,16 +54,18 @@ class WC_Emailchef_Api {
 
 	protected function get( $route, $args = array(), $type = "POST", $prefix = "/apps/api/v1" ) {
 
-		$url = apply_filters("emailchef_api_url", $this->api_url) . $prefix . $route;
+		$url = $this->getApiUrl() . $prefix . $route;
 
 		$auth = array();
 
 		if ( $this->authkey !== false ) {
 			$auth[$this->authkey_name()] = $this->authkey;
 		}
+
 		$args = array(
-			'body'   => array_merge( $auth, $args ),
-			'method' => strtoupper( $type )
+			'body'   => $args,
+			'method' => strtoupper( $type ),
+			'headers' => $auth
 		);
 
 		$args = apply_filters( "ec_wc_get_args", $args );

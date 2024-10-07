@@ -702,6 +702,10 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				$this,
 				'sync_abandoned_carts'
 			) );
+			add_action( 'wp_ajax_' . $this->namespace . '_rebuild_customfields', array(
+				$this,
+				'rebuild_customfields'
+			) );
 			//add_action( 'upgrader_process_complete', array( $this, 'upgrade_also_list' ), 10, 2 );
 			add_action(
 				'wp_ajax_nopriv_' . $this->namespace . '_sync_abandoned_carts',
@@ -837,6 +841,27 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				ARRAY_A
 			);
 		}
+
+        public function rebuild_customfields(){
+	        if (!current_user_can('manage_options')) {
+		        wp_send_json_error(__('Permissions are not valid for this action', 'emailchef-for-woocommerce'));
+	        }
+
+	        $list_id = get_option( $this->prefixed_setting( "list" ) );
+
+            if ($list_id) {
+	            WCEC()->log( sprintf( __( "[START] Custom fields rebuild for Emailchef list %d",
+		            "emailchef-for-woocommerce" ), $list_id ) );
+
+                $this->wcec->emailchef()->initialize_custom_fields(
+                    $list_id
+                );
+	            wp_send_json_success( __( 'Custom fields had been rebuilt succesfully', 'emailchef-for-woocommerce' ) );
+
+	            WCEC()->log( sprintf( __( "[END] Custom fields ad been rebuilt succesfully for list %d",
+		            "emailchef-for-woocommerce" ), $list_id ) );
+            }
+        }
 
 		public function sync_abandoned_carts() {
 

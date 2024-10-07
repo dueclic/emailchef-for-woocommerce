@@ -1,3 +1,7 @@
+<?php
+$wcec = WCEC();
+?>
+
 <div class="wrap">
 
     <h1 class="wp-heading-line">
@@ -5,6 +9,51 @@
     </h1>
 
     <p><strong><?php echo WCEC()->get_api_url(); ?></strong></p>
+
+	<?php
+	if ( WCEC()->emailchef()->isLogged() ):
+		?>
+
+        <h1 class="wp-heading-inline"><?php
+			_e( "Policy", "emailchef-for-woocommerce" ); ?></h1>
+
+        <p>
+            <label>
+				<?php echo WCEC()->emailchef()->get_policy(); ?>
+            </label>
+        </p>
+
+        <h1 class="wp-heading-inline"><?php
+			_e( "List ID", "emailchef-for-woocommerce" ); ?></h1>
+
+        <p>
+            <label>
+				<?php echo get_option( $this->prefixed_setting( "list" ) );
+				?>
+            </label>
+        </p>
+
+        <h1 class="wp-heading-inline"><?php
+			_e( "Test Custom Fields", "emailchef-for-woocommerce" ); ?></h1>
+
+        <p>
+        <textarea cols="50" rows="8">
+            <?php echo json_encode( WCEC()->emailchef()->get_collection(
+	            get_option( $this->prefixed_setting( "list" ) )
+            ) ); ?>
+        </textarea>
+        </p>
+        <p>
+            <button class="button button-primary button-rebuild-customfields">
+                Rebuild Custom Fields
+            </button>
+        </p>
+
+
+
+	<?php
+	endif;
+	?>
 
     <h1 class="wp-heading-inline"><?php
 		_e( "Abandoned carts", "emailchef-for-woocommerce" ); ?></h1>
@@ -29,8 +78,8 @@
 				_e( "Product name", "emailchef-for-woocommerce" ); ?>
             </th>
             <th>
-		        <?php
-		        _e( "Product price", "emailchef-for-woocommerce" ); ?>
+				<?php
+				_e( "Product price", "emailchef-for-woocommerce" ); ?>
             </th>
             <th>
 				<?php
@@ -55,26 +104,27 @@
 				continue;
 			}
 
-			$customer_title = $customer->get_first_name() . " " . $customer->get_last_name();
-			$customer_search_encode = urlencode($customer_title);
+			$customer_title         = $customer->get_first_name() . " " . $customer->get_last_name();
+			$customer_search_encode = urlencode( $customer_title );
 
 			$product = wc_get_product( $cart['product_id'] );
 			?>
             <tr>
                 <td>
                     <p>
-                        <a target="_blank" href="<?php echo admin_url("admin.php?page=wc-admin&path=%2Fcustomers&search=".$customer_search_encode); ?>">
-						<?php
-						echo $customer_title;
-						?>
+                        <a target="_blank"
+                           href="<?php echo admin_url( "admin.php?page=wc-admin&path=%2Fcustomers&search=" . $customer_search_encode ); ?>">
+							<?php
+							echo $customer_title;
+							?>
                         </a>
                     </p>
                 </td>
                 <td>
                     <a href="mailto:<?php echo $customer->get_email(); ?>">
-                    <?php
-					echo $customer->get_email();
-					?>
+						<?php
+						echo $customer->get_email();
+						?>
                     </a>
                 </td>
                 <td class="column-image">
@@ -94,9 +144,9 @@
                     </a>
                 </td>
                 <td>
-                    <?php
-                    echo $product->get_price_html();
-                    ?>
+					<?php
+					echo $product->get_price_html();
+					?>
                 </td>
                 <td>
 					<?php
@@ -106,7 +156,7 @@
                 <td>
                     <button class="button button-primary button-force-sync"
                             data-user-id="<?php
-					        echo $cart['user_id']; ?>" data-user-email="<?php echo $cart['user_email'];?>">
+					        echo $cart['user_id']; ?>" data-user-email="<?php echo $cart['user_email']; ?>">
 						<?php
 						_e( "Sync", "emailchef-for-woocommerce" ); ?>
                     </button>

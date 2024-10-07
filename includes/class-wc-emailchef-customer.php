@@ -41,16 +41,6 @@ class WC_Emailchef_Customer
         return $this->last_order;
     }
 
-    public function lastShippedOrder()
-    {
-
-        if ($this->last_ship_order === false) {
-            $this->last_ship_order = wc_get_customer_last_order($this->id);
-        }
-
-        return $this->last_ship_order;
-    }
-
     public function get($meta)
     {
 
@@ -126,16 +116,16 @@ class WC_Emailchef_Customer
         $this->queue['all_ordered_product_ids'] = wc_ec_get_all_products($this->id);
         $this->queue['latest_order_product_ids'] = wc_ec_get_all_products($this->id, 1);
 
-        $this->queue['latest_order_id'] = $last_order_not_shipped !== FALSE ? $last_order_not_shipped->get_id() : 0;
-        $this->queue['latest_order_date'] = $last_order_not_shipped !== FALSE ? $last_order_not_shipped->get_date_modified()->date_i18n() : '';
+        $this->queue['latest_order_id'] = $last_order_not_shipped ? $last_order_not_shipped->get_id() : 0;
+        $this->queue['latest_order_date'] = $last_order_not_shipped ? $last_order_not_shipped->get_date_modified()->date_i18n() : '';
 
         if ($this->queue['latest_order_id'] != null) {
-            $this->queue['latest_order_amount'] = $last_order_not_shipped !== FALSE ? $last_order_not_shipped->get_total() : 0;
+            $this->queue['latest_order_amount'] = $last_order_not_shipped ? $last_order_not_shipped->get_total() : 0;
         } else {
             $this->queue['latest_order_amount'] = 0;
         }
 
-        if ($last_order_not_shipped !== FALSE) {
+        if ($last_order_not_shipped) {
             $this->queue['latest_order_status'] = wc_ec_get_order_status_name("wc-" . $last_order_not_shipped->get_status());
         }
 
@@ -146,9 +136,9 @@ class WC_Emailchef_Customer
         $this->queue['all_ordered_product_ids'] = wc_ec_get_all_products($this->id);
         $this->queue['latest_order_product_ids'] = wc_ec_get_all_products($this->id, 1);
 
-        $this->queue['latest_shipped_order_id'] = $last_order !== FALSE ? $last_order->get_id() : 0;
-        $this->queue['latest_shipped_order_date'] = $last_order !== FALSE ? $last_order->get_date_modified()->date_i18n() : '';
-        $this->queue['latest_shipped_order_status'] = wc_ec_get_order_status_name($last_order !== FALSE ? "wc-" . $last_order->get_status() : '');
+        $this->queue['latest_shipped_order_id'] = $last_order ? $last_order->get_id() : 0;
+        $this->queue['latest_shipped_order_date'] = $last_order ? $last_order->get_date_modified()->date_i18n() : '';
+        $this->queue['latest_shipped_order_status'] = wc_ec_get_order_status_name($last_order ? "wc-" . $last_order->get_status() : '');
 
         return $this->queue;
 

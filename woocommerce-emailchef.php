@@ -5,10 +5,10 @@
 * Description: Using this WooCommerce plugin, Emailchef can communicate with your online store and it creates easy, simply and automatic targeted campaigns.
 * Author: dueclic
 * Author URI: https://www.dueclic.com
-* Version: 5.0
+* Version: 5.1
 * Tested up: 6.6
-* WC requires at least: 5.0.0
-* WC tested up to: 8.3.1
+* WC requires at least: 8.3.1
+* WC tested up to: 9.3.3
 * Text Domain: emailchef-for-woocommerce
 * Domain Path: /languages/
 * License: GPL v3
@@ -35,27 +35,35 @@ define( 'WC_EMAILCHEF_FILE', __FILE__ );
 require_once('includes/class-wc-emailchef-plugin.php');
 
 function wc_ec_get_total_by_days( $customer_id = null, $gap_days = 0 ) {
+	if ( is_null( $customer_id ) ) {
+		return 0;
+	}
 
-    if ($gap_days == 0)
-        return wc_get_customer_total_spent($customer_id);
+	if ( $gap_days == 0 ) {
+		return wc_get_customer_total_spent( $customer_id );
+	}
 
-    global $wpdb;
+	$customer_id = absint( $customer_id );
+	$gap_days = absint( $gap_days );
 
-    $spent = $wpdb->get_var( "SELECT SUM(meta2.meta_value)
-        FROM $wpdb->posts as posts
+	$date_from = ( new DateTime() )->modify( "-{$gap_days} days" )->format( 'Y-m-d H:i:s' );
 
-        LEFT JOIN {$wpdb->postmeta} AS meta ON posts.ID = meta.post_id
-        LEFT JOIN {$wpdb->postmeta} AS meta2 ON posts.ID = meta2.post_id
+	$query = new WC_Order_Query( array(
+		'customer_id' => $customer_id,
+		'status'      => array( 'wc-completed', 'wc-processing' ),
+		'date_after'  => $date_from,
+		'return'      => 'ids',
+	) );
 
-        WHERE   meta.meta_key       = '_customer_user'
-        AND     meta.meta_value     = $customer_id
-        AND     posts.post_type     IN ('" . implode( "','", wc_get_order_types( 'reports' ) ) . "')
-        AND     posts.post_status   IN ( 'wc-completed', 'wc-processing' )
-        AND     meta2.meta_key      = '_order_total'
-        AND posts.post_date BETWEEN NOW() - INTERVAL ".$gap_days." DAY AND NOW()
-    " );
+	$order_ids = $query->get_orders();
+	$total_spent = 0;
 
-    return $spent;
+	foreach ( $order_ids as $order_id ) {
+		$order = wc_get_order( $order_id );
+		$total_spent += $order->get_total();
+	}
+
+	return $total_spent;
 }
 
 /**
@@ -66,72 +74,57 @@ function wc_ec_get_total_by_days( $customer_id = null, $gap_days = 0 ) {
  *
  */
 
-function wc_ec_get_all_products( $customer_id, $no_order = - 1 ) {
-
+function wc_ec_get_all_products( $customer_id, $no_order = -1 ) {
 	$products = array();
 
 	if ( empty( $customer_id ) ) {
 		$customer_id = get_current_user_id();
 	}
 
-	$customer_orders = array(wc_get_customer_last_order( $customer_id ));
+	// Ottieni gli ordini del cliente
+	$query_args = array(
+		'customer_id' => $customer_id,
+		'status'      => array_keys( wc_get_order_statuses() ),
+		'limit'       => $no_order == -1 ? -1 : 1,
+		'orderby'     => 'date',
+		'order'       => 'DESC',
+	);
 
-	if ( $no_order == - 1 ) {
-
-		$args = array(
-			// WC orders post type
-			'post_type'   => 'shop_order',
-			// Only orders with status "completed" (others common status: 'wc-on-hold' or 'wc-processing')
-			'post_status' => array_keys(wc_get_order_statuses()) ,
-			// all posts
-			'numberposts' => $no_order,
-			// for current user id
-			'meta_key'    => '_customer_user',
-			'meta_value'  => $customer_id
-		);
-		// Get all customer orders
-		$customer_orders = get_posts( $args );
-
-	}
+	$query = new WC_Order_Query( $query_args );
+	$customer_orders = $query->get_orders();
 
 	if ( ! empty( $customer_orders ) ) {
-
-		foreach ( $customer_orders as $customer_order ) {
-			$order = new WC_Order( $customer_order->ID );
-			foreach ( $order->get_items() as $key => $order_item ) {
-
-				$order_item_id = $order_item['product_id'];
-				if ( ! in_array( $order_item_id, $products ) ) {
-					$products[] = $order_item_id;
+		foreach ( $customer_orders as $order ) {
+			foreach ( $order->get_items() as $order_item ) {
+				$product_id = $order_item->get_product_id();
+				if ( ! in_array( $product_id, $products ) ) {
+					$products[] = $product_id;
 				}
-
 			}
 		}
-
-		return implode( ", ", $products );
-
-	} else {
-		return "";
 	}
 
+	return implode( ", ", $products );
 }
 
 function wc_ec_get_customer_last_order( $customer_id ) {
-	global $wpdb;
-
 	$customer_id = absint( $customer_id );
 
-	$id = $wpdb->get_var( "SELECT id
-		FROM $wpdb->posts AS posts
-		LEFT JOIN {$wpdb->postmeta} AS meta on posts.ID = meta.post_id
-		WHERE meta.meta_key = '_customer_user'
-		AND   meta.meta_value = {$customer_id}
-		AND   posts.post_type = 'shop_order'
-		AND   posts.post_status IN ( 'wc-completed' )
-		ORDER BY posts.ID DESC
-	" );
+	$query = new WC_Order_Query( array(
+		'customer_id' => $customer_id,
+		'limit'       => 1,
+		'orderby'     => 'date',
+		'order'       => 'DESC',
+		'status'      => 'completed',
+	) );
 
-	return wc_get_order( $id );
+	$orders = $query->get_orders();
+
+	if ( ! empty( $orders ) ) {
+		return $orders[0];
+	}
+
+	return null;
 }
 
 function wc_ec_get_order_status_name($status) {
