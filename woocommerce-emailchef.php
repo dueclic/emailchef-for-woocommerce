@@ -168,15 +168,6 @@ function wc_ec_get_user_registration_byorder($order){
     return $order->get_date_created()->format("Y-m-d");
 }
 
-
-/**
- * @param $date NULL | WC_DateTime
- */
-
-function wc_ec_get_date($date){
-
-}
-
 function wc_ec_nf_or_empty($price){
 
     if ((int)$price === 0){

@@ -52,7 +52,7 @@ class WC_Emailchef_Api {
 		}
 	}
 
-	protected function get( $route, $args = array(), $type = "POST", $prefix = "/apps/api/v1" ) {
+	protected function call( $route, $args = array(), $type = "POST", $prefix = "/apps/api/v1" ) {
 
 		$url = $this->getApiUrl() . $prefix . $route;
 
@@ -82,7 +82,7 @@ class WC_Emailchef_Api {
 	}
 
 	protected function getDecodedJson( $route, $args = array(), $type = "POST", $prefix = "/apps/api/v1" ) {
-		return json_decode( $this->get( $route, $args, $type, $prefix ), true );
+		return json_decode( $this->call( $route, $args, $type, $prefix ), true );
 	}
 
 }
