@@ -617,7 +617,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
                     </div>
 
                     <p class="ecwc-text-center ecwc-not-logged-signup">
-                        Non sei registrato? <a target="_blank" href="https://app.emailchef.com/apps/demo/quicksignup">Registrati gratuitamente.</a>    </p>
+                        Not a member? <a target="_blank" href="https://app.emailchef.com/apps/demo/quicksignup">Sign up for free</a>.    </p>
 
                     <fieldset>
 
@@ -625,7 +625,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 
                             <label for="consumer_key" class="ecwc-not-logged-get-api">
                                 Consumer Key:
-                                <a href="https://app.emailchef.com/build/#/settings/apikeys" target="_blank" class="ecwc-get-api">Ottieni API Key</a>
+                                <a href="https://app.emailchef.com/build/#/settings/apikeys" target="_blank" class="ecwc-get-api">Get API Key</a>
                             </label>
 
                             <input class="ecwc-input" type="text" value="" id="consumer_key" name="emailchef_settings[consumer_key]">
