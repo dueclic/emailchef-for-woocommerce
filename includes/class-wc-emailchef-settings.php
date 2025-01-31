@@ -523,11 +523,10 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
                 input[name="emailchef_settings\[consumer_secret\]"].valid {
                     border-color: var(--ecwc-success-color);
                 }
-
+                /*
                 .js .emailchef-form .control-section.open .accordion-section-title{
                     color: #FFF;
                     background: #F47200;
-                    /*font-weight: bold;*/
                 }
                 .js .emailchef-form  .control-section.open .accordion-section-title .not-connected{
                     color: #FFF;
@@ -536,7 +535,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
                     color: #FFF;
                 }
 
-                /*
+
                 .accordion-section .not-connected {
                     display: inline-block;
                     float: right;
