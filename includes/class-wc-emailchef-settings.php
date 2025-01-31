@@ -536,6 +536,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
                     color: #FFF;
                 }
 
+                /*
                 .accordion-section .not-connected {
                     display: inline-block;
                     float: right;
@@ -599,6 +600,26 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
                 .auto-create{
                     text-align: center;
                     padding-bottom: 1em;
+                }
+                */
+                .ecwc-new-list-container{
+                    border: 1px solid #dddddd;
+                    background-color: #f8f8f8;
+                    padding: 1rem;
+                }
+                .ecwc-new-list-container label{
+                    padding: 0;
+                    margin-bottom: .4rem;
+                    display: block;
+                    font-weight: 600;
+                }
+                .ecwc-new-list-container input[type=text]{
+                    margin-bottom: 1rem !important;
+                }
+                .ecwc-new-list-container .ecwc-buttons-container {
+                    display: flex;
+                    gap: .5rem;
+                    margin-top: .5rem;
                 }
 
             </style>
@@ -689,7 +710,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
                     <div class="ecwc-account-info">
                         <span class="flex-grow-1 truncate" title="alessandro@sendblaster.com"><strong>alessandro@sendblaster.com</strong></span>
                         <span>
-                            <a id="emailchef-disconnect" class="ecwc-account-disconnect" title="Disconnetti account">
+                            <a id="emailchef-disconnect" class="ecwc-account-disconnect" title="Disconnect account">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M280 24c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 240c0 13.3 10.7 24 24 24s24-10.7 24-24l0-240zM134.2 107.3c10.7-7.9 12.9-22.9 5.1-33.6s-22.9-12.9-33.6-5.1C46.5 112.3 8 182.7 8 262C8 394.6 115.5 502 248 502s240-107.5 240-240c0-79.3-38.5-149.7-97.8-193.3c-10.7-7.9-25.7-5.6-33.6 5.1s-5.6 25.7 5.1 33.6c47.5 35 78.2 91.2 78.2 154.7c0 106-86 192-192 192S56 368 56 262c0-63.4 30.7-119.7 78.2-154.7z"></path></svg>
                             </a>
                         </span>
@@ -700,6 +721,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
                     <p>Description</p>
                     <div class="emailchef-form card accordion-container">
                         <h2>Emailchef List Settings</h2>
+                        <p>Info about this section...</p>
                         <table class="form-table">
                             <tbody>
                             <tr class="" style="">
@@ -715,13 +737,13 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
                                         <option value="104630">My First List</option>
                                     </select>
                                     <p class="description "><br><a href="#" id="wc_emailchef_create_list">Add a new destination list.</a></p>
-                                    <div>
-                                        <p><strong >List name</strong></p>
+                                    <div class="ecwc-new-list-container">
+                                        <label>List name</label>
                                         <input name="wc_emailchef_new_name" id="wc_emailchef_new_name" type="text" dir="ltr" style="min-width:350px;" value="" class="" placeholder="Provide a name for this new list.">
-                                        <p><strong >List description</strong></p>
+                                        <label>List description</label>
                                         <input name="wc_emailchef_new_description" id="wc_emailchef_new_description" type="text" dir="ltr" style="min-width:350px;" value="" class="" placeholder="Provide a description for this new list.">
                                         <p>By creating a new list, you confirm its compliance with the privacy policy and the CAN-SPAM Act.</p>
-                                        <p>
+                                        <p class="ecwc-buttons-container">
                                             <button name="wc_emailchef_save" class="button-primary woocommerce-save-button" id="wc_emailchef_new_save">Create</button>
                                             <button name="wc_emailchef_undo" class="button woocommerce-undo-button" id="wc_emailchef_undo_save">Undo</button>
                                         </p>
@@ -743,6 +765,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 
                     <div class="emailchef-form card accordion-container">
                         <h2>Emailchef Subscription settings</h2>
+                        <p>Info about this section...</p>
                         <table class="form-table">
                             <tbody>
 
