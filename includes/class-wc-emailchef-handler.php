@@ -745,7 +745,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 		public function render_debug_page() {
 			$carts = $this->get_abandoned_carts( false );
-			require_once( WC_EMAILCHEF_DIR . "/pages/admin-debug.php" );
+			require_once( WC_EMAILCHEF_DIR . "/partials/admin-debug.php" );
 		}
 
 

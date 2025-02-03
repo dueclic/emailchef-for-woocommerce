@@ -40,3 +40,293 @@
 .social-foot {
   text-decoration: none;
 }
+
+:root{
+  --ecwc-error-color: #D73638;
+  --ecwc-success-color: #01A32A;
+}
+/***/
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ecwc-not-logged{
+  display: block;
+  margin-top: 1em;
+  width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.ecwc-not-logged-signup{
+  margin-bottom: 2.5em;
+}
+.ecwc-not-logged label{
+  display: block;
+  margin-bottom: .5em;
+  font-size: 1.2em;
+}
+.ecwc-not-logged input[ type="text" ],
+.ecwc-not-logged input[ type="password"]{
+  display: block;
+  width: 100%;
+}
+.ecwc-not-logged-control-group{
+  margin-bottom: 1.5em;
+}
+.ecwc-not-logged label.ecwc-not-logged-get-api{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ecwc-not-logged label.ecwc-not-logged-get-api a{
+  font-size: .8em;
+}
+.ecwc-text-center,
+.ecwc-text-center p{
+  text-align: center;
+}
+.ecwc-not-logged-password-field{
+  position: relative;
+}
+.ecwc-not-logged-password-field input{
+  padding-right: 36px;
+}
+.ecwc-not-logged-password-field a {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  height: 32px;
+  width: 36px;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  opacity: .5;
+}
+.ecwc-not-logged-password-field a:hover {
+  opacity: 1;
+}
+.ecwc-not-logged-password-field a svg {
+  width: 18px;
+}
+.ecwc-login-logo{
+  width: 160px;
+  margin: 3em auto 0;
+}
+
+.ecwc-main-container{
+  display: flex;
+  margin-top: 1em ;
+  margin-bottom: 1em ;
+}
+.ecwc-main-container > div:first-child{
+  border-right: 1px solid #dddddd;
+  padding-right: 1em;
+}
+.ecwc-main-container > div:last-child{
+  padding-left: 1em;
+}
+.ecwc-main-account{
+  flex-grow: 0;
+  min-width: 260px;
+}
+.ecwc-main-forms{
+  flex-grow: 1;
+}
+.ecwc-forms-logo{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  align-items: start;
+}
+.ecwc-forms-logo svg{
+  width: 100px;
+}
+.ecwc-account-status{
+  display: flex;
+  align-items: center;
+  gap: .5em;
+  font-size: .9em;
+  margin-bottom: 2rem;
+}
+.ecwc-account-connected{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--ecwc-success-color);
+}
+.ecwc-account-info {
+  margin-top: .5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .3rem;
+}
+.ecwc-account-disconnect {
+  display: inline-flex;
+  border-radius: 3px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+.ecwc-account-disconnect:hover {
+  background-color: #d5d5d5;
+}
+.ecwc-account-disconnect svg {
+  fill: #616161;
+  height: 14px;
+  width: 14px;
+}
+
+
+
+.error-field{
+  color: var(--ecwc-error-color);
+  display: block;
+}
+
+.emailchef-form {
+  /*width: 100% !important;*/
+  max-width: 100% !important;
+  margin-right: 1.5em;
+}
+.emailchef-form .map-reload {
+  display: none;
+}
+
+.emailchef-form .form-table td.nopadding {
+  padding: 0;
+  max-width:170px !important;
+}
+.emailchef-form .form-table input[type=text],
+.emailchef-form .form-table input[type=password],
+.emailchef-form .form-table textarea,
+.emailchef-form .form-table select
+{
+  background-color: #fff;
+  width: 200px;
+}
+.emailchef-form select {
+  max-width:100% !important;
+}
+
+.emailchef-form .save {
+  margin: 0 0 0 10px !important;
+}
+
+.emailchef-check-login-result {
+  margin-top: 1em;
+  display: none;
+}
+
+input[name="emailchef_settings\[consumer_key\]"].error,
+input[name="emailchef_settings\[consumer_secret\]"].error {
+  border-color: var(--ecwc-error-color);
+}
+
+input[name="emailchef_settings\[consumer_key\]"].valid,
+input[name="emailchef_settings\[consumer_secret\]"].valid {
+  border-color: var(--ecwc-success-color);
+}
+/*
+.js .emailchef-form .control-section.open .accordion-section-title{
+    color: #FFF;
+    background: #F47200;
+}
+.js .emailchef-form  .control-section.open .accordion-section-title .not-connected{
+    color: #FFF;
+}
+.control-section.open .accordion-section-title:after{
+    color: #FFF;
+}
+
+
+.accordion-section .not-connected {
+    display: inline-block;
+    float: right;
+    margin-right: 20px;
+    color: var(--ecwc-error-color);
+}
+.accordion-section.active .not-connected {
+    display: none;
+}
+.accordion-section .loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
+.accordion-section-content{
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    background-color: #f8f8f8;
+}
+.accordion-section .form-table-container{
+    border:1px solid #ccc;
+    padding:.5em;
+    margin-top:.5em;
+    margin-bottom: 1em;
+}
+.accordion-section.warning .form-table-container,
+.accordion-section.warning .list-id{
+    border-color:var(--ecwc-error-color);
+}
+.accordion-section .warning-select-list{
+    display:none;
+    color:var(--ecwc-error-color);
+}
+.accordion-section.warning .warning-select-list{
+    display:block;
+}
+.accordion-section.warning-map .form-table-container{
+    border-color:var(--ecwc-error-color);
+}
+.accordion-section.warning-map .at-least-email{
+    color:var(--ecwc-error-color);
+}
+.accordion-section .form-table td,
+.accordion-section .form-table th{
+    border-bottom: 1px solid #ddd;
+}
+.accordion-section .form-table th{
+    font-size: 1.1em;
+}
+.accordion-section .form-table tr:last-child td,
+.accordion-section .form-table tr:last-child th{
+    border: none;
+}
+.accordion-section .form-table th {
+    padding: .5em;
+}
+.accordion-section .form-table td {
+    padding: .5em;
+}
+.auto-create{
+    text-align: center;
+    padding-bottom: 1em;
+}
+*/
+.ecwc-new-list-container{
+  border: 1px solid #dddddd;
+  background-color: #f8f8f8;
+  padding: 1rem;
+}
+.ecwc-new-list-container label{
+  padding: 0;
+  margin-bottom: .4rem;
+  display: block;
+  font-weight: 600;
+}
+.ecwc-new-list-container input[type=text]{
+  margin-bottom: 1rem !important;
+}
+.ecwc-new-list-container .ecwc-buttons-container {
+  display: flex;
+  gap: .5rem;
+  margin-top: .5rem;
+}
