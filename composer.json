@@ -1,0 +1,5 @@
+{
+    "require": {
+        "emailchef/emailcheflib": "^1.1"
+    }
+}
