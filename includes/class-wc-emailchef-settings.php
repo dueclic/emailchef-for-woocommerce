@@ -10,6 +10,25 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 		private static $instance;
 
 		private $namespace;
+		/**
+		 * @var false|mixed|null
+		 */
+		private $enabled;
+
+		/**
+		 * @var false|mixed|null
+		 */
+		private $consumer_key;
+
+		/**
+		 * @var false|mixed|null
+		 */
+		private $consumer_secret;
+
+		/**
+		 * @var false|mixed|null
+		 */
+		private $policy_type;
 
 		private function prefixed_setting( $value ) {
 			return $this->namespace . '_' . $value;
@@ -43,8 +62,8 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 		}
 
 		public function init() {
-			$this->api_user    = $this->get_option( 'api_user' );
-			$this->api_pass    = $this->get_option( 'api_pass' );
+			$this->consumer_key    = $this->get_option( 'consumer_key' );
+			$this->consumer_secret    = $this->get_option( 'consumer_secret' );
 			$this->enabled     = $this->get_option( 'enabled' );
 			$this->policy_type = $this->get_option( 'policy_type' );
 		}
@@ -82,17 +101,6 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 			$default_language = ( get_locale() == "it_IT" ? "it" : "en" );
 
 			if ( '' === $current_section ) {
-				$settings = array(
-
-					array(
-						'title' => '',
-						'type'  => 'title',
-						'desc'  => __( 'Configure your Emailchef account using your authentication data.',
-							'emailchef-for-woocommerce' ),
-						'id'    => 'general_options',
-					),
-
-				);
 
 				$settings[] = array(
 					'id'       => $this->prefixed_setting( 'lang' ),
@@ -110,34 +118,22 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 				);
 
 				$settings[] = array(
-					'id'          => $this->prefixed_setting( 'api_user' ),
-					'title'       => __( 'emailChef username',
+					'id'          => $this->prefixed_setting( 'consumer_key' ),
+					'title'       => __( 'Consumer Key',
 						'emailchef-for-woocommerce' ),
 					'type'        => 'text',
 					'desc'        => sprintf( __( '%sSignup now in Emailchef for creating a new account.',
 						'emailchef-for-woocommerce' ),
 						'<br/><a href="https://www.emailchef.com" target="_blank">',
 						'</a>'
-					),
-					'placeholder' => __( 'Provide your Emailchef username',
-						'emailchef-for-woocommerce' ),
-					'default'     => '',
-					'css'         => 'min-width:350px;',
-					'desc_tip'    => __( "You must provide Emailchef username for list synchronization.",
-						'emailchef-for-woocommerce' ),
+					)
 				);
 
 				$settings[] = array(
-					'id'          => $this->prefixed_setting( 'api_pass' ),
-					'title'       => __( 'Emailchef password',
+					'id'          => $this->prefixed_setting( 'consumer_secret' ),
+					'title'       => __( 'Consumer Secret',
 						'emailchef-for-woocommerce' ),
-					'type'        => 'password',
-					'placeholder' => __( 'Provide your Emailchef password',
-						'emailchef-for-woocommerce' ),
-					'default'     => '',
-					'css'         => 'min-width:350px;',
-					'desc_tip'    => __( 'You must provide Emailchef password for list synchronization.',
-						'emailchef-for-woocommerce' ),
+					'type'        => 'password'
 				);
 
 				$lists = $this->get_lists();
@@ -279,6 +275,14 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 		public function save() {
 			global $current_section;
 
+            if ('no' === $this->enabled){
+                $consumer_key = sanitize_text_field($_POST[$this->prefixed_setting('consumer_key')]);
+                $consumer_secret = sanitize_text_field($_POST[$this->prefixed_setting('consumer_secret')]);
+            }
+
+
+            /*
+
 			$previous_list = $this->get_option( "list" );
 
 			$settings = $this->get_settings( $current_section );
@@ -322,27 +326,20 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 				$wcec->log( sprintf( __( "First synchronization not choosed for list %d",
 					"emailchef-for-woocommerce" ), $_POST['wc_emailchef_list'] ) );
 			}
+            */
 		}
 
 		public function output() {
-			global $current_section;
 			$GLOBALS['hide_save_button'] = true;
-			require_once( WC_EMAILCHEF_DIR . "/partials/settings/logged-in.php" );
-			require_once( WC_EMAILCHEF_DIR . "/partials/settings/logged-out.php" );
+            $enabled = $this->enabled;
 
-			$settings = $this->get_settings( $current_section );
-
-			//WC_Admin_Settings::output_fields( $settings );
-
-			$this->wc_enqueue_js( '
-	 			(function($){
-	 				
-	 				$(document).ready(function() {
-	 				    WC_Emailchef.go();
-	 				});
-
-	 			})(jQuery);
-			' );
+            if ('yes' === $enabled){
+	            require_once( WC_EMAILCHEF_DIR . "/partials/settings/logged-in.php" );
+            } else {
+	            $input_consumerkey_name = $this->prefixed_setting('consumer_key');
+	            $input_consumersecret_name = $this->prefixed_setting('consumer_secret');
+	            require_once( WC_EMAILCHEF_DIR . "/partials/settings/logged-out.php" );
+            }
 
 			do_action( 'ec_footer_copyright' );
 

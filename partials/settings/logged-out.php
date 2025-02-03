@@ -21,7 +21,7 @@
 					<a href="https://app.emailchef.com/build/#/settings/apikeys" target="_blank" class="ecwc-get-api">Get API Key</a>
 				</label>
 
-				<input class="ecwc-input" type="text" value="" id="consumer_key" name="emailchef_settings[consumer_key]">
+				<input class="ecwc-input" type="text" value="" id="consumer_key" name="<?php echo esc_attr($input_consumerkey_name); ?>">
 
 			</div>
 
@@ -45,13 +45,13 @@
 
 				<label for="consumer_secret">Consumer Secret:</label>
 
-				<input class="ecwc-input" type="password" id="consumer_secret" value="" name="emailchef_settings[consumer_secret]">
+				<input class="ecwc-input" type="password" id="consumer_secret" value="" name="<?php echo esc_attr($input_consumersecret_name); ?>">
 
 			</div>
 
 			<div class="ecwc-text-center">
 
-				<input type="button" id="ecwc-login-submit" class="button button-primary" value="Login">
+				<input type="submit" name="save" id="ecwc-login-submit" class="button button-primary" value="Login">
 
 			</div>
 
