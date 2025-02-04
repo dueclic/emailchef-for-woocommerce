@@ -47,7 +47,7 @@ $list_id = wc_ec_get_option_value( "list" );
             <p>
         <textarea cols="50" rows="8">
             <?php echo json_encode( WCEC()->emailchef()->get_collection(
-	            get_option( $this->prefixed_setting( "list" ) )
+	            $list_id
             ) ); ?>
         </textarea>
             </p>
