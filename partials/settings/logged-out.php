@@ -51,7 +51,7 @@
 
 			<div class="ecwc-text-center">
 
-				<input type="submit" name="save" id="ecwc-login-submit" class="button button-primary" value="Login">
+				<input type="submit" name="save" id="ecwc-login-submit" class="button button-primary woocommerce-save-button" value="Login">
 
 			</div>
 

@@ -302,7 +302,9 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
                 )->account();
 
                 if (isset($account['status']) && $account['status'] === 'error') {
-                    // @TODO messaggio errore
+                    WC_Admin_Settings::add_error(
+                            __('Login failed. Please check your credentials.', 'emailchef-for-woocommerce')
+                    );
                 } else {
                     update_option( $this->prefixed_setting( 'consumer_key' ), $consumer_key );
 	                update_option( $this->prefixed_setting( 'consumer_secret' ), $consumer_secret );

@@ -26,7 +26,6 @@ var WC_Emailchef = function ($) {
 
     function getElements() {
         $langChange = $("#" + prefixed_setting("lang"));
-        $disconnectAccount = $("#emailchef-disconnect");
         $createList = $("#" + prefixed_setting("create_list"));
         $selList = $("#" + prefixed_setting("list"));
         $newListName = $("#" + prefixed_setting("new_name"));
@@ -251,7 +250,7 @@ var WC_Emailchef = function ($) {
     }
 
     function go() {
-        $(document).on("click", $disconnectAccount, function (evt) {
+        $(document).on("click", "#emailchef-disconnect", function (evt) {
             if (confirm(wcec.disconnect_confirm)){
                 $.post(
                     ajaxurl,
