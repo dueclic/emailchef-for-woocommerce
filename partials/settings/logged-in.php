@@ -19,6 +19,9 @@
 		</div>
 	</div>
 	<div class="ecwc-main-forms">
+        <?php
+        var_dump($account);
+        ?>
 		<h1>Emailchef for Woocommerce settings</h1>
 		<p>Description</p>
 		<div class="emailchef-form card accordion-container">

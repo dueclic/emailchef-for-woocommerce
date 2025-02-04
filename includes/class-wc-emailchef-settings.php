@@ -78,7 +78,25 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 			add_action( 'woocommerce_sections_' . $this->id,
 				array( $this, 'output_sections' ) );
 			add_action( 'woocommerce_settings_saved', array( $this, 'init' ) );
+            add_action('ec_wc_api_response', array($this, 'logout_if_unauth_request'), 5 );
 		}
+
+		/**
+		 * @param array | WP_Error $response
+		 *
+		 * @void
+		 */
+
+        public function logout_if_unauth_request(
+                $response
+        ){
+
+            $status_code = wp_remote_retrieve_response_code($response);
+            if ($status_code === 401){
+	            update_option( $this->prefixed_setting( 'enabled' ), "no" );
+            }
+
+        }
 
 		private function wc_enqueue_js( $code ) {
 			if ( function_exists( 'wc_enqueue_js' ) ) {

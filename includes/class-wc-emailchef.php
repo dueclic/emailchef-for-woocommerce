@@ -732,11 +732,11 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 		$status_code = wp_remote_retrieve_response_code( $response );
 
-		do_action( "ec_wc_api_response", [
+		do_action( "ec_wc_api_response", $response, [
 			'route'  => $route,
 			'args'   => $args,
 			'method' => $method
-		], $response );
+		] );
 
 		if ( $status_code !== 200 ) {
 			return apply_filters( "ec_wc_api_response_body_error",
