@@ -9,10 +9,6 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 
 		private static $instance;
 
-		private $namespace;
-		/**
-		 * @var false|mixed|null
-		 */
 		private $enabled;
 
 		/**
@@ -31,7 +27,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 		private $policy_type;
 
 		private function prefixed_setting( $value ) {
-			return $this->namespace . '_' . $value;
+			return apply_filters('wc_ec_add_prefix', $value);
 		}
 
 		public function get_option( $option ) {
@@ -55,17 +51,16 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 
 		public function __construct() {
 			$this->id        = "emailchef";
-			$this->namespace = "wc_" . $this->id;
 			$this->label     = __( "Emailchef", "emailchef-for-woocommerce" );
 			$this->init();
 			$this->hooks();
 		}
 
 		public function init() {
-			$this->consumer_key    = $this->get_option( 'consumer_key' );
-			$this->consumer_secret    = $this->get_option( 'consumer_secret' );
-			$this->enabled     = $this->get_option( 'enabled' );
-			$this->policy_type = $this->get_option( 'policy_type' );
+			$this->consumer_key    = wc_ec_get_option_value( 'consumer_key' );
+			$this->consumer_secret    = wc_ec_get_option_value( 'consumer_secret' );
+			$this->enabled     = wc_ec_get_option_value( 'enabled' );
+			$this->policy_type = wc_ec_get_option_value( 'policy_type' );
 		}
 
 		public function hooks() {
@@ -120,6 +115,8 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 
 			if ( '' === $current_section ) {
 
+                /*
+
 				$settings[] = array(
 					'id'       => $this->prefixed_setting( 'lang' ),
 					'title'    => __( 'Language', 'emailchef-for-woocommerce' ),
@@ -144,14 +141,16 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 						'emailchef-for-woocommerce' ),
 						'<br/><a href="https://www.emailchef.com" target="_blank">',
 						'</a>'
-					)
+					),
+                    'section_id' => 'login'
 				);
 
 				$settings[] = array(
 					'id'          => $this->prefixed_setting( 'consumer_secret' ),
 					'title'       => __( 'Consumer Secret',
 						'emailchef-for-woocommerce' ),
-					'type'        => 'password'
+					'type'        => 'password',
+					'section_id' => 'login'
 				);
 
 				$lists = $this->get_lists();
@@ -170,6 +169,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 					'css'      => 'min-width: 350px;',
 					'desc_tip' => __( 'Select your destination list or create a new.',
 						'emailchef-for-woocommerce' ),
+					'section_id' => 'settings_up',
 				);
 
 				$settings[] = array(
@@ -226,6 +226,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 					'type' => 'sectionend',
 					'id'   => 'general_options',
 				);
+                */
 			}
 
 			return apply_filters( 'woocommerce_get_settings_' . $this->id,
@@ -367,7 +368,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
             $enabled = $this->enabled;
 
             if ('yes' === $enabled){
-                $account = WCEC()->emailchef()->account();
+                $wcec = WCEC();
 	            require_once( WC_EMAILCHEF_DIR . "/partials/settings/logged-in.php" );
             } else {
 	            $input_consumerkey_name = $this->prefixed_setting('consumer_key');

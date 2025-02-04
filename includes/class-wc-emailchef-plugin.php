@@ -249,6 +249,9 @@ final class WC_Emailchef_Plugin {
 		} );
 
 		add_action( 'admin_footer', array( $this, 'emailchef_debug_js' ) );
+
+        add_filter("wc_ec_add_prefix", array( $this, 'prefixed_setting' ), 10, 1 );
+
 	}
 
 	public function emailchef_debug_js() {
@@ -549,7 +552,7 @@ final class WC_Emailchef_Plugin {
 	 * @return string
 	 */
 
-	private function prefixed_setting( $suffix ) {
+	public function prefixed_setting( $suffix ) {
 		return $this->namespace . '_' . $suffix;
 	}
 

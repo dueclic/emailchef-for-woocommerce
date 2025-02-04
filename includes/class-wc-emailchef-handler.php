@@ -1138,18 +1138,8 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				'msg'  => __( 'User or password are wrong', 'emailchef-for-woocommerce' ),
 			);
 
-			if ( ! $_POST['data']['api_user'] || empty( $_POST['data']['api_user'] ) || ! $_POST['data']['api_pass'] || empty( $_POST['data']['api_pass'] ) ) {
 
-				$result['msg'] = __( 'Insert your username and password to display your lists',
-					'emailchef-for-woocommerce' );
-				$this->json( $result );
-
-			}
-
-			$api_user = $_POST['data']['api_user'];
-			$api_pass = $_POST['data']['api_pass'];
-
-			$lists = $this->wcec->emailchef( $api_user, $api_pass )->wrap_list();
+			$lists = $this->wcec->emailchef()->wrap_list();
 			unset( $result['msg'] );
 			$result['type']  = 'success';
 			$result['lists'] = $lists;
@@ -1205,27 +1195,16 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				'msg'  => __( 'User or password are wrong', 'emailchef-for-woocommerce' ),
 			);
 
-			if ( ! $_POST['data']['api_user'] || empty( $_POST['data']['api_user'] ) || ! $_POST['data']['api_pass'] || empty( $_POST['data']['api_pass'] ) ) {
-
-				$result['msg'] = __( 'Provide your username and password.', 'emailchef-for-woocommerce' );
-				$this->json( $result );
-
-			}
-
-			if ( ! $_POST['data']['list_name'] || empty( $_POST['data']['list_name'] ) ) {
+			if ( empty( $_POST['data']['list_name'] ) ) {
 
 				$result['msg'] = __( 'Provide a name for this new list.', 'emailchef-for-woocommerce' );
 				$this->json( $result );
 
 			}
-
-			$api_user = $_POST['data']['api_user'];
-			$api_pass = $_POST['data']['api_pass'];
-
 			$list_name = $_POST['data']['list_name'];
 			$list_desc = $_POST['data']['list_desc'];
 
-			$ecwc = $this->wcec->emailchef( $api_user, $api_pass );
+			$ecwc = $this->wcec->emailchef();
 
 			if ( ! $ecwc ) {
 				$this->json( $result );

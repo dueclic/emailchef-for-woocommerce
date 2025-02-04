@@ -177,6 +177,20 @@ function wc_ec_nf_or_empty($price){
 
 }
 
+function wc_ec_get_option_name(
+	$option_name
+){
+	return apply_filters('wc_ec_add_prefix', $option_name);
+}
+
+function wc_ec_get_option_value(
+	$option_name
+){
+	return get_option(
+		wc_ec_get_option_name($option_name)
+	);
+}
+
 function WCEC() {
 	return WC_Emailchef_Plugin::get_instance();
 }
