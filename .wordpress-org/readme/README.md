@@ -4,9 +4,9 @@ Contributors: dueclic
 Tags: emailchef,newsletter,woocommerce,ecommerce,email 
 Requires at least:6.0
 Tested up to: 6.7
-Stable tag: 5.2
+Stable tag: 5.3
 WC requires at least: 8.3.1 
-WC tested up to: 9.4.1
+WC tested up to: 9.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,6 +70,11 @@ add_filter('emailchef_abandoned_cart_image_size', 'emailchef_abandoned_cart_imag
 </code>
 
 == Changelog ==
+
+= 5.3 =
+* API keys introduction
+* UI changes
+* bugfixes
 
 = 5.1 =
 * HPos Compatibility
