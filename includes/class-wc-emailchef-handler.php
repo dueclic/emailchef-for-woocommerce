@@ -811,30 +811,6 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			}
 		}
-
-		/**
-		 * This function runs when WordPress completes its upgrade process
-		 * It iterates through each plugin updated to see if ours is included
-		 *
-		 * @param $upgrader_object Array
-		 * @param $options Array
-		 */
-
-		function wp_upe_upgrade_completed( $upgrader_object, $options ) {
-			// The path to our plugin's main file
-			$our_plugin = plugin_basename( WC_EMAILCHEF_FILE );
-			// If an update has taken place and the updated type is plugins and the plugins element exists
-			if ( $options['action'] == 'update' && $options['type'] == 'plugin' && isset( $options['plugins'] ) ) {
-				// Iterate through the plugins being updated and check if ours is there
-				foreach ( $options['plugins'] as $plugin ) {
-					if ( $plugin == $our_plugin && $this->wcec->emailchef() ) {
-						$list_id = get_option( $this->prefixed_setting( "list" ) );
-						$this->wcec->emailchef()->upsert_integration( $list_id );
-					}
-				}
-			}
-		}
-
 		public function get_abandoned_carts( $limit = true, $where = "" ) {
 			global $wpdb;
 
@@ -926,11 +902,9 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				}
 
 				if ( self::version_check() ) {
-					$image             = $product->get_gallery_image_ids()[0];
 					$name              = $product->get_name();
 					$short_description = $product->get_short_description();
 				} else {
-					$image             = $product->get_gallery_attachment_ids()[0];
 					$name              = $product->post->post_name;
 					$short_description = $product->post->post_excerpt;
 				}
