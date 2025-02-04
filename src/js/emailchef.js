@@ -116,5 +116,23 @@ var WC_Emailchef = function ($) {
                 $("#" + prefixed_setting("new_description")).val()
             );
         });
+
+        var showPasswordButton = document.getElementById('showPassword');
+        var hidePasswordButton = document.getElementById('hidePassword');
+        var consumerSecretInput = document.getElementById( prefixed_setting("consumer_secret"));
+
+
+        showPasswordButton.addEventListener('click', () => {
+            consumerSecretInput.setAttribute('type', 'text');
+            showPasswordButton.style.display = 'none';
+            hidePasswordButton.style.display = 'flex';
+        });
+
+        hidePasswordButton.addEventListener('click', () => {
+            consumerSecretInput.setAttribute('type', 'password');
+            showPasswordButton.style.display = 'flex';
+            hidePasswordButton.style.display = 'none';
+        });
+
     }
 }(jQuery);

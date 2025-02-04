@@ -383,8 +383,6 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 				$wcec = WCEC();
 				require_once( WC_EMAILCHEF_DIR . "/partials/settings/logged-in.php" );
 			} else {
-				$input_consumerkey_name    = $this->prefixed_setting( 'consumer_key' );
-				$input_consumersecret_name = $this->prefixed_setting( 'consumer_secret' );
 				require_once( WC_EMAILCHEF_DIR . "/partials/settings/logged-out.php" );
 			}
 

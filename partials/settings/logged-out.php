@@ -16,12 +16,12 @@
 
 			<div class="ecwc-not-logged-control-group">
 
-				<label for="consumer_key" class="ecwc-not-logged-get-api">
+				<label for="<?php echo esc_attr( wc_ec_get_option_name( "consumer_key" ) ); ?>" class="ecwc-not-logged-get-api">
 					Consumer Key:
 					<a href="https://app.emailchef.com/build/#/settings/apikeys" target="_blank" class="ecwc-get-api">Get API Key</a>
 				</label>
 
-				<input class="ecwc-input" type="text" value="" id="consumer_key" name="<?php echo esc_attr($input_consumerkey_name); ?>">
+				<input class="ecwc-input" type="text" value="" id="<?php echo esc_attr( wc_ec_get_option_name( "consumer_key" ) ); ?>" name="<?php echo esc_attr( wc_ec_get_option_name( "consumer_key" ) ); ?>">
 
 			</div>
 
@@ -43,9 +43,9 @@
 
 				</a>
 
-				<label for="consumer_secret">Consumer Secret:</label>
+				<label for="<?php echo esc_attr( wc_ec_get_option_name( "consumer_secret" ) ); ?>">Consumer Secret:</label>
 
-				<input class="ecwc-input" type="password" id="consumer_secret" value="" name="<?php echo esc_attr($input_consumersecret_name); ?>">
+				<input class="ecwc-input" type="password" id="<?php echo esc_attr( wc_ec_get_option_name( "consumer_secret" ) ); ?>" value="" name="<?php echo esc_attr( wc_ec_get_option_name( "consumer_secret" ) ); ?>">
 
 			</div>
 
