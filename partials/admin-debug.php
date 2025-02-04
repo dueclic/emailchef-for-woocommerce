@@ -1,7 +1,7 @@
 <?php
 $wcec = WCEC();
 
-$list_id = wc_ec_get_option_value( "list_id" );
+$list_id = wc_ec_get_option_value( "list" );
 
 ?>
 
