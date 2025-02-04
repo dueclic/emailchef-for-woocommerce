@@ -36,14 +36,24 @@ $policy_types = [
         </div>
         <div class="ecwc-account-info">
             <span class="flex-grow-1 truncate"
-                  title="<?php echo $account['email']; ?>"><strong><?php echo $account['email']; ?></strong></span>
+                  title="<?php echo $account['email']; ?>"><strong><?php echo $account['email']; ?></strong>
+            </span>
             <span>
-                            <a id="emailchef-disconnect" class="ecwc-account-disconnect"
-                               title="<?php _e( "Disconnect account", "emailchef-for-wocommerce" ); ?>">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path
-                                            d="M280 24c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 240c0 13.3 10.7 24 24 24s24-10.7 24-24l0-240zM134.2 107.3c10.7-7.9 12.9-22.9 5.1-33.6s-22.9-12.9-33.6-5.1C46.5 112.3 8 182.7 8 262C8 394.6 115.5 502 248 502s240-107.5 240-240c0-79.3-38.5-149.7-97.8-193.3c-10.7-7.9-25.7-5.6-33.6 5.1s-5.6 25.7 5.1 33.6c47.5 35 78.2 91.2 78.2 154.7c0 106-86 192-192 192S56 368 56 262c0-63.4 30.7-119.7 78.2-154.7z"></path></svg>
-                            </a>
-                        </span>
+                <a id="emailchef-disconnect" class="ecwc-account-disconnect"
+                   title="<?php _e( "Disconnect account", "emailchef-for-wocommerce" ); ?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path
+                                d="M280 24c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 240c0 13.3 10.7 24 24 24s24-10.7 24-24l0-240zM134.2 107.3c10.7-7.9 12.9-22.9 5.1-33.6s-22.9-12.9-33.6-5.1C46.5 112.3 8 182.7 8 262C8 394.6 115.5 502 248 502s240-107.5 240-240c0-79.3-38.5-149.7-97.8-193.3c-10.7-7.9-25.7-5.6-33.6 5.1s-5.6 25.7 5.1 33.6c47.5 35 78.2 91.2 78.2 154.7c0 106-86 192-192 192S56 368 56 262c0-63.4 30.7-119.7 78.2-154.7z"></path></svg>
+                </a>
+            </span>
+
+        </div>
+        <div>
+             <span class="flex-grow-1">
+                <a class="button button-primary" href="<?php echo add_query_arg(
+                        ['source' => 'emailchef-for-woocommerce', 'paged' => 1],
+                        admin_url('/admin.php?page=wc-status&tab=logs' )
+                ); ?>"><?php _e("Show Logs", "emailchef-for-woocommerce"); ?></a>
+            </span>
         </div>
     </div>
     <div class="ecwc-main-forms">
@@ -196,7 +206,8 @@ $policy_types = [
         </div>
 
         <div class="ecwc-text-center submit">
-            <button name="save" disabled class="woocommerce-save-button components-button is-primary" type="submit" value="<?php esc_attr_e( 'Save changes', 'woocommerce' ); ?>"><?php esc_html_e( 'Save changes', 'woocommerce' ); ?></button>
+            <button name="save" disabled class="woocommerce-save-button components-button is-primary" type="submit"
+                    value="<?php esc_attr_e( 'Save changes', 'woocommerce' ); ?>"><?php esc_html_e( 'Save changes', 'woocommerce' ); ?></button>
         </div>
     </div>
 
