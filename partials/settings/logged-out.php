@@ -49,10 +49,8 @@
 
 			</div>
 
-			<div class="ecwc-text-center">
-
-				<input type="submit" name="save" id="ecwc-login-submit" class="button button-primary woocommerce-save-button" value="Login">
-
+			<div class="ecwc-text-center submit">
+                <button name="save" disabled class="woocommerce-save-button components-button is-primary" type="submit" value="<?php esc_attr_e( 'Login', 'emailchef-for-woocommerce' ); ?>"><?php esc_html_e( 'Login', 'emailchef-for-woocommerce' ); ?></button>
 			</div>
 
 		</fieldset>

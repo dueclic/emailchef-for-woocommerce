@@ -4,8 +4,16 @@
  * @var $wcec WC_Emailchef_Plugin
  */
 
-$account = WCEC()->emailchef()->account();
-$lists   = WCEC()->emailchef()->lists();
+$emailchef = WCEC()->emailchef(
+	wc_ec_get_option_value(
+		'consumer_key'
+	),
+	wc_ec_get_option_value(
+		'consumer_secret'
+	)
+);
+$account   = $emailchef->account();
+$lists     = $emailchef->lists();
 
 $policy_types = [
 	'sopt' => __( "Single opt-in", "emailchef-for-woocommerce" ),
@@ -22,7 +30,7 @@ $policy_types = [
 			echo plugins_url( "dist/img/logo-compact.svg",
 				dirname( __FILE__ ) ); ?>" alt="">
             <div class="ecwc-account-status">
-                <div><?php _e("Account connected", "emailchef-for-wocommerce"); ?></div>
+                <div><?php _e( "Account connected", "emailchef-for-wocommerce" ); ?></div>
                 <div class="ecwc-account-connected"></div>
             </div>
         </div>
@@ -30,7 +38,8 @@ $policy_types = [
             <span class="flex-grow-1 truncate"
                   title="<?php echo $account['email']; ?>"><strong><?php echo $account['email']; ?></strong></span>
             <span>
-                            <a id="emailchef-disconnect" class="ecwc-account-disconnect" title="<?php _e("Disconnect account", "emailchef-for-wocommerce"); ?>">
+                            <a id="emailchef-disconnect" class="ecwc-account-disconnect"
+                               title="<?php _e( "Disconnect account", "emailchef-for-wocommerce" ); ?>">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path
                                             d="M280 24c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 240c0 13.3 10.7 24 24 24s24-10.7 24-24l0-240zM134.2 107.3c10.7-7.9 12.9-22.9 5.1-33.6s-22.9-12.9-33.6-5.1C46.5 112.3 8 182.7 8 262C8 394.6 115.5 502 248 502s240-107.5 240-240c0-79.3-38.5-149.7-97.8-193.3c-10.7-7.9-25.7-5.6-33.6 5.1s-5.6 25.7 5.1 33.6c47.5 35 78.2 91.2 78.2 154.7c0 106-86 192-192 192S56 368 56 262c0-63.4 30.7-119.7 78.2-154.7z"></path></svg>
                             </a>
@@ -47,14 +56,14 @@ $policy_types = [
                 <tbody>
                 <tr class="" style="">
                     <th scope="row" class="titledesc">
-                        <label for="wc_emailchef_list">List <?php echo wc_help_tip("Select your destination list or create a new."); ?></label>
+                        <label for="wc_emailchef_list">List <?php echo wc_help_tip( "Select your destination list or create a new." ); ?></label>
                     </th>
                     <td class="forminp forminp-select">
 
                         <select
                                 data-placeholder="<?php _e( "Select a list", "emailchef-for-woocommerce" ); ?>"
-                                name="<?php echo esc_attr(wc_ec_get_option_name( "list" )); ?>"
-                                id="<?php echo esc_attr(wc_ec_get_option_name( "list" )); ?>"
+                                name="<?php echo esc_attr( wc_ec_get_option_name( "list" ) ); ?>"
+                                id="<?php echo esc_attr( wc_ec_get_option_name( "list" ) ); ?>"
                                 class="wc-enhanced-select-nostd" style="min-width: 350px;" tabindex="-1"
                                 aria-hidden="true"
                         >
@@ -120,7 +129,7 @@ $policy_types = [
 
                 <tr class="">
                     <th scope="row" class="titledesc">
-                        <label for="<?php echo esc_attr(wc_ec_get_option_name( "policy_type" )); ?>">Policy
+                        <label for="<?php echo esc_attr( wc_ec_get_option_name( "policy_type" ) ); ?>">Policy
 							<?php
 							echo wc_help_tip(
 								__( "Which policy would you like to use?", "emailchef-for-woocommerce" )
@@ -129,8 +138,8 @@ $policy_types = [
                         </label>
                     </th>
                     <td class="forminp forminp-select">
-                        <select name="<?php echo esc_attr(wc_ec_get_option_name( "policy_type" )); ?>"
-                                id="<?php echo esc_attr(wc_ec_get_option_name( "policy_type" )); ?>"
+                        <select name="<?php echo esc_attr( wc_ec_get_option_name( "policy_type" ) ); ?>"
+                                id="<?php echo esc_attr( wc_ec_get_option_name( "policy_type" ) ); ?>"
                                 aria-hidden="true">
 
 							<?php
@@ -150,45 +159,45 @@ $policy_types = [
                 <tr class="single_select_page " style="">
                     <th scope="row" class="titledesc">
                         <label>Subscription page <?php echo wc_help_tip(
-                            __( "Page where customer moved after subscribe newsletter in double opt-in", "emailchef-for-woocommerce" )
-                            ); ?></label>
+								__( "Page where customer moved after subscribe newsletter in double opt-in", "emailchef-for-woocommerce" )
+							); ?></label>
                     </th>
                     <td class="forminp">
 
-                        <?php
-                        echo wc_ec_get_dropdown_pages(
-	                        "subscription_page",
-                            [
-                                    'show_option_none' => ''
-                            ]
-                        );
-                        ?>
+						<?php
+						echo wc_ec_get_dropdown_pages(
+							"subscription_page",
+							[
+								'show_option_none' => ''
+							]
+						);
+						?>
 
                     </td>
                 </tr>
                 <tr class="single_select_page " style="">
                     <th scope="row" class="titledesc">
-                        <label>Unsubscription page <?php echo wc_help_tip("Page where customer moved after unsubscribe newsletter in double opt-in"); ?></label>
+                        <label>Unsubscription
+                            page <?php echo wc_help_tip( "Page where customer moved after unsubscribe newsletter in double opt-in" ); ?></label>
                     </th>
                     <td class="forminp">
-	                    <?php
-	                    echo wc_ec_get_dropdown_pages(
-		                    "fuck_page",
-		                    [
-			                    'show_option_none' => ''
-		                    ]
-	                    );
-	                    ?>
+						<?php
+						echo wc_ec_get_dropdown_pages(
+							"fuck_page",
+							[
+								'show_option_none' => ''
+							]
+						);
+						?>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <p class="submit">
-            <button name="save" class="woocommerce-save-button components-button is-primary" type="submit"
-                    value="Save changes">Save changes
-            </button>
-        </p>
+
+        <div class="ecwc-text-center submit">
+            <button name="save" disabled class="woocommerce-save-button components-button is-primary" type="submit" value="<?php esc_attr_e( 'Save changes', 'woocommerce' ); ?>"><?php esc_html_e( 'Save changes', 'woocommerce' ); ?></button>
+        </div>
     </div>
 
 </div>

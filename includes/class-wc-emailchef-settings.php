@@ -319,7 +319,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 				);
 
 				$fields = [
-					'list'              => sanitize_text_field(
+					'list'              => (int)sanitize_text_field(
 						$_POST[ wc_ec_get_option_name( "list" ) ]
 					),
 					'policy_type'       => sanitize_text_field(
@@ -333,10 +333,11 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 					)
 				];
 
-				if ( empty( $list ) ) {
+				if ( empty( $fields['list'] ) ) {
 					WC_Admin_Settings::add_error(
 						__( 'Please provide a valid list.', 'emailchef-for-woocommerce' )
 					);
+                    return;
 				}
 
 				$wcec = WCEC();
@@ -346,13 +347,13 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 				}
 
 				$wcec->log( sprintf( __( "Plugin settings changed, selected list %d",
-					"emailchef-for-woocommerce" ), $_POST['wc_emailchef_list'] ) );
+					"emailchef-for-woocommerce" ), $fields["list"] ) );
 				$wcec->log( sprintf( __( "Selected list %d, execution of cron for custom fields synchronization",
-					"emailchef-for-woocommerce" ), $_POST['wc_emailchef_list'] ) );
-				if (isset($_POST['wc_emailchef_sync_customers'])){
+					"emailchef-for-woocommerce" ), $fields['list'] ) );
+				if ($sync_customers){
 					$scheduled = wp_schedule_single_event( time(),
 						"emailchef_sync_cron_now",
-						array( $_POST['wc_emailchef_list'], true ) );
+						array( $fields['list'], true ) );
 
 					if ( false === $scheduled ) {
 						$wcec->log( __( "First synchronization not scheduled.",
@@ -361,13 +362,13 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 				} else {
 					$scheduled = wp_schedule_single_event( time(),
 						"emailchef_sync_cron_now",
-						array( $_POST['wc_emailchef_list'], false ) );
+						array( $fields['list'], false ) );
 					if ( false === $scheduled ) {
 						$wcec->log( __( "Custom fields re-syncronised",
 							"emailchef-for-woocommerce" ) );
 					}
 					$wcec->log( sprintf( __( "First synchronization not choosed for list %d",
-						"emailchef-for-woocommerce" ), $_POST['wc_emailchef_list'] ) );
+						"emailchef-for-woocommerce" ), $fields['list'] ) );
 				}
 
 			}
