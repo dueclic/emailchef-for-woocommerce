@@ -135,43 +135,49 @@ final class WC_Emailchef_Plugin {
 	 */
 
 	public function enqueue_scripts() {
-		/** @noinspection PhpUndefinedConstantInspection */
 
-		wp_register_script( 'woocommerce-emailchef-backend-js',
-			WC_EMAILCHEF_URL . "dist/js/emailchef.min.js", array( 'jquery' ),
-			self::version() );
+        global $current_screen;
+        if ($current_screen->id === 'woocommerce_page_wc-settings') {
 
-		wp_localize_script( 'woocommerce-emailchef-backend-js', 'wcec', array(
-			"check_data"                   => __( "Verifying your login data...",
-				"emailchef-for-woocommerce" ),
-			"error_login"                  => __( "Incorrect login credentials.",
-				"emailchef-for-woocommerce" ),
-			"list_name"                    => __( "List name",
-				"emailchef-for-woocommerce" ),
-			"list_name_placeholder"        => __( "Provide a name for this new list.",
-				"emailchef-for-woocommerce" ),
-			"create_label"                 => __( "Create ?",
-				"emailchef-for-woocommerce" ),
-			"list_description"             => __( "List description",
-				"emailchef-for-woocommerce" ),
-			"list_description_placeholder" => __( "Provide a description for this new list.",
-				"emailchef-for-woocommerce" ),
-			"undo"                         => __( "Undo",
-				"emailchef-for-woocommerce" ),
-			"create"                       => __( "Create",
-				"emailchef-for-woocommerce" ),
-			"info"                         => __( "By creating a new list, you confirm its compliance with the privacy policy and the CAN-SPAM Act.",
-				"emailchef-for-woocommerce" ),
-		) );
+	        /** @noinspection PhpUndefinedConstantInspection */
 
-		/** @noinspection PhpUndefinedConstantInspection */
+	        wp_register_script( 'woocommerce-emailchef-backend-js',
+		        WC_EMAILCHEF_URL . "dist/js/emailchef.min.js", array( 'jquery' ),
+		        self::version() );
 
-		wp_register_style( 'woocommerce-emailchef-backend-css',
-			WC_EMAILCHEF_URL . "dist/css/emailchef.min.css", array(),
-			self::version() );
+	        wp_localize_script( 'woocommerce-emailchef-backend-js', 'wcec', array(
+		        "check_data"                   => __( "Verifying your login data...",
+			        "emailchef-for-woocommerce" ),
+		        "error_login"                  => __( "Incorrect login credentials.",
+			        "emailchef-for-woocommerce" ),
+		        "list_name"                    => __( "List name",
+			        "emailchef-for-woocommerce" ),
+		        "list_name_placeholder"        => __( "Provide a name for this new list.",
+			        "emailchef-for-woocommerce" ),
+		        "create_label"                 => __( "Create ?",
+			        "emailchef-for-woocommerce" ),
+		        "list_description"             => __( "List description",
+			        "emailchef-for-woocommerce" ),
+		        "list_description_placeholder" => __( "Provide a description for this new list.",
+			        "emailchef-for-woocommerce" ),
+		        "undo"                         => __( "Undo",
+			        "emailchef-for-woocommerce" ),
+		        "create"                       => __( "Create",
+			        "emailchef-for-woocommerce" ),
+		        "info"                         => __( "By creating a new list, you confirm its compliance with the privacy policy and the CAN-SPAM Act.",
+			        "emailchef-for-woocommerce" ),
+                "disconnect_confirm" => __("Are you sure you want to disconnect this account?", "emailchef-for-woocommerce")
+	        ) );
 
-		wp_enqueue_script( 'woocommerce-emailchef-backend-js' );
-		wp_enqueue_style( 'woocommerce-emailchef-backend-css' );
+	        /** @noinspection PhpUndefinedConstantInspection */
+
+	        wp_register_style( 'woocommerce-emailchef-backend-css',
+		        WC_EMAILCHEF_URL . "dist/css/emailchef.min.css", array(),
+		        self::version() );
+
+	        wp_enqueue_script( 'woocommerce-emailchef-backend-js' );
+	        wp_enqueue_style( 'woocommerce-emailchef-backend-css' );
+        }
 	}
 
 	/**

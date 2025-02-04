@@ -373,6 +373,15 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 	            require_once( WC_EMAILCHEF_DIR . "/partials/settings/logged-out.php" );
             }
 
+
+			$this->wc_enqueue_js( '
+	 			(function($){
+	 				$(document).ready(function() {
+	 				    WC_Emailchef.go();
+	 				});
+	 			})(jQuery);
+			' );
+
 			do_action( 'ec_footer_copyright' );
 
 			do_action( 'wc_emailchef_enqueue_js' );

@@ -18,6 +18,7 @@ var WC_Emailchef = function ($) {
     var $landingList;
     var $fpageList;
     var $langChange;
+    var $disconnectAccount
 
     return {
         go: go
@@ -25,10 +26,9 @@ var WC_Emailchef = function ($) {
 
     function getElements() {
         $langChange = $("#" + prefixed_setting("lang"));
+        $disconnectAccount = $("#emailchef-disconnect");
         $createList = $("#" + prefixed_setting("create_list"));
         $selList = $("#" + prefixed_setting("list"));
-        $apiUser = $("#" + prefixed_setting("api_user"));
-        $apiPass = $("#" + prefixed_setting("api_pass"));
         $newListName = $("#" + prefixed_setting("new_name"));
         $newListDesc = $("#" + prefixed_setting("new_description"));
         $saveNewList = $("#" + prefixed_setting("new_save"));
@@ -61,65 +61,6 @@ var WC_Emailchef = function ($) {
             $policyList.find("option[value='dopt']").attr('selected', 'selected');
             $policyList.closest("tr").fadeOut();
         }
-
-    }
-
-    function accessIsValid(apiUser, apiPass, apiLoad) {
-
-        formContent('hide');
-
-        $("button[name='save']").attr("disabled", "disabled");
-
-        $("#check_login_data").remove();
-
-        if (apiUser === '' || apiPass === '')
-            return;
-
-        $('<span id="check_login_data">' + wcec.check_data + '</span>').insertAfter($apiUser);
-
-        $selList.attr("disabled", "disabled");
-
-        $.post(ajaxurl, {
-                'action': '' + prefixed_setting('account'),
-                'data': {
-                    'api_user': apiUser,
-                    'api_pass': apiPass
-                }
-            },
-            function (response) {
-
-                $("button[name='save']").removeAttr("disabled");
-
-                var result = $.parseJSON(response);
-
-                if (result.type == 'error') {
-                    $("#check_login_data").removeClass().addClass("error").html('<i class="dashicons dashicons-warning"></i> ' + wcec.error_login);
-                    return;
-                }
-
-                $("#check_login_data").removeClass().addClass("success").html('<i class="dashicons dashicons-yes"></i>');
-
-                formContent('show');
-
-                console.log("Policy = " + result.policy);
-
-                if (result.policy !== 'premium') {
-                    console.log("Policy != premium, remove other policy options");
-                    formPolicy('hide');
-                }
-                else {
-                    formPolicy('show');
-                }
-
-                $selList.removeAttr("disabled");
-
-                if (apiLoad) {
-                    console.log("Loading lists...");
-                    loadLists(apiUser, apiPass, -1);
-                }
-
-            }
-        );
 
     }
 
@@ -178,11 +119,6 @@ var WC_Emailchef = function ($) {
     function mainListChanges() {
 
         $selList.closest("tr").hide();
-
-        $("#" + prefixed_setting("api_user") + ", " + "#" + prefixed_setting("api_pass")).change(function () {
-            accessIsValid($apiUser.val(), $apiPass.val(), true);
-        });
-        accessIsValid($apiUser.val(), $apiPass.val(), false);
 
     }
 
@@ -315,8 +251,23 @@ var WC_Emailchef = function ($) {
     }
 
     function go() {
-        getElements();
-        triggerElements();
-        mainListChanges();
+        $(document).on("click", $disconnectAccount, function (evt) {
+            if (confirm(wcec.disconnect_confirm)){
+                $.post(
+                    ajaxurl,
+                    {
+                        'action': '' + prefixed_setting('disconnect'),
+                        'data': {}
+                    },
+                    function (response) {
+                        var result = $.parseJSON(response);
+
+                        if (result.type === 'success') {
+                            window.location.reload();
+                        }
+                    }
+                );
+            }
+        });
     }
 }(jQuery);
