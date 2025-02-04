@@ -376,29 +376,11 @@ final class WC_Emailchef_Plugin {
 		$lang_path = dirname( dirname( plugin_basename( __FILE__ ) ) )
 		             . '/languages/';
 
-		if ( get_locale() != "it_IT"
-		     && get_option( $this->prefixed_setting( "lang" ) ) == "it"
-		) {
-			$path   = WP_PLUGIN_DIR . '/' . trim( $lang_path, '/' );
-			$mofile = 'woocommerce-emailchef-it_IT.mo';
-
-			return load_textdomain( 'emailchef-for-woocommerce',
-				$path . '/' . $mofile );
-		} elseif ( get_locale() != "en_US"
-		           && get_option( $this->prefixed_setting( "lang" ) ) == "en"
-		) {
-			$path   = WP_PLUGIN_DIR . '/' . trim( $lang_path, '/' );
-			$mofile = 'woocommerce-emailchef-en_US.mo';
-
-			return load_textdomain( 'emailchef-for-woocommerce',
-				$path . '/' . $mofile );
-		} else {
-			load_plugin_textdomain(
-				'emailchef-for-woocommerce',
-				false,
-				$lang_path
-			);
-		}
+		load_plugin_textdomain(
+			'emailchef-for-woocommerce',
+			false,
+			$lang_path
+		);
 	}
 
 	/**

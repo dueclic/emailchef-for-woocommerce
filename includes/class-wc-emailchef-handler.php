@@ -705,7 +705,6 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					array( $this, 'move_abandoned_carts_trigger' ) );
 
 				add_action( 'wp_ajax_' . $this->namespace . '_lists', array( $this, 'get_lists' ) );
-				add_action( 'wp_ajax_' . $this->namespace . '_changelanguage', array( $this, 'change_language' ) );
 				add_action( 'wp_ajax_' . $this->namespace . '_add_list', array( $this, 'add_list' ) );
 				add_action( 'wp_ajax_' . $this->namespace . '_disconnect', array( $this, 'disconnect' ) );
 				add_action( 'wp_ajax_' . $this->namespace . '_sync_abandoned_carts', array(
@@ -1095,16 +1094,6 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 		private function json( $data ) {
 			echo json_encode( $data );
 			exit;
-		}
-
-		public function change_language() {
-			update_option( $this->prefixed_setting( "lang" ), $_POST['data']['lang'] );
-			$result = array(
-				'type' => 'success',
-				'msg'  => __( 'Language was loaded, do you want refresh this page with new language?',
-					'emailchef-for-woocommerce' ),
-			);
-			$this->json( $result );
 		}
 
 		public function move_abandoned_carts_trigger() {

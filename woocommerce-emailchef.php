@@ -191,6 +191,32 @@ function wc_ec_get_option_value(
 	);
 }
 
+function wc_ec_get_dropdown_pages(
+	$option_name,
+	$_args = null
+){
+
+	$value = wc_ec_get_option_value($option_name);
+
+	$args = array(
+		'id' => wc_ec_get_option_name($option_name),
+		'name' => wc_ec_get_option_name($option_name),
+		'sort_column'      => 'menu_order',
+		'sort_order'       => 'ASC',
+		'show_option_none' => ' ',
+		'class'            => "wc-enhanced-select-nostd",
+		'echo'             => false,
+		'selected'         => absint( $value ),
+		'post_status'      => 'publish,private,draft',
+	);
+
+	if ( !is_null($_args) ) {
+		$args = wp_parse_args( $_args, $args );
+	}
+
+	return wp_dropdown_pages($args);
+}
+
 function WCEC() {
 	return WC_Emailchef_Plugin::get_instance();
 }
