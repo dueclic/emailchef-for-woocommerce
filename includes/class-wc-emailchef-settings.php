@@ -27,7 +27,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 		private $policy_type;
 
 		private function prefixed_setting( $value ) {
-			return apply_filters('wc_ec_add_prefix', $value);
+			return apply_filters( 'wc_ec_add_prefix', $value );
 		}
 
 		public function get_option( $option ) {
@@ -50,17 +50,17 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 		}
 
 		public function __construct() {
-			$this->id        = "emailchef";
-			$this->label     = __( "Emailchef", "emailchef-for-woocommerce" );
+			$this->id    = "emailchef";
+			$this->label = __( "Emailchef", "emailchef-for-woocommerce" );
 			$this->init();
 			$this->hooks();
 		}
 
 		public function init() {
 			$this->consumer_key    = wc_ec_get_option_value( 'consumer_key' );
-			$this->consumer_secret    = wc_ec_get_option_value( 'consumer_secret' );
-			$this->enabled     = wc_ec_get_option_value( 'enabled' );
-			$this->policy_type = wc_ec_get_option_value( 'policy_type' );
+			$this->consumer_secret = wc_ec_get_option_value( 'consumer_secret' );
+			$this->enabled         = wc_ec_get_option_value( 'enabled' );
+			$this->policy_type     = wc_ec_get_option_value( 'policy_type' );
 		}
 
 		public function hooks() {
@@ -73,7 +73,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 			add_action( 'woocommerce_sections_' . $this->id,
 				array( $this, 'output_sections' ) );
 			add_action( 'woocommerce_settings_saved', array( $this, 'init' ) );
-            add_action('ec_wc_api_response', array($this, 'logout_if_unauth_request'), 5 );
+			add_action( 'ec_wc_api_response', array( $this, 'logout_if_unauth_request' ), 5 );
 		}
 
 		/**
@@ -82,16 +82,16 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 		 * @void
 		 */
 
-        public function logout_if_unauth_request(
-                $response
-        ){
+		public function logout_if_unauth_request(
+			$response
+		) {
 
-            $status_code = wp_remote_retrieve_response_code($response);
-            if ($status_code === 401){
-	            update_option( $this->prefixed_setting( 'enabled' ), "no" );
-            }
+			$status_code = wp_remote_retrieve_response_code( $response );
+			if ( $status_code === 401 ) {
+				update_option( $this->prefixed_setting( 'enabled' ), "no" );
+			}
 
-        }
+		}
 
 		private function wc_enqueue_js( $code ) {
 			if ( function_exists( 'wc_enqueue_js' ) ) {
@@ -115,7 +115,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 
 			if ( '' === $current_section ) {
 
-                /*
+				/*
 
 				$settings[] = array(
 					'id'       => $this->prefixed_setting( 'lang' ),
@@ -142,7 +142,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 						'<br/><a href="https://www.emailchef.com" target="_blank">',
 						'</a>'
 					),
-                    'section_id' => 'login'
+					'section_id' => 'login'
 				);
 
 				$settings[] = array(
@@ -161,8 +161,8 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 					'type'     => 'select',
 					'desc'     => sprintf( __( '%sAdd a new destination list.',
 						'emailchef-for-woocommerce' ), '<br/><a href="#" id="'
-					                                   . $this->prefixed_setting( 'create_list' )
-					                                   . '">', '</a>'
+													   . $this->prefixed_setting( 'create_list' )
+													   . '">', '</a>'
 					),
 					'options'  => $lists,
 					'class'    => 'wc-enhanced-select-nostd',
@@ -226,7 +226,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 					'type' => 'sectionend',
 					'id'   => 'general_options',
 				);
-                */
+				*/
 			}
 
 			return apply_filters( 'woocommerce_get_settings_' . $this->id,
@@ -294,87 +294,98 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 		public function save() {
 			global $current_section;
 
-            if ('yes' !== $this->enabled){
-                $consumer_key = sanitize_text_field($_POST[$this->prefixed_setting('consumer_key')]);
-                $consumer_secret = sanitize_text_field($_POST[$this->prefixed_setting('consumer_secret')]);
-                $account = WCEC()->emailchef(
-                    $consumer_key,
-                    $consumer_secret
-                )->account();
+			if ( 'yes' !== $this->enabled ) {
+				$consumer_key    = sanitize_text_field( $_POST[ wc_ec_get_option_name( 'consumer_key' ) ] );
+				$consumer_secret = sanitize_text_field( $_POST[ wc_ec_get_option_name( 'consumer_secret' ) ] );
+				$account         = WCEC()->emailchef(
+					$consumer_key,
+					$consumer_secret
+				)->account();
 
-                if (isset($account['status']) && $account['status'] === 'error') {
-                    WC_Admin_Settings::add_error(
-                            __('Login failed. Please check your credentials.', 'emailchef-for-woocommerce')
-                    );
-                } else {
-                    update_option( $this->prefixed_setting( 'consumer_key' ), $consumer_key );
-	                update_option( $this->prefixed_setting( 'consumer_secret' ), $consumer_secret );
-	                update_option( $this->prefixed_setting( 'enabled' ), "yes" );
-                }
-
-            }
-
-
-            /*
-
-			$previous_list = $this->get_option( "list" );
-
-			$settings = $this->get_settings( $current_section );
-
-			WC_Admin_Settings::save_fields( $settings );
-
-			update_option( 'wc_emailchef_list', $_POST['wc_emailchef_list'] );
-
-			if ( ! isset( $_POST['wc_emailchef_api_user'] )
-			     || empty( $_POST['wc_emailchef_api_user'] )
-			     || ! isset( $_POST['wc_emailchef_api_pass'] )
-			     || empty( $_POST['wc_emailchef_api_pass'] )
-			) {
-				delete_transient( 'ecwc_lists' );
-			}
-
-			$wcec = WCEC();
-			$wcec->settings( true );
-
-			$wcec->log( sprintf( __( "Plugin settings changed, selected list %d",
-				"emailchef-for-woocommerce" ), $_POST['wc_emailchef_list'] ) );
-			$wcec->log( sprintf( __( "Selected list %d, execution of cron for custom fields synchronization",
-				"emailchef-for-woocommerce" ), $_POST['wc_emailchef_list'] ) );
-			if (isset($_POST['wc_emailchef_sync_customers'])){
-				$scheduled = wp_schedule_single_event( time(),
-					"emailchef_sync_cron_now",
-					array( $_POST['wc_emailchef_list'], true ) );
-
-				if ( false === $scheduled ) {
-					$wcec->log( __( "First synchronization not scheduled.",
-						"emailchef-for-woocommerce" ) );
+				if ( isset( $account['status'] ) && $account['status'] === 'error' ) {
+					WC_Admin_Settings::add_error(
+						__( 'Login failed. Please check your credentials.', 'emailchef-for-woocommerce' )
+					);
+				} else {
+					update_option( wc_ec_get_option_name( 'consumer_key' ), $consumer_key );
+					update_option( wc_ec_get_option_name( 'consumer_secret' ), $consumer_secret );
+					update_option( wc_ec_get_option_name( 'enabled' ), "yes" );
 				}
+
 			} else {
-				$scheduled = wp_schedule_single_event( time(),
-					"emailchef_sync_cron_now",
-					array( $_POST['wc_emailchef_list'], false ) );
-				if ( false === $scheduled ) {
-					$wcec->log( __( "Custom fields re-syncronised",
-						"emailchef-for-woocommerce" ) );
+
+				$sync_customers = (boolean) sanitize_text_field(
+					$_POST[ wc_ec_get_option_name( "sync_customers" ) ]
+				);
+
+				$fields = [
+					'list'              => sanitize_text_field(
+						$_POST[ wc_ec_get_option_name( "list" ) ]
+					),
+					'policy_type'       => sanitize_text_field(
+						$_POST[ wc_ec_get_option_name( "policy_type" ) ]
+					),
+					'subscription_page' => sanitize_text_field(
+						$_POST[ wc_ec_get_option_name( "subscription_page" ) ]
+					),
+					'fuck_page'         => sanitize_text_field(
+						$_POST[ wc_ec_get_option_name( "fuck_page" ) ]
+					)
+				];
+
+				if ( empty( $list ) ) {
+					WC_Admin_Settings::add_error(
+						__( 'Please provide a valid list.', 'emailchef-for-woocommerce' )
+					);
 				}
-				$wcec->log( sprintf( __( "First synchronization not choosed for list %d",
+
+				$wcec = WCEC();
+
+				foreach ( $fields as $name => $value ) {
+					wc_ec_update_option( $name, $value );
+				}
+
+				$wcec->log( sprintf( __( "Plugin settings changed, selected list %d",
 					"emailchef-for-woocommerce" ), $_POST['wc_emailchef_list'] ) );
+				$wcec->log( sprintf( __( "Selected list %d, execution of cron for custom fields synchronization",
+					"emailchef-for-woocommerce" ), $_POST['wc_emailchef_list'] ) );
+				if (isset($_POST['wc_emailchef_sync_customers'])){
+					$scheduled = wp_schedule_single_event( time(),
+						"emailchef_sync_cron_now",
+						array( $_POST['wc_emailchef_list'], true ) );
+
+					if ( false === $scheduled ) {
+						$wcec->log( __( "First synchronization not scheduled.",
+							"emailchef-for-woocommerce" ) );
+					}
+				} else {
+					$scheduled = wp_schedule_single_event( time(),
+						"emailchef_sync_cron_now",
+						array( $_POST['wc_emailchef_list'], false ) );
+					if ( false === $scheduled ) {
+						$wcec->log( __( "Custom fields re-syncronised",
+							"emailchef-for-woocommerce" ) );
+					}
+					$wcec->log( sprintf( __( "First synchronization not choosed for list %d",
+						"emailchef-for-woocommerce" ), $_POST['wc_emailchef_list'] ) );
+				}
+
 			}
-            */
+
 		}
 
 		public function output() {
 			$GLOBALS['hide_save_button'] = true;
-            $enabled = $this->enabled;
+			$enabled                     = $this->enabled;
 
-            if ('yes' === $enabled){
-                $wcec = WCEC();
-	            require_once( WC_EMAILCHEF_DIR . "/partials/settings/logged-in.php" );
-            } else {
-	            $input_consumerkey_name = $this->prefixed_setting('consumer_key');
-	            $input_consumersecret_name = $this->prefixed_setting('consumer_secret');
-	            require_once( WC_EMAILCHEF_DIR . "/partials/settings/logged-out.php" );
-            }
+			if ( 'yes' === $enabled ) {
+				$wcec = WCEC();
+				require_once( WC_EMAILCHEF_DIR . "/partials/settings/logged-in.php" );
+			} else {
+				$input_consumerkey_name    = $this->prefixed_setting( 'consumer_key' );
+				$input_consumersecret_name = $this->prefixed_setting( 'consumer_secret' );
+				require_once( WC_EMAILCHEF_DIR . "/partials/settings/logged-out.php" );
+			}
 
 
 			$this->wc_enqueue_js( '

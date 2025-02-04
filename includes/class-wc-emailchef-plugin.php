@@ -103,6 +103,7 @@ final class WC_Emailchef_Plugin {
 			delete_option( "wc_emailchef_" . $option );
 		}
 		delete_transient( 'ecwc_authkey' );
+        delete_transient('ecwc_lists');
 	}
 
 	/**

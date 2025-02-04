@@ -191,6 +191,16 @@ function wc_ec_get_option_value(
 	);
 }
 
+function wc_ec_update_option(
+	$option_name,
+	$option_value
+){
+	return update_option(
+		wc_ec_get_option_name($option_name),
+		$option_value
+	);
+}
+
 function wc_ec_get_dropdown_pages(
 	$option_name,
 	$_args = null
