@@ -9,80 +9,42 @@ class WC_Emailchef_Api {
 	protected $api_url = "https://app.emailchef.com";
 	public $lastError;
 	private $isLogged = false;
-	protected $authkey = false;
 
-	public function __construct( $username, $password ) {
-		$this->process_login( $username, $password );
-	}
+	/**
+	 * @var string | null
+	 */
+	private $consumer_key = null;
+	/**
+	 * @var string | null
+	 */
+	private $consumer_secret = null;
 
-	public function isLogged() {
-		return $this->isLogged;
-	}
-
-	private function authkey_name(){
-		return defined("EMAILCHEF_API_AUTHKEY_NAME") ? EMAILCHEF_API_AUTHKEY_NAME : 'authkey';
+	public function __construct( $consumer_key, $consumer_secret ) {
+		$this->consumer_key = $consumer_key;
+		$this->consumer_secret = $consumer_secret;
 	}
 
 	public function getApiUrl(){
 		return defined("EMAILCHEF_API_URL") ? EMAILCHEF_API_URL : $this->api_url;
 	}
 
+	protected function call( $route, $args = array(), $method = "POST" ) {
 
-	private function process_login( $username, $password ) {
-		if (!$authkey = get_transient('ecwc_authkey')) {
-
-			$response = $this->getDecodedJson( "/login", array(
-				'username' => $username,
-				'password' => $password
-			), "POST", "/api" );
-
-			if ( ! isset( $response[ $this->authkey_name() ] ) ) {
-				$authkey = false;
-				$this->lastError = $response['message'];
-			} else {
-				$authkey = $response[ $this->authkey_name() ];
-				set_transient('ecwc_authkey', $authkey, 60 * 60 * 24 * 365);
-			}
-
-		}
-
-		if ($authkey !== false) {
-			$this->authkey  = $authkey;
-			$this->isLogged = true;
-		}
-	}
-
-	protected function call( $route, $args = array(), $type = "POST", $prefix = "/apps/api/v1" ) {
-
-		$url = $this->getApiUrl() . $prefix . $route;
-
-		$auth = array();
-
-		if ( $this->authkey !== false ) {
-			$auth[$this->authkey_name()] = $this->authkey;
-		}
+		$url = $this->getApiUrl() . "/apps/api/v1" . $route;
 
 		$args = array(
 			'body'   => $args,
-			'method' => strtoupper( $type ),
-			'headers' => $auth
+			'method' => strtoupper( $method ),
+			'headers' => [
+				'consumerKey' => $this->consumer_key,
+				'consumerSecret' => $this->consumer_secret
+			]
 		);
 
 		$args = apply_filters( "ec_wc_get_args", $args );
 
-		$response = wp_remote_request( $url, $args );
-		$status_code = wp_remote_retrieve_response_code($response);
+		return wp_remote_request( $url, $args );
 
-		if ($status_code !== 200){
-			delete_transient('ecwc_authkey');
-		}
-
-		return wp_remote_retrieve_body( $response );
-
-	}
-
-	protected function getDecodedJson( $route, $args = array(), $type = "POST", $prefix = "/apps/api/v1" ) {
-		return json_decode( $this->call( $route, $args, $type, $prefix ), true );
 	}
 
 }

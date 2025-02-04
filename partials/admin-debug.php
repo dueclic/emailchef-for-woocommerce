@@ -11,7 +11,7 @@ $wcec = WCEC();
     <p><strong><?php echo WCEC()->get_api_url(); ?></strong></p>
 
 	<?php
-	if ( WCEC()->emailchef()->isLogged() ):
+	if ( WCEC()->emailchef() ):
 		?>
 
         <h1 class="wp-heading-inline"><?php

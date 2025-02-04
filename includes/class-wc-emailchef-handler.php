@@ -519,7 +519,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 		public function check_policy() {
 
 			$wcec = WCEC();
-			if ( $wcec->emailchef()->isLogged() && $wcec->emailchef()->get_policy() !== 'premium' ) {
+			if ( $wcec->emailchef() && $wcec->emailchef()->get_policy() !== 'premium' ) {
 				update_option( $this->prefixed_setting( "policy_type" ), "dopt" );
 			}
 
@@ -815,7 +815,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			if ( $options['action'] == 'update' && $options['type'] == 'plugin' && isset( $options['plugins'] ) ) {
 				// Iterate through the plugins being updated and check if ours is there
 				foreach ( $options['plugins'] as $plugin ) {
-					if ( $plugin == $our_plugin && $this->wcec->emailchef()->isLogged() ) {
+					if ( $plugin == $our_plugin && $this->wcec->emailchef() ) {
 						$list_id = get_option( $this->prefixed_setting( "list" ) );
 						$this->wcec->emailchef()->upsert_integration( $list_id );
 					}
@@ -1162,7 +1162,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			$wcec = $this->wcec->emailchef( $api_user, $api_pass );
 
-			if ( $wcec->isLogged() ) {
+			if ( $wcec ) {
 
 				$result['type']   = 'success';
 				$result['msg']    = __( 'Valid username and password', 'emailchef-for-woocommerce' );
@@ -1203,9 +1203,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			$ecwc = $this->wcec->emailchef( $api_user, $api_pass );
 
-			$isLogged = $ecwc->isLogged();
-
-			if ( ! $isLogged ) {
+			if ( ! $ecwc ) {
 				$this->json( $result );
 			}
 

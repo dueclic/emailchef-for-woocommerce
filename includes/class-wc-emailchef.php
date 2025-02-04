@@ -10,6 +10,11 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 	private $new_custom_id;
 
+	/**
+	 * @var string
+	 */
+	private $lastResponse;
+
 	private function get_custom_fields() {
 		return require( WC_EMAILCHEF_DIR . "conf/custom_fields.php" );
 	}
@@ -207,7 +212,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 		add_filter( "ec_wc_get_args", array( $this, "filter_args_json" ) );
 
-		$update = $this->json( "/lists/" . $list_id . "/import", $args, true, "POST" );
+		$update = $this->json( "/lists/" . $list_id . "/import", $args, "POST" );
 
 		if ( isset( $update['status'] ) && $update['status'] == "OK" ) {
 			return true;
@@ -232,11 +237,11 @@ class WC_Emailchef extends WC_Emailchef_Api {
 			$wc_customer->getEmail(),
 			$list_id
 		);
-		$ec_customer = $this->json( $route, array(), true, "GET" );
+		$ec_customer = $this->json( $route, array(), "GET" );
 		$ec_id       = $ec_customer[0]['id'];
 
 		$route = sprintf( "%s/%d?list_id=%d", $path, $ec_id, $list_id );
-		$in_ec = $this->json( $route, array(), true, "GET" );
+		$in_ec = $this->json( $route, array(), "GET" );
 
 
 		$customFields = $in_ec['customFields'];
@@ -296,7 +301,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 	public function em_mail( $to, $subject, $message ) {
 
-		$senders = $this->json( "/senders", array(), true, "GET" );
+		$senders = $this->json( "/senders", array(), "GET" );
 
 		$args = array(
 
@@ -313,7 +318,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 		);
 
-		$response = $this->json( "/sendmail", $args, true, "POST" );
+		$response = $this->json( "/sendmail", $args, "POST" );
 
 		if ( isset( $response['status'] ) && $response['status'] == "OK" ) {
 			return true;
@@ -378,7 +383,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 			unset( $args['instance_in']['lastname'] );
 		}
 
-		$response = $this->json( "/contacts", $args, true, "POST" );
+		$response = $this->json( "/contacts", $args, "POST" );
 
 		if ( isset( $response['contact_added_to_list'] ) && $response['contact_added_to_list'] ) {
 			return true;
@@ -420,7 +425,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 		);
 
-		$update = $this->json( $route, $args, true, "PUT" );
+		$update = $this->json( $route, $args, "PUT" );
 
 		if ( isset( $update['status'] ) && $update['status'] == "OK" ) {
 			return true;
@@ -491,7 +496,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 		);
 
-		$update = $this->json( $route, $args, true, "PUT" );
+		$update = $this->json( $route, $args, "PUT" );
 
 		if ( isset( $update['status'] ) && $update['status'] == "OK" ) {
 			return true;
@@ -514,7 +519,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 			$list_id
 		);
 
-		$ec_customer = $this->json( $route, array(), true, "GET" );
+		$ec_customer = $this->json( $route, array(), "GET" );
 
 		if ( empty( $ec_customer ) ) {
 			return $this->insert_customer( $list_id, $customer );
@@ -632,7 +637,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 		add_filter( "ec_wc_get_args", array( $this, "filter_args_json" ) );
 
-		$status = $this->json( $route, array(), true, "DELETE" );
+		$status = $this->json( $route, array(), "DELETE" );
 
 		if ( $status !== "OK" ) {
 			$this->lastError = $status['message'];
@@ -673,7 +678,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 		add_filter( "ec_wc_get_args", array( $this, "filter_args_json" ) );
 
-		$response = $this->json( $route, $args, true, "POST" );
+		$response = $this->json( $route, $args, "POST" );
 
 		remove_filter( "ec_wc_get_args", array( $this, "filter_args_json" ) );
 
@@ -694,12 +699,12 @@ class WC_Emailchef extends WC_Emailchef_Api {
 	public function get_collection( $list_id ) {
 		$route = sprintf( "/lists/%d/customfields", $list_id );
 
-		return $this->json( $route, array(), true, "GET" );
+		return $this->json( $route, array(), "GET" );
 	}
 
 	public function get_policy() {
 
-		$account = $this->json( "/accounts/current?with_policy_details=1", array(), true, "GET" );
+		$account = $this->json( "/accounts/current?with_policy_details=1", array(), "GET" );
 
 		if ( isset( $account['policy_details'] ) ) {
 			if ( $account['policy_details']['single_optin'] ) {
@@ -713,18 +718,49 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 	}
 
-	public function __construct( $username, $password ) {
-		parent::__construct( $username, $password );
+	public function __construct( $consumer_key, $consumer_secret ) {
+		parent::__construct( $consumer_key, $consumer_secret );
 	}
 
-	private function json( $route, $args, $asArray, $type = "POST" ) {
+	private function json( $route, $args, $method = "POST" ) {
 
-		if ( $asArray ) {
-			return $this->getDecodedJson( $route, $args, $type );
+		$response = $this->call(
+			$route,
+			$args,
+			$method
+		);
+
+		$status_code = wp_remote_retrieve_response_code( $response );
+
+		do_action( "ec_wc_api_response", [
+			'route'  => $route,
+			'args'   => $args,
+			'method' => $method
+		], $response );
+
+		if ( $status_code !== 200 ) {
+			return apply_filters( "ec_wc_api_response_body_error",
+				[
+					"status"      => "error",
+					"sub_status"  => "api_error",
+					"status_code" => $status_code
+				],
+				$response,
+				$route,
+				$args,
+				$method
+			);
 		}
 
-		return $this->call( $route, $args, $type );
+		$response_body = wp_remote_retrieve_body( $response );
 
+		return apply_filters( "ec_wc_api_response_body_success",
+			json_decode( $response_body, true ),
+			$response,
+			$route,
+			$args,
+			$method
+		);
 	}
 
 	/**
@@ -734,7 +770,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 	 */
 
 	public function get_meta_integrations() {
-		return $this->json( "/meta/integrations", array(), true, "GET" );
+		return $this->json( "/meta/integrations", array(), "GET" );
 	}
 
 
@@ -749,7 +785,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 	public function get_integrations( $list_id ) {
 		$route = sprintf( "/lists/%d/integrations", $list_id );
 
-		return $this->json( $route, array(), true, "GET" );
+		return $this->json( $route, array(), "GET" );
 	}
 
 	/**
@@ -792,7 +828,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 		);
 
-		$response = $this->json( "/integrations/" . $integration_id, $args, true, "PUT" );
+		$response = $this->json( "/integrations/" . $integration_id, $args, "PUT" );
 
 		if ( $response['status'] != "OK" ) {
 			$this->lastError    = $response['message'];
@@ -825,7 +861,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 		);
 
-		$response = $this->json( "/integrations", $args, true, "POST" );
+		$response = $this->json( "/integrations", $args, "POST" );
 
 		if ( $response['status'] != "OK" ) {
 			$this->lastError    = $response['message'];
@@ -838,8 +874,8 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 	}
 
-	public function lists( $args = array(), $asArray = true ) {
-		return $this->json( "/lists", $args, $asArray, "GET" );
+	public function lists( $args = array() ) {
+		return $this->json( "/lists", $args, "GET" );
 	}
 
 	public function wrap_list( $args = array() ) {
@@ -880,11 +916,11 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 	}
 
-	public function account( $asArray = true ) {
-		return $this->json( "/accounts/current", array(), $asArray, "GET" );
+	public function account() {
+		return $this->json( "/accounts/current", array(), "GET" );
 	}
 
-	public function create_list( $name, $description, $asArray = true ) {
+	public function create_list( $name, $description ) {
 
 		$args = array(
 
@@ -904,7 +940,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 			$args["instance_in"]["list_description"] = $description;
 		}
 
-		$response = $this->json( "/lists", $args, $asArray, "POST" );
+		$response = $this->json( "/lists", $args, "POST" );
 
 		if ( $response['status'] != "OK" ) {
 			$this->lastError = $response['message'];

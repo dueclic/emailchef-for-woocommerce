@@ -242,7 +242,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 		}
 
 		public function get_lists() {
-			if ( $this->emailchef()->isLogged() ) {
+			if ( $this->emailchef() ) {
 				$lists = $this->emailchef()->wrap_list();
 			} else {
 				return false;
@@ -275,9 +275,22 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 		public function save() {
 			global $current_section;
 
-            if ('no' === $this->enabled){
+            if ('yes' !== $this->enabled){
                 $consumer_key = sanitize_text_field($_POST[$this->prefixed_setting('consumer_key')]);
                 $consumer_secret = sanitize_text_field($_POST[$this->prefixed_setting('consumer_secret')]);
+                $account = WCEC()->emailchef(
+                    $consumer_key,
+                    $consumer_secret
+                )->account();
+
+                if (isset($account['status']) && $account['status'] === 'error') {
+                    // @TODO messaggio errore
+                } else {
+                    update_option( $this->prefixed_setting( 'consumer_key' ), $consumer_key );
+	                update_option( $this->prefixed_setting( 'consumer_secret' ), $consumer_secret );
+	                update_option( $this->prefixed_setting( 'enabled' ), "yes" );
+                }
+
             }
 
 
@@ -334,6 +347,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
             $enabled = $this->enabled;
 
             if ('yes' === $enabled){
+                $account = WCEC()->emailchef()->account();
 	            require_once( WC_EMAILCHEF_DIR . "/partials/settings/logged-in.php" );
             } else {
 	            $input_consumerkey_name = $this->prefixed_setting('consumer_key');

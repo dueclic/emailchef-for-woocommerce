@@ -90,8 +90,8 @@ final class WC_Emailchef_Plugin {
 
 	public static function deactivate() {
 		$options = array(
-			'api_user',
-			'api_pass',
+			'consumer_key',
+			'consumer_secret',
 			'enabled',
 			'list',
 			'policy_type',
@@ -102,14 +102,14 @@ final class WC_Emailchef_Plugin {
 		foreach ( $options as $option ) {
 			delete_option( "wc_emailchef_" . $option );
 		}
-        delete_transient('ecwc_authkey');
+		delete_transient( 'ecwc_authkey' );
 	}
 
 	/**
 	 * Define constants
 	 *
-	 * @param  string       $name
-	 * @param  string|bool  $value
+	 * @param string $name
+	 * @param string|bool $value
 	 */
 
 	private function define( $name, $value ) {
@@ -213,7 +213,7 @@ final class WC_Emailchef_Plugin {
 
 		add_action( "woocommerce_loaded", array( $this, "set_logger" ), 10 );
 
-		add_action( 'before_woocommerce_init', function() {
+		add_action( 'before_woocommerce_init', function () {
 			if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
 				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', WC_EMAILCHEF_FILE, true );
 			}
@@ -446,16 +446,16 @@ final class WC_Emailchef_Plugin {
 	/**
 	 * Check if Emailchef login is valid
 	 *
-	 * @return bool
+	 * @return WC_Emailchef
 	 */
 
 	public function is_valid() {
-		return $this->emailchef->isLogged();
+		return $this->emailchef();
 	}
 
-    public function get_api_url(){
-        return $this->emailchef->getApiUrl();
-    }
+	public function get_api_url() {
+		return $this->emailchef->getApiUrl();
+	}
 
 	/**
 	 * Set plugin constants
@@ -486,22 +486,17 @@ final class WC_Emailchef_Plugin {
 		$this->define( "WC_EMAILCHEF_SETTINGS_URL", $settings_url );
 	}
 
-	public function emailchef( $api_user = null, $api_pass = null ) {
+	public function emailchef( $consumer_key = null, $consumer_secret = null ) {
 		$settings = $this->settings();
 
-		if ( empty( $this->emailchef ) || ! is_null( $api_user )
-		     || ! is_null( $api_pass )
-		) {
-			$api_user = $api_user ? $api_user : $settings['api_user'];
-			$api_pass = $api_pass ? $api_pass : $settings['api_pass'];
+        $consumer_key    = $consumer_key ?: $settings['consumer_key'];
+        $consumer_secret = $consumer_secret ?: $settings['consumer_secret'];
 
-			/** @noinspection PhpIncludeInspection */
-			/** @noinspection PhpUndefinedConstantInspection */
+        /** @noinspection PhpUndefinedConstantInspection */
 
-			require_once( WC_EMAILCHEF_DIR
-			              . 'includes/class-wc-emailchef.php' );
-			$this->emailchef = new WC_Emailchef( $api_user, $api_pass );
-		}
+        require_once( WC_EMAILCHEF_DIR
+                      . 'includes/class-wc-emailchef.php' );
+        $this->emailchef = new WC_Emailchef( $consumer_key, $consumer_secret );
 
 		return $this->emailchef;
 	}
@@ -509,12 +504,13 @@ final class WC_Emailchef_Plugin {
 	/**
 	 * Get settings and merge with initial settings
 	 *
-	 * @param  bool  $fetch
+	 * @param bool $fetch
 	 *
 	 * @return array|mixed
 	 */
 	public function settings( $fetch = false ) {
 		if ( $fetch === true || empty( $this->settings ) ) {
+
 			/** @noinspection PhpIncludeInspection */
 			/** @noinspection PhpUndefinedConstantInspection */
 
@@ -532,9 +528,8 @@ final class WC_Emailchef_Plugin {
 
 			$settings       = apply_filters( 'wc_emailchef_settings',
 				array_merge( $initial, $settings ) );
-			$this->settings = $settings;
 
-			$this->emailchef( $settings['api_user'], $settings['api_pass'] );
+			$this->settings = $settings;
 		}
 
 		return $this->settings;
@@ -543,7 +538,7 @@ final class WC_Emailchef_Plugin {
 	/**
 	 * Return a prefixed setting
 	 *
-	 * @param  string  $suffix
+	 * @param string $suffix
 	 *
 	 * @return string
 	 */
