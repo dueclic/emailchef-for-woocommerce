@@ -698,7 +698,6 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 				add_action( 'rest_api_init', array( $this, "rest_route" ) );
 
-				add_action( 'wp_ajax_' . $this->namespace . '_account', array( $this, "get_account" ) );
 				add_action( 'wp_ajax_' . $this->namespace . '_move_abandoned_carts',
 					array( $this, 'move_abandoned_carts_trigger' ) );
 				add_action( 'wp_ajax_nopriv_' . $this->namespace . '_move_abandoned_carts',
@@ -1134,37 +1133,6 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$result['lists'] = $lists;
 
 			$this->json( $result );
-		}
-
-		public function get_account() {
-
-			$result = array(
-				'type' => 'error',
-				'msg'  => __( 'User or password are wrong', 'emailchef-for-woocommerce' ),
-			);
-
-			if ( ! $_POST['data']['api_user'] || empty( $_POST['data']['api_user'] ) || ! $_POST['data']['api_pass'] || empty( $_POST['data']['api_pass'] ) ) {
-
-				$result['msg'] = __( 'Provide your username and password', 'emailchef-for-woocommerce' );
-				$this->json( $result );
-
-			}
-
-			$api_user = $_POST['data']['api_user'];
-			$api_pass = $_POST['data']['api_pass'];
-
-			$wcec = $this->wcec->emailchef( $api_user, $api_pass );
-
-			if ( $wcec ) {
-
-				$result['type']   = 'success';
-				$result['msg']    = __( 'Valid username and password', 'emailchef-for-woocommerce' );
-				$result['policy'] = $wcec->get_policy();
-
-			}
-
-			$this->json( $result );
-
 		}
 
 		public function disconnect() {

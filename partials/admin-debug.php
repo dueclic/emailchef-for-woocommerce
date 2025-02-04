@@ -1,5 +1,8 @@
 <?php
 $wcec = WCEC();
+
+$list_id = wc_ec_get_option_value( "list_id" );
+
 ?>
 
 <div class="wrap">
@@ -28,27 +31,35 @@ $wcec = WCEC();
 
         <p>
             <label>
-				<?php echo get_option( $this->prefixed_setting( "list" ) );
+				<?php
+				echo $list_id ?: "Not found";
 				?>
             </label>
         </p>
 
-        <h1 class="wp-heading-inline"><?php
-			_e( "Test Custom Fields", "emailchef-for-woocommerce" ); ?></h1>
+		<?php
+		if ( ! empty( $list_id ) ):
+			?>
 
-        <p>
+            <h1 class="wp-heading-inline"><?php
+				_e( "Test Custom Fields", "emailchef-for-woocommerce" ); ?></h1>
+
+            <p>
         <textarea cols="50" rows="8">
             <?php echo json_encode( WCEC()->emailchef()->get_collection(
 	            get_option( $this->prefixed_setting( "list" ) )
             ) ); ?>
         </textarea>
-        </p>
-        <p>
-            <button class="button button-primary button-rebuild-customfields">
-                Rebuild Custom Fields
-            </button>
-        </p>
+            </p>
+            <p>
+                <button class="button button-primary button-rebuild-customfields">
+                    Rebuild Custom Fields
+                </button>
+            </p>
 
+		<?php
+		endif;
+		?>
 
 
 	<?php

@@ -14,11 +14,16 @@ $emailchef = WCEC()->emailchef(
 );
 $account   = $emailchef->account();
 $lists     = $emailchef->lists();
+$policy = $wcec->emailchef()->get_policy();
 
 $policy_types = [
 	'sopt' => __( "Single opt-in", "emailchef-for-woocommerce" ),
 	'dopt' => __( "Double opt-in", "emailchef-for-woocommerce" )
 ];
+
+if ($policy !== 'premium'){
+    unset($policy_types['sopt']);
+}
 
 
 ?>
@@ -50,11 +55,23 @@ $policy_types = [
         <div>
              <span class="flex-grow-1">
                 <a class="button button-primary" href="<?php echo add_query_arg(
-                        ['source' => 'emailchef-for-woocommerce', 'paged' => 1],
-                        admin_url('/admin.php?page=wc-status&tab=logs' )
-                ); ?>"><?php _e("Show Logs", "emailchef-for-woocommerce"); ?></a>
+	                [ 'source' => 'emailchef-for-woocommerce', 'paged' => 1 ],
+	                admin_url( '/admin.php?page=wc-status&tab=logs' )
+                ); ?>"><?php _e( "Show Logs", "emailchef-for-woocommerce" ); ?></a>
             </span>
         </div>
+		<?php
+		if ( isset( $_GET['debug'] ) ):
+			?>
+            <div>
+             <span class="flex-grow-1">
+                <a class="button button-primary"
+                   href="<?php echo admin_url( '/admin.php?page=emailchef-debug' ); ?>"><?php _e( "Debug", "emailchef-for-woocommerce" ); ?></a>
+            </span>
+            </div>
+		<?php
+		endif;
+		?>
     </div>
     <div class="ecwc-main-forms">
         <h1>Emailchef for Woocommerce settings</h1>
