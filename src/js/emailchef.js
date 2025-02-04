@@ -102,7 +102,7 @@ var WC_Emailchef = function ($) {
         });
         $(document).on("click", "#wc_emailchef_create_list", function (evt) {
             evt.preventDefault();
-            $(".ecwc-new-list-container").show();
+            $(".ecwc-new-list-container").toggle();
         });
         $(document).on("click", ".ecwc-new-list-container .woocommerce-undo-button", function (evt) {
             evt.preventDefault();
