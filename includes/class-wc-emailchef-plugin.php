@@ -145,7 +145,12 @@ final class WC_Emailchef_Plugin {
 	public function enqueue_scripts() {
 
 		global $current_screen;
-		if ( $current_screen->id === 'woocommerce_page_wc-settings' ) {
+		if (
+			( $current_screen->id === 'woocommerce_page_wc-settings' &&
+			  isset( $_GET['tab'] ) && sanitize_text_field( $_GET['tab'] ) === 'emailchef'
+			) ||
+			$current_screen->id === 'admin_page_emailchef-debug'
+		) {
 
 			/** @noinspection PhpUndefinedConstantInspection */
 
@@ -154,7 +159,7 @@ final class WC_Emailchef_Plugin {
 				self::version() );
 
 			wp_localize_script( 'woocommerce-emailchef-backend-js', 'wcec', array(
-                    "namespace" => $this->namespace,
+				"namespace"            => $this->namespace,
 				"disconnect_confirm"   => __( "Are you sure you want to disconnect this account?", "emailchef-for-woocommerce" ),
 				"ajax_manual_sync_url" => wp_nonce_url(
 					add_query_arg( [
@@ -166,17 +171,47 @@ final class WC_Emailchef_Plugin {
 					),
 					'emailchef_manual_sync'
 				),
+				"ajax_sync_abandoned_carts_url" => wp_nonce_url(
+					add_query_arg( [
+						'action' => $this->prefixed_setting(
+							'sync_abandoned_carts'
+						)
+					],
+						admin_url( 'admin-ajax.php' )
+					),
+					'emailchef_sync_abandoned_carts'
+				),
+				"ajax_debug_rebuild_customfields_url" => wp_nonce_url(
+					add_query_arg( [
+						'action' => $this->prefixed_setting(
+							'debug_rebuild_customfields'
+						)
+					],
+						admin_url( 'admin-ajax.php' )
+					),
+					'emailchef_debug_rebuild_customfields'
+				),
+				"ajax_debug_move_abandoned_carts_url" => wp_nonce_url(
+					add_query_arg( [
+						'action' => $this->prefixed_setting(
+							'debug_move_abandoned_carts'
+						)
+					],
+						admin_url( 'admin-ajax.php' )
+					),
+					'emailchef_debug_move_abandoned_carts'
+				),
 				"ajax_disconnect_url"  => wp_nonce_url(
 					add_query_arg( [
-							'action' => $this->prefixed_setting(
-								'disconnect'
-							)
-						],
-					admin_url( 'admin-ajax.php' )
+						'action' => $this->prefixed_setting(
+							'disconnect'
+						)
+					],
+						admin_url( 'admin-ajax.php' )
 					),
 					'emailchef_disconnect'
 				),
-				"ajax_lists_url"  => wp_nonce_url(
+				"ajax_lists_url"       => wp_nonce_url(
 					add_query_arg( [
 						'action' => $this->prefixed_setting(
 							'lists'
@@ -273,45 +308,10 @@ final class WC_Emailchef_Plugin {
 		if ( $screen->id === 'admin_page_emailchef-debug' ) {
 			?>
             <script>
-                (function ($) {
-
-                    $(document).ready(function () {
-                        $('.button-force-sync').on('click', function (evt) {
-                            evt.preventDefault();
-                            var userId = $(this).data('user-id');
-                            var ajaxurl = '<?php echo admin_url( 'admin-ajax.php' ); ?>';
-                            $.post(
-                                ajaxurl,
-                                {
-                                    'action': '<?php echo $this->namespace; ?>_sync_abandoned_carts',
-                                    'only_userid': userId
-                                },
-                                function (response) {
-                                    console.log("Abandoned cart synced successfully");
-                                    location.reload();
-                                }
-                            );
-                        });
+                (function($){
+                    $(document).ready(function() {
+                        WC_Emailchef.debugPage();
                     });
-
-                    $(document).ready(function () {
-                        $('.button-rebuild-customfields').on('click', function (evt) {
-                            evt.preventDefault();
-                            var userId = $(this).data('user-id');
-                            var ajaxurl = '<?php echo admin_url( 'admin-ajax.php' ); ?>';
-                            $.post(
-                                ajaxurl,
-                                {
-                                    'action': '<?php echo $this->namespace; ?>_rebuild_customfields'
-                                },
-                                function (response) {
-                                    console.log("Recover custom fields successfully");
-                                    location.reload();
-                                }
-                            );
-                        });
-                    });
-
                 })(jQuery);
             </script>
 			<?php

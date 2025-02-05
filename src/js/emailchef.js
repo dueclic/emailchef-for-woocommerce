@@ -8,7 +8,8 @@ var WC_Emailchef = function ($) {
     var namespace = wcec.namespace;
 
     return {
-        settings: settings
+        settings: settings,
+        debugPage: debugPage
     };
 
     function loadLists(list_id) {
@@ -137,4 +138,53 @@ var WC_Emailchef = function ($) {
         }
 
     }
+
+    function debugPage(){
+
+        $(document).on('click', '#emailchef-button-move-abandoned-carts', function (evt) {
+            evt.preventDefault();
+            var ajaxurl = wcec.ajax_debug_move_abandoned_carts_url;
+            $.post(ajaxurl, {},
+                function (response) {
+                    if (response.success) {
+                        console.log("Abandoned carts moved successfully");
+                        location.reload();
+                    } else {
+                        alert(response.data.message);
+                    }
+                }
+            );
+
+        });
+
+        $(document).on('click', '.emailchef-button-force-sync', function (evt) {
+            evt.preventDefault();
+            var userId = $(this).data('user-id');
+            var ajaxurl = wcec.ajax_sync_abandoned_carts_url;
+            $.post(ajaxurl, {'only_userid': userId}, function (response) {
+                if (response.success) {
+                    console.log("Abandoned cart synced successfully");
+                    location.reload();
+                } else {
+                    alert(response.data.message);
+                }
+            });
+        });
+
+        $(document).on('click', '#emailchef-button-rebuild-customfields', function (evt) {
+            evt.preventDefault();
+            var ajaxurl = wcec.ajax_debug_rebuild_customfields_url;
+            $.post(ajaxurl, {}, function (response) {
+                if (response.success) {
+                    console.log("Recover custom fields successfully");
+                    location.reload();
+                } else {
+                    alert(response.data.message);
+                }
+            });
+        });
+
+    }
+
+
 }(jQuery);

@@ -716,12 +716,11 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 				add_action( 'rest_api_init', array( $this, "rest_route" ) );
 
-				add_action( 'wp_ajax_' . $this->namespace . '_move_abandoned_carts',
-					array( $this, 'move_abandoned_carts_trigger' ) );
+
 				add_action( 'wp_ajax_' . $this->namespace . '_manual_sync',
 					array( $this, 'manual_sync' ) );
-				add_action( 'wp_ajax_nopriv_' . $this->namespace . '_move_abandoned_carts',
-					array( $this, 'move_abandoned_carts_trigger' ) );
+				add_action( 'wp_ajax_' . $this->namespace . '_debug_move_abandoned_carts',
+					array( $this, 'debug_move_abandoned_carts' ) );
 
 				add_action( 'wp_ajax_' . $this->namespace . '_lists', array( $this, 'get_lists' ) );
 				add_action( 'wp_ajax_' . $this->namespace . '_add_list', array( $this, 'add_list' ) );
@@ -730,9 +729,9 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					$this,
 					'sync_abandoned_carts'
 				) );
-				add_action( 'wp_ajax_' . $this->namespace . '_rebuild_customfields', array(
+				add_action( 'wp_ajax_' . $this->namespace . '_debug_rebuild_customfields', array(
 					$this,
-					'rebuild_customfields'
+					'debug_rebuild_customfields'
 				) );
 				//add_action( 'upgrader_process_complete', array( $this, 'upgrade_also_list' ), 10, 2 );
 				add_action(
@@ -744,19 +743,14 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				add_action( "emailchef_sync_cron_now", array( $this, 'sync_list_now' ), 1, 2 );
 
 
-				add_action( 'wp_footer', array( $this, 'maybe_abandoned_cart_sync' ) );
-				add_action( 'wp_footer', array( $this, 'trigger_send_abandoned_carts' ) );
-
-				add_action( 'admin_footer', array( $this, 'trigger_send_abandoned_carts' ) );
-				add_action( 'admin_footer', array( $this, 'maybe_abandoned_cart_sync' ) );
+				/*add_action( 'wp_footer', array( $this, 'maybe_abandoned_cart_sync' ) );
+				add_action( 'admin_footer', array( $this, 'maybe_abandoned_cart_sync' ) );*/
 
 				add_action( 'admin_menu', array( $this, 'add_debug_page' ), 10 );
 
 				add_action( 'ec_wc_api_response', array( $this, 'handle_ec_wc_api_response' ), 5 );
 
 			}
-
-			//add_action("admin_bar_menu", array($this, "move_abandoned_carts"), 999);
 
 			register_activation_hook( WC_EMAILCHEF_FILE, array( $this, 'create_ab_cart_table' ) );
 			register_deactivation_hook( WC_EMAILCHEF_FILE, array( $this, 'delete_ab_cart_table' ) );
@@ -827,58 +821,6 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			require_once( WC_EMAILCHEF_DIR . "/partials/admin-debug.php" );
 		}
 
-
-		public function trigger_send_abandoned_carts() {
-			?>
-            <script type="text/javascript">
-                jQuery(function ($) {
-                    var ajaxurl = '<?php echo admin_url( 'admin-ajax.php' ); ?>';
-
-                    $("#wp-admin-bar-wc_ec_mabc a").on("click", function (evt) {
-                        evt.preventDefault();
-                        $.post(
-                            ajaxurl,
-                            {
-                                'action': '<?php echo $this->namespace; ?>_move_abandoned_carts'
-                            },
-                            function (response) {
-                                console.log("Abandoned carts moved successfully");
-                                location.reload();
-                            }
-                        );
-
-                    });
-
-
-                });
-            </script>
-			<?php
-		}
-
-		/**
-		 * @param $wp_admin_bar WP_Admin_Bar
-		 */
-
-		public function move_abandoned_carts( $wp_admin_bar ) {
-
-			if ( current_user_can( 'manage_options' ) ) {
-				$args = array(
-					'id'    => 'wc_ec',
-					'title' => __( 'Emailchef', 'emailchef-for-woocommerce' ),
-					'href'  => '#',
-					'meta'  => array( 'class' => 'my-empty-cart' )
-				);
-				$wp_admin_bar->add_node( $args );
-				$wp_admin_bar->add_menu( array(
-					'parent' => "wc_ec",
-					'title'  => __( 'Send abandoned carts', 'emailchef-for-woocommerce' ),
-					'id'     => 'wc_ec_mabc',
-					'href'   => '#'
-				) );
-
-			}
-		}
-
 		public function get_abandoned_carts( $limit = true, $where = "" ) {
 			global $wpdb;
 
@@ -898,10 +840,20 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			);
 		}
 
-		public function rebuild_customfields() {
-			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_send_json_error( __( 'Permissions are not valid for this action', 'emailchef-for-woocommerce' ) );
+		public function debug_rebuild_customfields() {
+
+			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_debug_rebuild_customfields' ) ) {
+				wp_send_json_error([
+                        'message' => __( 'Invalid request', 'emailchef-for-woocommerce' )
+                ] );
 			}
+
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_send_json_error([
+                        'message' => __( 'Permissions are not valid for this action', 'emailchef-for-woocommerce' )
+                ]  );
+			}
+
 
 			$list_id = get_option( $this->prefixed_setting( "list" ) );
 
@@ -912,14 +864,26 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				$this->wcec->emailchef()->initialize_custom_fields(
 					$list_id
 				);
-				wp_send_json_success( __( 'Custom fields had been rebuilt succesfully', 'emailchef-for-woocommerce' ) );
+				wp_send_json_success( [
+                        'message' => __( 'Custom fields had been rebuilt succesfully', 'emailchef-for-woocommerce' )
+                ] );
 
 				WCEC()->log( sprintf( __( "[END] Custom fields ad been rebuilt succesfully for list %d",
 					"emailchef-for-woocommerce" ), $list_id ) );
+			} else {
+				wp_send_json_error( [
+                        'message' => __( 'List was not provided.', 'emailchef-for-woocommerce' )
+                ] );
 			}
 		}
 
 		public function sync_abandoned_carts() {
+
+			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_sync_abandoned_carts' ) ) {
+				wp_send_json_error([
+					'message' => __( 'Invalid request', 'emailchef-for-woocommerce' )
+				] );
+			}
 
 			global $wpdb;
 
@@ -1031,16 +995,9 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			}
 
-			die(
-			wp_json_encode(
-				array(
-					"type" => "success",
-					"text" => __( "Abandoned cart was successfully synced",
-						"emailchef-for-woocommerce" )
-				)
-			)
-			);
-
+			wp_send_json_error([
+				'message' => __( 'Abandoned cart was successfully synced', 'emailchef-for-woocommerce' )
+			] );
 
 		}
 
@@ -1137,7 +1094,13 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			exit;
 		}
 
-		public function move_abandoned_carts_trigger() {
+		public function debug_move_abandoned_carts() {
+
+			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_debug_move_abandoned_carts' ) ) {
+				wp_send_json_error( [
+					'message' => __( 'Invalid request', 'emailchef-for-woocommerce' )
+				] );
+			}
 
 			global $wpdb;
 
@@ -1159,6 +1122,11 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				) );
 
 			}
+
+			wp_send_json_success( [
+				'message' => __( 'Abandoned carts moved succesfully', 'emailchef-for-woocommerce' )
+			] );
+
 		}
 
 		public function get_lists() {
