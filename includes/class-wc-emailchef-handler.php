@@ -743,8 +743,11 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				add_action( "emailchef_sync_cron_now", array( $this, 'sync_list_now' ), 1, 2 );
 
 
-				/*add_action( 'wp_footer', array( $this, 'maybe_abandoned_cart_sync' ) );
-				add_action( 'admin_footer', array( $this, 'maybe_abandoned_cart_sync' ) );*/
+				if ( ! wp_next_scheduled( 'emailchef_abandoned_cart_sync' ) ) {
+					wp_schedule_event( time(), 'hourly', 'emailchef_abandoned_cart_sync' );
+				}
+
+				add_action( 'emailchef_abandoned_cart_sync', array( $this, 'maybe_abandoned_cart_sync' ) );
 
 				add_action( 'admin_menu', array( $this, 'add_debug_page' ), 10 );
 
@@ -877,30 +880,12 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			}
 		}
 
-		public function sync_abandoned_carts() {
-
-			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_sync_abandoned_carts' ) ) {
-				wp_send_json_error( [
-					'message' => __( 'Invalid request', 'emailchef-for-woocommerce' )
-				] );
-			}
+		private function _sync_abandoned_carts(
+			$limit = true,
+            $where = ""
+		) {
 
 			global $wpdb;
-
-			$where = "";
-			$limit = true;
-
-			$email   = isset( $_POST['only_email'] ) && is_email( $_POST['only_email'] ) ? $_POST['only_email'] : null;
-			$user_id = isset( $_POST['only_userid'] ) && ! empty( $_POST['only_userid'] ) ? $_POST['only_userid'] : null;
-
-			if ( ! is_null( $email ) ) {
-				$where = " AND user_email='" . $email . "'";
-				$limit = false;
-			} else if ( ! is_null( $user_id ) ) {
-				$where = " AND user_id='" . $user_id . "'";
-				$limit = false;
-			}
-
 
 			$results = $this->get_abandoned_carts( $limit, $where );
 
@@ -995,6 +980,37 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			}
 
+			return $results;
+
+		}
+
+		public function sync_abandoned_carts() {
+
+			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_sync_abandoned_carts' ) ) {
+				wp_send_json_error( [
+					'message' => __( 'Invalid request', 'emailchef-for-woocommerce' )
+				] );
+			}
+
+			global $wpdb;
+
+			$where = "";
+			$limit = true;
+
+			$email   = isset( $_POST['only_email'] ) && is_email( $_POST['only_email'] ) ? $_POST['only_email'] : null;
+			$user_id = isset( $_POST['only_userid'] ) && ! empty( $_POST['only_userid'] ) ? $_POST['only_userid'] : null;
+
+			if ( ! is_null( $email ) ) {
+				$where = " AND user_email='" . $email . "'";
+				$limit = false;
+			} else if ( ! is_null( $user_id ) ) {
+				$where = " AND user_id='" . $user_id . "'";
+				$limit = false;
+			}
+
+
+			$this->_sync_abandoned_carts( $limit, $where );
+
 			wp_send_json_error( [
 				'message' => __( 'Abandoned cart was successfully synced', 'emailchef-for-woocommerce' )
 			] );
@@ -1051,48 +1067,11 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 		}
 
 		public function maybe_abandoned_cart_sync() {
-
-			global $wpdb;
-
 			if ( $this->wcec->is_valid() ) {
-
-				$abc = $this->wcec->abcart_table();
-
-				$results = $wpdb->get_results(
-					"SELECT user_id, user_email, product_id, created FROM {$abc} WHERE synced = 0 AND created > (NOW() - INTERVAL 7 DAY) AND created < (NOW() - INTERVAL 1 DAY)",
-					ARRAY_A
-				);
-
-				if ( count( $results ) > 0 ) {
-
-					?>
-                    <script type="text/javascript">
-                        jQuery(function ($) {
-                            var ajaxurl = '<?php echo admin_url( 'admin-ajax.php' ); ?>';
-                            $.post(
-                                ajaxurl,
-                                {
-                                    'action': '<?php echo $this->namespace; ?>_sync_abandoned_carts'
-                                },
-                                function (response) {
-                                    console.log("Abandoned carts synced successfully")
-                                }
-                            );
-
-
-                        });
-                    </script>
-					<?php
-
-				}
+				$this->_sync_abandoned_carts();;
 			}
-
 		}
 
-		private function json( $data ) {
-			echo json_encode( $data );
-			exit;
-		}
 
 		public function debug_move_abandoned_carts() {
 
