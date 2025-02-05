@@ -78,6 +78,23 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$order       = wc_get_order( $order_id );
 			$customer_id = $order->get_user_id();
 			$list_id     = get_option( $this->prefixed_setting( "list" ) );
+
+            if (!$list_id){
+	            $this->wcec->log(
+		            sprintf(
+			            __(
+				            "Insert failure in list %d for updated data of guest customer (Order %d from status %s to %s). List not provied.",
+				            "emailchef-for-woocommerce"
+			            ),
+			            get_option( $this->prefixed_setting( "list" ) ),
+			            $order_id,
+			            $status,
+			            $new_status
+		            )
+	            );
+                return;
+            }
+
 			$wcec        = $this->wcec->emailchef();
 
 			if ( $customer_id == 0 ) {
@@ -1082,7 +1099,6 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 		public function sync_list_now( $list_id, $all = true ) {
 
-
 			if ( ! $list_id ) {
 				$this->wcec->log(
 					__(
@@ -1129,7 +1145,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				] );
 
 				$this->wcec->log(
-					esc_html($message)
+					$message
 				);
 			}
 
