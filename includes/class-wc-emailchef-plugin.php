@@ -42,15 +42,14 @@ final class WC_Emailchef_Plugin {
 		) {
 			self::$instance = new WC_Emailchef_Plugin;
 			self::$instance->define_constants();
+			self::$instance->add_hooks();
 
-			self::$instance->save_settings();
 			self::$instance->settings();
 			self::$instance->includes();
 			self::$instance->emailchef();
 			self::$instance->handler = WC_Emailchef_Handler::get_instance();
 			self::$instance->load_translations();
 
-			self::$instance->add_hooks();
 
 			do_action( "wc_emailchef_loaded" );
 		}

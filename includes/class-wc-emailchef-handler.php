@@ -687,10 +687,12 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 		public function hooks() {
 
-			$enabled = get_option(
-				$this->prefixed_setting( 'enabled' )
-			);
+			add_action( 'wp_ajax_' . $this->namespace . '_disconnect', array( $this, 'disconnect' ) );
 
+			$enabled = wc_ec_get_option_value(
+				'enabled'
+			);
+            
 			if ( 'yes' === $enabled ) {
 
 				/**
@@ -724,7 +726,6 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 				add_action( 'wp_ajax_' . $this->namespace . '_lists', array( $this, 'get_lists' ) );
 				add_action( 'wp_ajax_' . $this->namespace . '_add_list', array( $this, 'add_list' ) );
-				add_action( 'wp_ajax_' . $this->namespace . '_disconnect', array( $this, 'disconnect' ) );
 				add_action( 'wp_ajax_' . $this->namespace . '_sync_abandoned_carts', array(
 					$this,
 					'sync_abandoned_carts'
@@ -734,11 +735,6 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					'debug_rebuild_customfields'
 				) );
 				//add_action( 'upgrader_process_complete', array( $this, 'upgrade_also_list' ), 10, 2 );
-				add_action(
-					'wp_ajax_nopriv_' . $this->namespace . '_sync_abandoned_carts',
-					array( $this, 'sync_abandoned_carts' )
-				);
-
 				add_action( 'wc_emailchef_loaded', array( $this, 'check_policy' ) );
 				add_action( "emailchef_sync_cron_now", array( $this, 'sync_list_now' ), 1, 2 );
 

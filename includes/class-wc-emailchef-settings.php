@@ -117,13 +117,6 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 			);
 		}
 
-		public function emailchef_no_lists_found() {
-			echo $this->send_msg(
-				__( 'No lists found in your Emailchef account',
-					'emailchef-for-woocommerce' )
-			);
-		}
-
 		public function save() {
 			global $current_section;
 
@@ -163,7 +156,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 					),
 					'fuck_page'         => sanitize_text_field(
 						$_POST[ wc_ec_get_option_name( "fuck_page" ) ]
-					)
+					),
 				];
 
 				if ( empty( $fields['list'] ) ) {
@@ -184,6 +177,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 					"emailchef-for-woocommerce" ), $fields["list"] ) );
 				$wcec->log( sprintf( __( "Selected list %d, execution of cron for custom fields synchronization",
 					"emailchef-for-woocommerce" ), $fields['list'] ) );
+
 				if ( $sync_customers ) {
 
 					WC_Admin_Settings::add_message(
