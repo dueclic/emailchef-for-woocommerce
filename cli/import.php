@@ -14,6 +14,16 @@ $wcec = WCEC();
 
 $list = get_option("wc_emailchef_list");
 
+if (!$list){
+	$wcec->log(
+		__(
+			"Synchronization failed. List not provided.",
+			"emailchef-for-woocommerce"
+		)
+	);
+	return;
+}
+
 echo "=> Emailchef List: ".$list."\n";
 
 $wcec->emailchef()->upsert_integration($list);

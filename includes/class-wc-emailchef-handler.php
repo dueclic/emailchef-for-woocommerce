@@ -83,7 +83,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 	            $this->wcec->log(
 		            sprintf(
 			            __(
-				            "Insert failure in list %d for updated data of guest customer (Order %d from status %s to %s). List not provied.",
+				            "Insert failure in list %d for updated data of guest customer (Order %d from status %s to %s). List not provided.",
 				            "emailchef-for-woocommerce"
 			            ),
 			            get_option( $this->prefixed_setting( "list" ) ),
