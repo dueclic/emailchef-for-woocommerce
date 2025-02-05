@@ -667,6 +667,24 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 		}
 
+		/**
+		 * @param array | WP_Error $response
+		 *
+		 * @void
+		 */
+
+		public function handle_ec_wc_api_response(
+			$response
+		) {
+			$status_code = wp_remote_retrieve_response_code( $response );
+			if ( $status_code === 401 ) {
+				update_option( $this->prefixed_setting( 'enabled' ), "no" );
+			}
+
+			do_action( "ec_wc_api_post_response", $response, $status_code );
+
+		}
+
 		public function hooks() {
 
 			$enabled = get_option(
@@ -700,6 +718,8 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 				add_action( 'wp_ajax_' . $this->namespace . '_move_abandoned_carts',
 					array( $this, 'move_abandoned_carts_trigger' ) );
+				add_action( 'wp_ajax_' . $this->namespace . '_manual_sync',
+					array( $this, 'manual_sync' ) );
 				add_action( 'wp_ajax_nopriv_' . $this->namespace . '_move_abandoned_carts',
 					array( $this, 'move_abandoned_carts_trigger' ) );
 
@@ -732,12 +752,59 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 				add_action( 'admin_menu', array( $this, 'add_debug_page' ), 10 );
 
+				add_action( 'ec_wc_api_response', array( $this, 'handle_ec_wc_api_response' ), 5 );
+
 			}
 
 			//add_action("admin_bar_menu", array($this, "move_abandoned_carts"), 999);
 
 			register_activation_hook( WC_EMAILCHEF_FILE, array( $this, 'create_ab_cart_table' ) );
 			register_deactivation_hook( WC_EMAILCHEF_FILE, array( $this, 'delete_ab_cart_table' ) );
+
+		}
+
+		public function manual_sync() {
+
+			$response = [
+				'text' => __( "Manual sync scheduled succesfully.",
+					"emailchef-for-woocommerce" ),
+				'type' => "success"
+			];
+
+			if ( ! wp_verify_nonce( $_GET['_wpnonce'], 'emailchef_manual_sync' ) ) {
+				$response = [
+					'type'    => 'error',
+					'text' => __( 'Invalid request', 'emailchef-for-woocommerce' )
+				];
+			} else {
+
+				WCEC()->log( __( "Manual sync triggered.",
+					"emailchef-for-woocommerce" ) );
+
+				$scheduled = wp_schedule_single_event( time(),
+					"emailchef_sync_cron_now",
+					array( wc_ec_get_option_value( 'list' ), true ), true );
+
+
+				if ( is_wp_error( $scheduled ) ) {
+					$response['text'] = __( "Manual sync not scheduled (" . $scheduled->get_error_message() . ")",
+						"emailchef-for-woocommerce" );
+					$response['type'] = "error";
+				}
+
+				WCEC()->log(
+					$response['text']
+				);
+
+			}
+
+			set_transient( 'emailchef-admin-notice', $response, 30 );
+
+			die(
+			wp_json_encode(
+				$response
+			)
+			);
 
 		}
 
@@ -811,6 +878,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			}
 		}
+
 		public function get_abandoned_carts( $limit = true, $where = "" ) {
 			global $wpdb;
 

@@ -5,7 +5,7 @@
 
 		<div class="ecwc-text-center">
 			<img class="ecwc-login-logo" src="<?php
-			echo plugins_url( "dist/img/logo-compact.svg",
+			echo plugins_url( "/dist/img/logo-compact.svg",
 				WC_EMAILCHEF_FILE  ); ?>">
 		</div>
 

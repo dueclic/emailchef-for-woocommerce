@@ -73,24 +73,6 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 			add_action( 'woocommerce_sections_' . $this->id,
 				array( $this, 'output_sections' ) );
 			add_action( 'woocommerce_settings_saved', array( $this, 'init' ) );
-			add_action( 'ec_wc_api_response', array( $this, 'logout_if_unauth_request' ), 5 );
-		}
-
-		/**
-		 * @param array | WP_Error $response
-		 *
-		 * @void
-		 */
-
-		public function logout_if_unauth_request(
-			$response
-		) {
-
-			$status_code = wp_remote_retrieve_response_code( $response );
-			if ( $status_code === 401 ) {
-				update_option( $this->prefixed_setting( 'enabled' ), "no" );
-			}
-
 		}
 
 		private function wc_enqueue_js( $code ) {
@@ -110,124 +92,6 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 
 		public function get_settings( $current_section = '' ) {
 			$settings = array();
-
-			$default_language = ( get_locale() == "it_IT" ? "it" : "en" );
-
-			if ( '' === $current_section ) {
-
-				/*
-
-				$settings[] = array(
-					'id'       => $this->prefixed_setting( 'lang' ),
-					'title'    => __( 'Language', 'emailchef-for-woocommerce' ),
-					'type'     => 'select',
-					'options'  => array(
-						"it" => __( "Italian", "emailchef-for-woocommerce" ),
-						"en" => __( "English", "emailchef-for-woocommerce" ),
-					),
-					'default'  => $default_language,
-					'class'    => 'wc-enhanced-select-nostd',
-					'css'      => 'min-width: 350px;',
-					'desc_tip' => __( 'You can choose your favorite language',
-						'emailchef-for-woocommerce' ),
-				);
-
-				$settings[] = array(
-					'id'          => $this->prefixed_setting( 'consumer_key' ),
-					'title'       => __( 'Consumer Key',
-						'emailchef-for-woocommerce' ),
-					'type'        => 'text',
-					'desc'        => sprintf( __( '%sSignup now in Emailchef for creating a new account.',
-						'emailchef-for-woocommerce' ),
-						'<br/><a href="https://www.emailchef.com" target="_blank">',
-						'</a>'
-					),
-					'section_id' => 'login'
-				);
-
-				$settings[] = array(
-					'id'          => $this->prefixed_setting( 'consumer_secret' ),
-					'title'       => __( 'Consumer Secret',
-						'emailchef-for-woocommerce' ),
-					'type'        => 'password',
-					'section_id' => 'login'
-				);
-
-				$lists = $this->get_lists();
-
-				$settings[] = array(
-					'id'       => $this->prefixed_setting( 'list' ),
-					'title'    => __( 'List', 'emailchef-for-woocommerce' ),
-					'type'     => 'select',
-					'desc'     => sprintf( __( '%sAdd a new destination list.',
-						'emailchef-for-woocommerce' ), '<br/><a href="#" id="'
-													   . $this->prefixed_setting( 'create_list' )
-													   . '">', '</a>'
-					),
-					'options'  => $lists,
-					'class'    => 'wc-enhanced-select-nostd',
-					'css'      => 'min-width: 350px;',
-					'desc_tip' => __( 'Select your destination list or create a new.',
-						'emailchef-for-woocommerce' ),
-					'section_id' => 'settings_up',
-				);
-
-				$settings[] = array(
-					'name'     => __( 'Sync customers',
-						'emailchef-for-woocommerce' ),
-					'type'     => 'checkbox',
-					'id'       => $this->prefixed_setting( 'sync_customers' ),
-					'default'  => '',
-				);
-
-				$settings[] = array(
-					'name'     => __( 'Policy', 'emailchef-for-woocommerce' ),
-					'type'     => 'select',
-					'desc'     => __( 'Which policy would you like to use?',
-						'emailchef-for-woocommerce' ),
-					'desc_tip' => true,
-					'id'       => $this->prefixed_setting( 'policy_type' ),
-					'options'  => array(
-						'sopt' => __( 'Single opt-in',
-							'emailchef-for-woocommerce' ),
-						'dopt' => __( 'Double opt-in',
-							'emailchef-for-woocommerce' ),
-					),
-					'default'  => 'dopt',
-				);
-
-				$settings[] = array(
-					'name'     => __( 'Subscription page',
-						'emailchef-for-woocommerce' ),
-					'type'     => 'single_select_page',
-					'desc'     => __( 'Page where customer moved after subscribe newsletter in double opt-in',
-						'emailchef-for-woocommerce' ),
-					'desc_tip' => true,
-					'class'    => 'wc-enhanced-select-nostd',
-					'id'       => $this->prefixed_setting( 'landing_page' ),
-					'default'  => '',
-				);
-
-				$settings[] = array(
-					'name'     => __( 'Unsubscription page',
-						'emailchef-for-woocommerce' ),
-					'type'     => 'single_select_page',
-					'desc'     => __( 'Page where customer moved after unsubscribe newsletter in double opt-in',
-						'emailchef-for-woocommerce' ),
-					'desc_tip' => true,
-					'class'    => 'wc-enhanced-select-nostd',
-					'id'       => $this->prefixed_setting( 'fuck_page' ),
-					'default'  => '',
-				);
-
-
-
-				$settings[] = array(
-					'type' => 'sectionend',
-					'id'   => 'general_options',
-				);
-				*/
-			}
 
 			return apply_filters( 'woocommerce_get_settings_' . $this->id,
 				$settings, $current_section );
@@ -319,7 +183,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 				);
 
 				$fields = [
-					'list'              => (int)sanitize_text_field(
+					'list'              => (int) sanitize_text_field(
 						$_POST[ wc_ec_get_option_name( "list" ) ]
 					),
 					'policy_type'       => sanitize_text_field(
@@ -337,7 +201,8 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 					WC_Admin_Settings::add_error(
 						__( 'Please provide a valid list.', 'emailchef-for-woocommerce' )
 					);
-                    return;
+
+					return;
 				}
 
 				$wcec = WCEC();
@@ -350,7 +215,12 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 					"emailchef-for-woocommerce" ), $fields["list"] ) );
 				$wcec->log( sprintf( __( "Selected list %d, execution of cron for custom fields synchronization",
 					"emailchef-for-woocommerce" ), $fields['list'] ) );
-				if ($sync_customers){
+				if ( $sync_customers ) {
+
+					WC_Admin_Settings::add_message(
+						__( 'Custom fields and all customers are syncing now.', 'emailchef-for-woocommerce' )
+					);
+
 					$scheduled = wp_schedule_single_event( time(),
 						"emailchef_sync_cron_now",
 						array( $fields['list'], true ) );
@@ -360,6 +230,11 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 							"emailchef-for-woocommerce" ) );
 					}
 				} else {
+
+					WC_Admin_Settings::add_message(
+						__( 'Custom fields are syncing now.', 'emailchef-for-woocommerce' )
+					);
+
 					$scheduled = wp_schedule_single_event( time(),
 						"emailchef_sync_cron_now",
 						array( $fields['list'], false ) );

@@ -85,7 +85,14 @@ final class WC_Emailchef_Plugin {
 	}
 
 	public static function activate() {
-		set_transient( 'emailchef-admin-notice-activate', true, 5 );
+		set_transient( 'emailchef-admin-notice', [
+                'type' => 'success',
+            'text' => __( 'Well! Now that you activated Emailchef for WooCommerce, go to the ',
+		            'emailchef-for-woocommerce' ) . '<a href="'
+                      . WC_EMAILCHEF_SETTINGS_URL . '">'
+                      . __( 'configuration',
+		            'emailchef-for-woocommerce' ) . '</a>'
+        ], 30 );
 	}
 
 	public static function deactivate() {
@@ -147,27 +154,11 @@ final class WC_Emailchef_Plugin {
 		        self::version() );
 
 	        wp_localize_script( 'woocommerce-emailchef-backend-js', 'wcec', array(
-		        "check_data"                   => __( "Verifying your login data...",
-			        "emailchef-for-woocommerce" ),
-		        "error_login"                  => __( "Incorrect login credentials.",
-			        "emailchef-for-woocommerce" ),
-		        "list_name"                    => __( "List name",
-			        "emailchef-for-woocommerce" ),
-		        "list_name_placeholder"        => __( "Provide a name for this new list.",
-			        "emailchef-for-woocommerce" ),
-		        "create_label"                 => __( "Create ?",
-			        "emailchef-for-woocommerce" ),
-		        "list_description"             => __( "List description",
-			        "emailchef-for-woocommerce" ),
-		        "list_description_placeholder" => __( "Provide a description for this new list.",
-			        "emailchef-for-woocommerce" ),
-		        "undo"                         => __( "Undo",
-			        "emailchef-for-woocommerce" ),
-		        "create"                       => __( "Create",
-			        "emailchef-for-woocommerce" ),
-		        "info"                         => __( "By creating a new list, you confirm its compliance with the privacy policy and the CAN-SPAM Act.",
-			        "emailchef-for-woocommerce" ),
-                "disconnect_confirm" => __("Are you sure you want to disconnect this account?", "emailchef-for-woocommerce")
+                "disconnect_confirm" => __("Are you sure you want to disconnect this account?", "emailchef-for-woocommerce"),
+                "ajax_manual_sync_url" => wp_nonce_url(
+                        admin_url( 'admin-ajax.php' ),
+                    'emailchef_manual_sync'
+                ),
 	        ) );
 
 	        /** @noinspection PhpUndefinedConstantInspection */
@@ -230,22 +221,17 @@ final class WC_Emailchef_Plugin {
 			array( $this, 'dueclic_copyright' ) );
 
 		add_action( 'admin_notices', function () {
-			if ( get_transient( 'emailchef-admin-notice-activate' ) ) {
+			if ( $notice = get_transient( 'emailchef-admin-notice' ) ) {
 				?>
 
-                <div class="notice notice-success is-dismissible">
+                <div class="notice notice-<?php echo esc_attr($notice['type']) ?> is-dismissible">
                     <p><?php
-						echo __( 'Well! Now that you activated Emailchef for WooCommerce, go to the ',
-								'emailchef-for-woocommerce' ) . '<a href="'
-						     . WC_EMAILCHEF_SETTINGS_URL . '">'
-						     . __( 'configuration',
-								'emailchef-for-woocommerce' ) . '</a>';
+						echo esc_html( $notice['text'] );
 						?></p>
                 </div>
 
 				<?php
-
-				delete_transient( 'emailchef-admin-notice-activate' );
+                delete_transient( 'emailchef-admin-notice' );
 			}
 		} );
 

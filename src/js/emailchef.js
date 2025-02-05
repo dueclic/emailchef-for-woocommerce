@@ -104,6 +104,19 @@ var WC_Emailchef = function ($) {
             evt.preventDefault();
             $(".ecwc-new-list-container").toggle();
         });
+
+        $(document).on("click", "#wc_emailchef_sync_now", function (evt) {
+            $.post(
+                wcec.ajax_manual_sync_url,
+                {
+                    'action': '' + prefixed_setting('manual_sync')
+                },
+                function (response) {
+                    location.reload();
+                }
+            );
+        });
+
         $(document).on("click", ".ecwc-new-list-container .woocommerce-undo-button", function (evt) {
             evt.preventDefault();
             $(".ecwc-new-list-container").hide();
@@ -121,18 +134,21 @@ var WC_Emailchef = function ($) {
         var hidePasswordButton = document.getElementById('hidePassword');
         var consumerSecretInput = document.getElementById( prefixed_setting("consumer_secret"));
 
+        if (showPasswordButton) {
+            showPasswordButton.addEventListener('click', () => {
+                consumerSecretInput.setAttribute('type', 'text');
+                showPasswordButton.style.display = 'none';
+                hidePasswordButton.style.display = 'flex';
+            });
+        }
 
-        showPasswordButton.addEventListener('click', () => {
-            consumerSecretInput.setAttribute('type', 'text');
-            showPasswordButton.style.display = 'none';
-            hidePasswordButton.style.display = 'flex';
-        });
-
-        hidePasswordButton.addEventListener('click', () => {
-            consumerSecretInput.setAttribute('type', 'password');
-            showPasswordButton.style.display = 'flex';
-            hidePasswordButton.style.display = 'none';
-        });
+        if (hidePasswordButton) {
+            hidePasswordButton.addEventListener('click', () => {
+                consumerSecretInput.setAttribute('type', 'password');
+                showPasswordButton.style.display = 'flex';
+                hidePasswordButton.style.display = 'none';
+            });
+        }
 
     }
 }(jQuery);

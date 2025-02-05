@@ -14,15 +14,15 @@ $emailchef = WCEC()->emailchef(
 );
 $account   = $emailchef->account();
 $lists     = $emailchef->lists();
-$policy = $wcec->emailchef()->get_policy();
+$policy    = $wcec->emailchef()->get_policy();
 
 $policy_types = [
 	'sopt' => __( "Single opt-in", "emailchef-for-woocommerce" ),
 	'dopt' => __( "Double opt-in", "emailchef-for-woocommerce" )
 ];
 
-if ($policy !== 'premium'){
-    unset($policy_types['sopt']);
+if ( $policy !== 'premium' ) {
+	unset( $policy_types['sopt'] );
 }
 
 
@@ -32,8 +32,8 @@ if ($policy !== 'premium'){
     <div class="ecwc-main-account">
         <div class="ecwc-forms-logo">
             <img src="<?php
-			echo plugins_url( "dist/img/logo-compact.svg",
-				dirname( __FILE__ ) ); ?>" alt="">
+			echo plugins_url( "/dist/img/logo-compact.svg",
+				WC_EMAILCHEF_FILE ); ?>" alt="">
             <div class="ecwc-account-status">
                 <div><?php _e( "Account connected", "emailchef-for-wocommerce" ); ?></div>
                 <div class="ecwc-account-connected"></div>
@@ -54,10 +54,17 @@ if ($policy !== 'premium'){
         </div>
         <div>
              <span class="flex-grow-1">
-                <a class="button button-primary" href="<?php echo add_query_arg(
+                <a class="button button-primary" href="<?php echo esc_url( add_query_arg(
 	                [ 'source' => 'emailchef-for-woocommerce', 'paged' => 1 ],
 	                admin_url( '/admin.php?page=wc-status&tab=logs' )
-                ); ?>"><?php _e( "Show Logs", "emailchef-for-woocommerce" ); ?></a>
+                ) ); ?>"><?php _e( "Show Logs", "emailchef-for-woocommerce" ); ?></a>
+            </span>
+        </div>
+        <div>
+             <span class="flex-grow-1">
+                <button type="button" id="wc_emailchef_sync_now" class="button button-secondary">
+                    <?php _e("Manual Sync", "emailchef-for-woocommerce"); ?>
+                </button>
             </span>
         </div>
 		<?php
