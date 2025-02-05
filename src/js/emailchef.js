@@ -5,10 +5,10 @@
 var WC_Emailchef = function ($) {
 
 
-    var namespace = 'wc_emailchef';
+    var namespace = wcec.namespace;
 
     return {
-        go: go
+        settings: settings
     };
 
     function loadLists(list_id) {
@@ -76,7 +76,7 @@ var WC_Emailchef = function ($) {
         return namespace + "_" + suffix;
     }
 
-    function go() {
+    function settings() {
         $(document).on("click", "#emailchef-disconnect", function (evt) {
             evt.preventDefault();
             if (confirm(wcec.disconnect_confirm)) {

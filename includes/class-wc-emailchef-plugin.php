@@ -154,6 +154,7 @@ final class WC_Emailchef_Plugin {
 				self::version() );
 
 			wp_localize_script( 'woocommerce-emailchef-backend-js', 'wcec', array(
+                    "namespace" => $this->namespace,
 				"disconnect_confirm"   => __( "Are you sure you want to disconnect this account?", "emailchef-for-woocommerce" ),
 				"ajax_manual_sync_url" => wp_nonce_url(
 					add_query_arg( [

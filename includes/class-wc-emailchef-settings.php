@@ -234,7 +234,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 			$this->wc_enqueue_js( '
 	 			(function($){
 	 				$(document).ready(function() {
-	 				    WC_Emailchef.go();
+	 				    WC_Emailchef.settings();
 	 				});
 	 			})(jQuery);
 			' );
