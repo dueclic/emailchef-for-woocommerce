@@ -723,6 +723,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				add_action( 'wp_ajax_nopriv_' . $this->namespace . '_move_abandoned_carts',
 					array( $this, 'move_abandoned_carts_trigger' ) );
 
+				add_action( 'wp_ajax_' . $this->namespace . '_lists', array( $this, 'get_lists' ) );
 				add_action( 'wp_ajax_' . $this->namespace . '_add_list', array( $this, 'add_list' ) );
 				add_action( 'wp_ajax_' . $this->namespace . '_disconnect', array( $this, 'disconnect' ) );
 				add_action( 'wp_ajax_' . $this->namespace . '_sync_abandoned_carts', array(
@@ -1161,6 +1162,13 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 		}
 
 		public function get_lists() {
+
+			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_lists' ) ) {
+				$this->json( [
+					'type' => 'error',
+					'text' => __( 'Invalid request', 'emailchef-for-woocommerce' )
+				] );
+			}
 
 			$result = array(
 				'type' => 'error',

@@ -124,37 +124,6 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 			);
 		}
 
-		public function get_lists() {
-			if ( $this->emailchef() ) {
-				$lists = $this->emailchef()->wrap_list();
-			} else {
-				return false;
-			}
-
-			if ( $lists === false ) {
-				add_action( 'admin_notices',
-					array( $this, 'emailchef_api_user_error_msg' ) );
-				add_action( 'network_admin_notices',
-					array( $this, 'emailchef_api_user_error_msg' ) );
-
-				return false;
-			}
-
-			if ( count( $lists ) === 0 ) {
-				$default = array(
-					'no_lists' => __( 'No lists configured in your Emailchef account',
-						'emailchef-for-woocommerce' ),
-				);
-
-				add_action( 'admin_notices',
-					array( $this, 'emailchef_no_lists_found' ) );
-
-				$lists = array_merge( $default, $lists );
-			}
-
-			return $lists;
-		}
-
 		public function save() {
 			global $current_section;
 

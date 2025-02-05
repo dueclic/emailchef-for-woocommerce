@@ -175,6 +175,16 @@ final class WC_Emailchef_Plugin {
 					),
 					'emailchef_disconnect'
 				),
+				"ajax_lists_url"  => wp_nonce_url(
+					add_query_arg( [
+						'action' => $this->prefixed_setting(
+							'lists'
+						)
+					],
+						admin_url( 'admin-ajax.php' )
+					),
+					'emailchef_lists'
+				)
 			) );
 
 			/** @noinspection PhpUndefinedConstantInspection */

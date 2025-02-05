@@ -15,34 +15,30 @@ var WC_Emailchef = function ($) {
 
         $(".ecwc-new-list-container button").attr("disabled", "disabled");
 
-        $.post(ajaxurl, {
-                'action': '' + prefixed_setting('lists')
-            },
-            function (response) {
+        $.post(wcec.ajax_lists_url, {}, function (response) {
 
-                var result = $.parseJSON(response);
+            var result = $.parseJSON(response);
 
-                if (result.type === 'success') {
+            if (result.type === 'success') {
 
-                    var options = [];
+                var options = [];
 
-                    $.each(result.lists, function (id, text) {
-                        options.push({
-                            text: text,
-                            id: id
-                        });
+                $.each(result.lists, function (id, text) {
+                    options.push({
+                        text: text,
+                        id: id
                     });
+                });
 
-                    $("#" + prefixed_setting("list")).empty().select2({
-                        data: options
-                    });
+                $("#" + prefixed_setting("list")).empty().select2({
+                    data: options
+                });
 
-                    $("#" + prefixed_setting("list")).val(list_id).trigger("change");
-
-                }
+                $("#" + prefixed_setting("list")).val(list_id).trigger("change");
 
             }
-        );
+
+        });
 
     }
 
