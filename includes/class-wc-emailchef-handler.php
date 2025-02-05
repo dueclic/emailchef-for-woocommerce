@@ -190,29 +190,28 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 		public function add_emailchef_consent() {
 
-			if ( $this->wcec->is_valid() ) {
+			$list_id = wc_ec_get_option_value( "list" );
 
-				if ( $this->wcec->display_opt_in() ) {
+			if ( ! $list_id && $this->wcec->display_opt_in() ) {
 
-					if ( get_user_meta( get_current_user_id(), $this->prefixed_setting( "opt_in" ),
-							true ) === "no" || ! is_user_logged_in() ) {
+				if ( get_user_meta( get_current_user_id(), $this->prefixed_setting( "opt_in" ),
+						true ) === "no" || ! is_user_logged_in() ) {
 
-						do_action( $this->prefixed_setting( "before_opt_in_checkbox" ) );
-						echo apply_filters(
-							$this->prefixed_setting( 'opt_in_checkbox' ),
-							'<p class="form-row woocommerce-emailchef-opt-in"><label for="' . $this->prefixed_setting(
-								"opt_in"
-							) . '"><input type="checkbox" name="' . $this->prefixed_setting(
-								"opt_in"
-							) . '" id="' . $this->prefixed_setting( "opt_in" ) . '" value="yes" checked /> ' . esc_html(
-								$this->wcec->opt_in_label()
-							) . '</label></p>'
-						);
-						do_action( $this->prefixed_setting( "after_opt_in_checkbox" ) );
-
-					}
+					do_action( $this->prefixed_setting( "before_opt_in_checkbox" ) );
+					echo apply_filters(
+						$this->prefixed_setting( 'opt_in_checkbox' ),
+						'<p class="form-row woocommerce-emailchef-opt-in"><label for="' . $this->prefixed_setting(
+							"opt_in"
+						) . '"><input type="checkbox" name="' . $this->prefixed_setting(
+							"opt_in"
+						) . '" id="' . $this->prefixed_setting( "opt_in" ) . '" value="yes" checked /> ' . esc_html(
+							$this->wcec->opt_in_label()
+						) . '</label></p>'
+					);
+					do_action( $this->prefixed_setting( "after_opt_in_checkbox" ) );
 
 				}
+
 
 			}
 
@@ -764,7 +763,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				'type' => "success"
 			];
 
-            $list_id = wc_ec_get_option_value("list");
+			$list_id = wc_ec_get_option_value( "list" );
 
 			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_manual_sync' ) ) {
 				$response = [
@@ -776,7 +775,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					'type' => 'error',
 					'text' => __( 'Please provide a list', 'emailchef-for-woocommerce' )
 				];
-            } else {
+			} else {
 
 				WCEC()->log( __( "Manual sync triggered.",
 					"emailchef-for-woocommerce" ) );
@@ -800,11 +799,11 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			set_transient( 'emailchef-admin-notice', $response, 30 );
 
-            if ($response['type'] === 'success') {
-                wp_send_json_success(
-                        $response['message']
-                );
-            }
+			if ( $response['type'] === 'success' ) {
+				wp_send_json_success(
+					$response['message']
+				);
+			}
 
 			wp_send_json_error(
 				$response['message']
@@ -889,7 +888,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 		private function _sync_abandoned_carts(
 			$limit = true,
-            $where = ""
+			$where = ""
 		) {
 
 			global $wpdb;
@@ -1075,16 +1074,17 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 		public function maybe_abandoned_cart_sync() {
 
-            $list_id = wc_ec_get_option_value('list');
-            if (!$list_id){
-	            $this->wcec->log(
-			            __(
-				            "Synchronization of abandoned cart failed. No list provided",
-				            "emailchef-for-woocommerce"
-			            )
-	            );
-                return;
-            }
+			$list_id = wc_ec_get_option_value( 'list' );
+			if ( ! $list_id ) {
+				$this->wcec->log(
+					__(
+						"Synchronization of abandoned cart failed. No list provided",
+						"emailchef-for-woocommerce"
+					)
+				);
+
+				return;
+			}
 
 			$this->_sync_abandoned_carts();;
 

@@ -456,17 +456,6 @@ final class WC_Emailchef_Plugin {
 	public function double_opt_in() {
 		return $this->settings['policy_type'] === 'dopt';
 	}
-
-	/**
-	 * Check if Emailchef login is valid
-	 *
-	 * @return WC_Emailchef
-	 */
-
-	public function is_valid() {
-		return $this->emailchef();
-	}
-
 	public function get_api_url() {
 		return $this->emailchef->getApiUrl();
 	}
