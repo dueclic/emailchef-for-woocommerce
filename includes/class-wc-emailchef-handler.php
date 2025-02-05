@@ -692,7 +692,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$enabled = wc_ec_get_option_value(
 				'enabled'
 			);
-            
+
 			if ( 'yes' === $enabled ) {
 
 				/**
@@ -764,19 +764,26 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				'type' => "success"
 			];
 
+            $list_id = wc_ec_get_option_value("list");
+
 			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_manual_sync' ) ) {
 				$response = [
 					'type' => 'error',
 					'text' => __( 'Invalid request', 'emailchef-for-woocommerce' )
 				];
-			} else {
+			} else if ( ! $list_id ) {
+				$response = [
+					'type' => 'error',
+					'text' => __( 'Please provide a list', 'emailchef-for-woocommerce' )
+				];
+            } else {
 
 				WCEC()->log( __( "Manual sync triggered.",
 					"emailchef-for-woocommerce" ) );
 
 				$scheduled = wp_schedule_single_event( time(),
 					"emailchef_sync_cron_now",
-					array( wc_ec_get_option_value( 'list' ), true ), true );
+					array( $list_id, true ), true );
 
 
 				if ( is_wp_error( $scheduled ) ) {
@@ -793,10 +800,14 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			set_transient( 'emailchef-admin-notice', $response, 30 );
 
-			die(
-			wp_json_encode(
-				$response
-			)
+            if ($response['type'] === 'success') {
+                wp_send_json_success(
+                        $response['message']
+                );
+            }
+
+			wp_send_json_error(
+				$response['message']
 			);
 
 		}
@@ -1063,9 +1074,20 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 		}
 
 		public function maybe_abandoned_cart_sync() {
-			if ( $this->wcec->is_valid() ) {
-				$this->_sync_abandoned_carts();;
-			}
+
+            $list_id = wc_ec_get_option_value('list');
+            if (!$list_id){
+	            $this->wcec->log(
+			            __(
+				            "Synchronization of abandoned cart failed. No list provided",
+				            "emailchef-for-woocommerce"
+			            )
+	            );
+                return;
+            }
+
+			$this->_sync_abandoned_carts();;
+
 		}
 
 
