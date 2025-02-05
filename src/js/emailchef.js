@@ -33,11 +33,11 @@ var WC_Emailchef = function ($) {
                         });
                     });
 
-                    $("#"+prefixed_setting("list")).empty().select2({
+                    $("#" + prefixed_setting("list")).empty().select2({
                         data: options
                     });
 
-                    $("#"+prefixed_setting("list")).val(list_id).trigger("change");
+                    $("#" + prefixed_setting("list")).val(list_id).trigger("change");
 
                 }
 
@@ -84,17 +84,13 @@ var WC_Emailchef = function ($) {
         $(document).on("click", "#emailchef-disconnect", function (evt) {
             evt.preventDefault();
             if (confirm(wcec.disconnect_confirm)) {
-                $.post(
-                    ajaxurl,
-                    {
-                        'action': '' + prefixed_setting('disconnect'),
-                        'data': {}
-                    },
-                    function (response) {
+                $.post(wcec.ajax_disconnect_url, {}, function (response) {
                         var result = $.parseJSON(response);
 
                         if (result.type === 'success') {
                             window.location.reload();
+                        } else {
+                            alert(result.text);
                         }
                     }
                 );
@@ -106,15 +102,9 @@ var WC_Emailchef = function ($) {
         });
 
         $(document).on("click", "#wc_emailchef_sync_now", function (evt) {
-            $.post(
-                wcec.ajax_manual_sync_url,
-                {
-                    'action': '' + prefixed_setting('manual_sync')
-                },
-                function (response) {
-                    location.reload();
-                }
-            );
+            $.post(wcec.ajax_manual_sync_url, {}, function (response) {
+                location.reload();
+            });
         });
 
         $(document).on("click", ".ecwc-new-list-container .woocommerce-undo-button", function (evt) {
@@ -132,7 +122,7 @@ var WC_Emailchef = function ($) {
 
         var showPasswordButton = document.getElementById('showPassword');
         var hidePasswordButton = document.getElementById('hidePassword');
-        var consumerSecretInput = document.getElementById( prefixed_setting("consumer_secret"));
+        var consumerSecretInput = document.getElementById(prefixed_setting("consumer_secret"));
 
         if (showPasswordButton) {
             showPasswordButton.addEventListener('click', () => {

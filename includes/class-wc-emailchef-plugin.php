@@ -86,13 +86,13 @@ final class WC_Emailchef_Plugin {
 
 	public static function activate() {
 		set_transient( 'emailchef-admin-notice', [
-                'type' => 'success',
-            'text' => __( 'Well! Now that you activated Emailchef for WooCommerce, go to the ',
-		            'emailchef-for-woocommerce' ) . '<a href="'
-                      . WC_EMAILCHEF_SETTINGS_URL . '">'
-                      . __( 'configuration',
-		            'emailchef-for-woocommerce' ) . '</a>'
-        ], 30 );
+			'type' => 'success',
+			'text' => __( 'Well! Now that you activated Emailchef for WooCommerce, go to the ',
+					'emailchef-for-woocommerce' ) . '<a href="'
+			          . WC_EMAILCHEF_SETTINGS_URL . '">'
+			          . __( 'configuration',
+					'emailchef-for-woocommerce' ) . '</a>'
+		], 30 );
 	}
 
 	public static function deactivate() {
@@ -110,7 +110,7 @@ final class WC_Emailchef_Plugin {
 			delete_option( "wc_emailchef_" . $option );
 		}
 		delete_transient( 'ecwc_authkey' );
-        delete_transient('ecwc_lists');
+		delete_transient( 'ecwc_lists' );
 	}
 
 	/**
@@ -144,32 +144,48 @@ final class WC_Emailchef_Plugin {
 
 	public function enqueue_scripts() {
 
-        global $current_screen;
-        if ($current_screen->id === 'woocommerce_page_wc-settings') {
+		global $current_screen;
+		if ( $current_screen->id === 'woocommerce_page_wc-settings' ) {
 
-	        /** @noinspection PhpUndefinedConstantInspection */
+			/** @noinspection PhpUndefinedConstantInspection */
 
-	        wp_register_script( 'woocommerce-emailchef-backend-js',
-		        WC_EMAILCHEF_URL . "dist/js/emailchef.min.js", array( 'jquery' ),
-		        self::version() );
+			wp_register_script( 'woocommerce-emailchef-backend-js',
+				WC_EMAILCHEF_URL . "dist/js/emailchef.min.js", array( 'jquery' ),
+				self::version() );
 
-	        wp_localize_script( 'woocommerce-emailchef-backend-js', 'wcec', array(
-                "disconnect_confirm" => __("Are you sure you want to disconnect this account?", "emailchef-for-woocommerce"),
-                "ajax_manual_sync_url" => wp_nonce_url(
-                        admin_url( 'admin-ajax.php' ),
-                    'emailchef_manual_sync'
-                ),
-	        ) );
+			wp_localize_script( 'woocommerce-emailchef-backend-js', 'wcec', array(
+				"disconnect_confirm"   => __( "Are you sure you want to disconnect this account?", "emailchef-for-woocommerce" ),
+				"ajax_manual_sync_url" => wp_nonce_url(
+					add_query_arg( [
+						'action' => $this->prefixed_setting(
+							'manual_sync'
+						)
+					],
+						admin_url( 'admin-ajax.php' )
+					),
+					'emailchef_manual_sync'
+				),
+				"ajax_disconnect_url"  => wp_nonce_url(
+					add_query_arg( [
+							'action' => $this->prefixed_setting(
+								'disconnect'
+							)
+						],
+					admin_url( 'admin-ajax.php' )
+					),
+					'emailchef_disconnect'
+				),
+			) );
 
-	        /** @noinspection PhpUndefinedConstantInspection */
+			/** @noinspection PhpUndefinedConstantInspection */
 
-	        wp_register_style( 'woocommerce-emailchef-backend-css',
-		        WC_EMAILCHEF_URL . "dist/css/emailchef.min.css", array(),
-		        self::version() );
+			wp_register_style( 'woocommerce-emailchef-backend-css',
+				WC_EMAILCHEF_URL . "dist/css/emailchef.min.css", array(),
+				self::version() );
 
-	        wp_enqueue_script( 'woocommerce-emailchef-backend-js' );
-	        wp_enqueue_style( 'woocommerce-emailchef-backend-css' );
-        }
+			wp_enqueue_script( 'woocommerce-emailchef-backend-js' );
+			wp_enqueue_style( 'woocommerce-emailchef-backend-css' );
+		}
 	}
 
 	/**
@@ -224,20 +240,20 @@ final class WC_Emailchef_Plugin {
 			if ( $notice = get_transient( 'emailchef-admin-notice' ) ) {
 				?>
 
-                <div class="notice notice-<?php echo esc_attr($notice['type']) ?> is-dismissible">
+                <div class="notice notice-<?php echo esc_attr( $notice['type'] ) ?> is-dismissible">
                     <p><?php
 						echo esc_html( $notice['text'] );
 						?></p>
                 </div>
 
 				<?php
-                delete_transient( 'emailchef-admin-notice' );
+				delete_transient( 'emailchef-admin-notice' );
 			}
 		} );
 
 		add_action( 'admin_footer', array( $this, 'emailchef_debug_js' ) );
 
-        add_filter("wc_ec_add_prefix", array( $this, 'prefixed_setting' ), 10, 1 );
+		add_filter( "wc_ec_add_prefix", array( $this, 'prefixed_setting' ), 10, 1 );
 
 	}
 
@@ -467,14 +483,14 @@ final class WC_Emailchef_Plugin {
 	public function emailchef( $consumer_key = null, $consumer_secret = null ) {
 		$settings = $this->settings();
 
-        $consumer_key    = $consumer_key ?: $settings['consumer_key'];
-        $consumer_secret = $consumer_secret ?: $settings['consumer_secret'];
+		$consumer_key    = $consumer_key ?: $settings['consumer_key'];
+		$consumer_secret = $consumer_secret ?: $settings['consumer_secret'];
 
-        /** @noinspection PhpUndefinedConstantInspection */
+		/** @noinspection PhpUndefinedConstantInspection */
 
-        require_once( WC_EMAILCHEF_DIR
-                      . 'includes/class-wc-emailchef.php' );
-        $this->emailchef = new WC_Emailchef( $consumer_key, $consumer_secret );
+		require_once( WC_EMAILCHEF_DIR
+		              . 'includes/class-wc-emailchef.php' );
+		$this->emailchef = new WC_Emailchef( $consumer_key, $consumer_secret );
 
 		return $this->emailchef;
 	}
@@ -504,7 +520,7 @@ final class WC_Emailchef_Plugin {
 				$settings[ $key ] = $value ?: $init_value;
 			}
 
-			$settings       = apply_filters( 'wc_emailchef_settings',
+			$settings = apply_filters( 'wc_emailchef_settings',
 				array_merge( $initial, $settings ) );
 
 			$this->settings = $settings;
