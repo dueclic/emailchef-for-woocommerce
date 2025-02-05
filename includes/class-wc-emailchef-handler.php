@@ -767,7 +767,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_manual_sync' ) ) {
 				$response = [
-					'type'    => 'error',
+					'type' => 'error',
 					'text' => __( 'Invalid request', 'emailchef-for-woocommerce' )
 				];
 			} else {
@@ -843,15 +843,15 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 		public function debug_rebuild_customfields() {
 
 			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_debug_rebuild_customfields' ) ) {
-				wp_send_json_error([
-                        'message' => __( 'Invalid request', 'emailchef-for-woocommerce' )
-                ] );
+				wp_send_json_error( [
+					'message' => __( 'Invalid request', 'emailchef-for-woocommerce' )
+				] );
 			}
 
 			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_send_json_error([
-                        'message' => __( 'Permissions are not valid for this action', 'emailchef-for-woocommerce' )
-                ]  );
+				wp_send_json_error( [
+					'message' => __( 'Permissions are not valid for this action', 'emailchef-for-woocommerce' )
+				] );
 			}
 
 
@@ -865,22 +865,22 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					$list_id
 				);
 				wp_send_json_success( [
-                        'message' => __( 'Custom fields had been rebuilt succesfully', 'emailchef-for-woocommerce' )
-                ] );
+					'message' => __( 'Custom fields had been rebuilt succesfully', 'emailchef-for-woocommerce' )
+				] );
 
 				WCEC()->log( sprintf( __( "[END] Custom fields ad been rebuilt succesfully for list %d",
 					"emailchef-for-woocommerce" ), $list_id ) );
 			} else {
 				wp_send_json_error( [
-                        'message' => __( 'List was not provided.', 'emailchef-for-woocommerce' )
-                ] );
+					'message' => __( 'List was not provided.', 'emailchef-for-woocommerce' )
+				] );
 			}
 		}
 
 		public function sync_abandoned_carts() {
 
 			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_sync_abandoned_carts' ) ) {
-				wp_send_json_error([
+				wp_send_json_error( [
 					'message' => __( 'Invalid request', 'emailchef-for-woocommerce' )
 				] );
 			}
@@ -995,7 +995,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			}
 
-			wp_send_json_error([
+			wp_send_json_error( [
 				'message' => __( 'Abandoned cart was successfully synced', 'emailchef-for-woocommerce' )
 			] );
 
@@ -1132,73 +1132,60 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 		public function get_lists() {
 
 			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_lists' ) ) {
-				$this->json( [
-					'type' => 'error',
-					'text' => __( 'Invalid request', 'emailchef-for-woocommerce' )
+				wp_send_json_error( [
+					'message' => __( 'Invalid request', 'emailchef-for-woocommerce' )
 				] );
 			}
 
-			$result = array(
-				'type' => 'error',
-				'msg'  => __( 'User or password are wrong', 'emailchef-for-woocommerce' ),
-			);
-
 
 			$lists = $this->wcec->emailchef()->wrap_list();
-			unset( $result['msg'] );
-			$result['type']  = 'success';
-			$result['lists'] = $lists;
 
-			$this->json( $result );
+			wp_send_json_success( [
+				'lists' => $lists
+			] );
+
 		}
 
 		public function disconnect() {
 
 			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_disconnect' ) ) {
-				$this->json( [
-					'type' => 'error',
-					'text' => __( 'Invalid request', 'emailchef-for-woocommerce' )
+				wp_send_json_error( [
+					'message' => __( 'Invalid request', 'emailchef-for-woocommerce' )
 				] );
 			}
 
 
-            $this->wcec::deactivate();
+			$this->wcec::deactivate();
 
-			$this->json( [
-				'type' => 'success'
+			wp_send_json_success( [
+				'message' => __( 'Emailchef account disconnected succesfully' )
 			] );
 
 		}
 
 		public function add_list() {
 
-			$result = array(
-				'type' => 'error',
-				'msg'  => __( 'User or password are wrong', 'emailchef-for-woocommerce' ),
-			);
+			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_add_list' ) ) {
+				wp_send_json_error( [
+					'message' => __( 'Invalid request', 'emailchef-for-woocommerce' )
+				] );
+			}
 
 			if ( empty( $_POST['data']['list_name'] ) ) {
-
-				$result['msg'] = __( 'Provide a name for this new list.', 'emailchef-for-woocommerce' );
-				$this->json( $result );
-
+				wp_send_json_error( [
+					'message' => __( 'Provide a name for this new list.', 'emailchef-for-woocommerce' )
+				] );
 			}
-			$list_name = $_POST['data']['list_name'];
-			$list_desc = $_POST['data']['list_desc'];
+			$list_name = sanitize_text_field( $_POST['data']['list_name'] );
+			$list_desc = sanitize_text_field( $_POST['data']['list_desc'] );
 
 			$ecwc = $this->wcec->emailchef();
-
-			if ( ! $ecwc ) {
-				$this->json( $result );
-			}
 
 			$cl_id = $ecwc->create_list( $list_name, $list_desc );
 
 			if ( $cl_id !== false ) {
 
-				$result['type']    = "success";
-				$result['msg']     = __( "List successfully created.", "emailchef-for-woocommerce" );
-				$result['list_id'] = $cl_id;
+				$result['type'] = "success";
 
 				WCEC()->log(
 					sprintf(
@@ -1209,26 +1196,28 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					)
 				);
 
+				wp_send_json_success( [
+					'message' => __( "List successfully created.", "emailchef-for-woocommerce" ),
+					'list_id' => $cl_id
+				] );
 
-			} else {
-
-				$result['type'] = "error";
-				$result['msg']  = __( "Error occurs while creating the new list: ",
-						"emailchef-for-woocommerce" ) . $ecwc->lastError;
-
-				WCEC()->log(
-					sprintf(
-						__( "Error occurs while creating the new list (Name: %s, Description: %s). Error: %s",
-							"emailchef-for-woocommerce" ),
-						$list_name,
-						$list_desc,
-						$ecwc->lastError
-					)
-				);
 
 			}
 
-			$this->json( $result );
+			WCEC()->log(
+				sprintf(
+					__( "Error occurs while creating the new list (Name: %s, Description: %s). Error: %s",
+						"emailchef-for-woocommerce" ),
+					$list_name,
+					$list_desc,
+					$ecwc->lastError
+				)
+			);
+
+			wp_send_json_error( [
+				'message' => __( "Error occurs while creating the new list: ",
+						"emailchef-for-woocommerce" ) . $ecwc->lastError,
+			] );
 
 		}
 

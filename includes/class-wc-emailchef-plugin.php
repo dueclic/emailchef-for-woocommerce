@@ -171,6 +171,16 @@ final class WC_Emailchef_Plugin {
 					),
 					'emailchef_manual_sync'
 				),
+				"ajax_add_list_url" => wp_nonce_url(
+					add_query_arg( [
+						'action' => $this->prefixed_setting(
+							'add_list'
+						)
+					],
+						admin_url( 'admin-ajax.php' )
+					),
+					'emailchef_add_list'
+				),
 				"ajax_sync_abandoned_carts_url" => wp_nonce_url(
 					add_query_arg( [
 						'action' => $this->prefixed_setting(

@@ -18,13 +18,11 @@ var WC_Emailchef = function ($) {
 
         $.post(wcec.ajax_lists_url, {}, function (response) {
 
-            var result = $.parseJSON(response);
-
-            if (result.type === 'success') {
+            if (response.success) {
 
                 var options = [];
 
-                $.each(result.lists, function (id, text) {
+                $.each(response.data.lists, function (id, text) {
                     options.push({
                         text: text,
                         id: id
@@ -37,6 +35,8 @@ var WC_Emailchef = function ($) {
 
                 $("#" + prefixed_setting("list")).val(list_id).trigger("change");
 
+            } else {
+                alert(response.data.message);
             }
 
         });
@@ -47,29 +47,22 @@ var WC_Emailchef = function ($) {
 
         $(".ecwc-new-list-container button").attr("disabled", "disabled");
 
-        $.post(
-            ajaxurl,
-            {
-                'action': '' + prefixed_setting('add_list'),
-                'data': {
-                    'list_name': listName,
-                    'list_desc': listDesc
-                }
-            },
-            function (response) {
-
-                $(".ecwc-new-list-container").hide();
-                $(".ecwc-new-list-container button").removeAttr("disabled");
-
-                var result = $.parseJSON(response);
-
-                if (result.type === 'success') {
-                    loadLists(result.list_id);
-                } else {
-                    alert(result.msg);
-                }
+        $.post(wcec.ajax_add_list_url, {
+            'data': {
+                'list_name': listName,
+                'list_desc': listDesc
             }
-        );
+        }, function (response) {
+
+            $(".ecwc-new-list-container button").removeAttr("disabled");
+
+            if (response.success) {
+                $(".ecwc-new-list-container").hide();
+                loadLists(response.data.list_id);
+            } else {
+                alert(response.data.message);
+            }
+        });
 
     }
 
@@ -82,15 +75,13 @@ var WC_Emailchef = function ($) {
             evt.preventDefault();
             if (confirm(wcec.disconnect_confirm)) {
                 $.post(wcec.ajax_disconnect_url, {}, function (response) {
-                        var result = $.parseJSON(response);
 
-                        if (result.type === 'success') {
-                            window.location.reload();
-                        } else {
-                            alert(result.text);
-                        }
+                    if (response.success) {
+                        window.location.reload();
+                    } else {
+                        alert(response.data.message);
                     }
-                );
+                });
             }
         });
         $(document).on("click", "#wc_emailchef_create_list", function (evt) {
@@ -139,7 +130,7 @@ var WC_Emailchef = function ($) {
 
     }
 
-    function debugPage(){
+    function debugPage() {
 
         $(document).on('click', '#emailchef-button-move-abandoned-carts', function (evt) {
             evt.preventDefault();
