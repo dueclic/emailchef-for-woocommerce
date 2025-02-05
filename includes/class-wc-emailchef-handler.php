@@ -893,7 +893,23 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			global $wpdb;
 
+			$list_id = wc_ec_get_option_value( 'list' );
+			if ( ! $list_id ) {
+
+                $message = __(
+	                "Synchronization of abandoned cart failed. No list provided",
+	                "emailchef-for-woocommerce"
+                );
+
+				$this->wcec->log(
+					$message
+				);
+
+				return new WP_Error( 'no_list_provided', $message );
+			}
+
 			$results = $this->get_abandoned_carts( $limit, $where );
+
 
 			foreach ( $results as $result ) {
 
@@ -998,8 +1014,6 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				] );
 			}
 
-			global $wpdb;
-
 			$where = "";
 			$limit = true;
 
@@ -1015,10 +1029,17 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			}
 
 
-			$this->_sync_abandoned_carts( $limit, $where );
+			$carts_synced = $this->_sync_abandoned_carts( $limit, $where );
 
-			wp_send_json_error( [
-				'message' => __( 'Abandoned cart was successfully synced', 'emailchef-for-woocommerce' )
+            if (is_wp_error($carts_synced)){
+	            wp_send_json_error( [
+		            'message' => __( $carts_synced->get_error_message(), 'emailchef-for-woocommerce' )
+	            ] );
+
+            }
+
+			wp_send_json_success( [
+				'message' => __( 'Abandoned carts were successfully synced', 'emailchef-for-woocommerce' )
 			] );
 
 		}
@@ -1059,35 +1080,34 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$wpdb->query( $sight_sql );
 		}
 
-		public function sync_list_now( $list, $all = true ) {
-			$this->wcec->emailchef()->upsert_integration( $list );
-			$this->wcec->emailchef()->sync_list( $list, $all );
+		public function sync_list_now( $list_id, $all = true ) {
+
+
+			if ( ! $list_id ) {
+				$this->wcec->log(
+					__(
+						"Synchronization and custom fields creation failed. No list provided",
+						"emailchef-for-woocommerce"
+					)
+				);
+
+				return null;
+			}
+
+			$this->wcec->emailchef()->upsert_integration( $list_id );
+			$this->wcec->emailchef()->sync_list( $list_id, $all );
 			if ( $all ) {
 				$this->wcec->log( sprintf( __( "Synchronization and custom fields creation for Emailchef list %d",
-					"emailchef-for-woocommerce" ), $list ) );
+					"emailchef-for-woocommerce" ), $list_id ) );
 			} else {
 				$this->wcec->log( sprintf( __( "Custom fields creation for Emailchef list %d",
-					"emailchef-for-woocommerce" ), $list ) );
+					"emailchef-for-woocommerce" ), $list_id ) );
 			}
 
 		}
 
 		public function maybe_abandoned_cart_sync() {
-
-			$list_id = wc_ec_get_option_value( 'list' );
-			if ( ! $list_id ) {
-				$this->wcec->log(
-					__(
-						"Synchronization of abandoned cart failed. No list provided",
-						"emailchef-for-woocommerce"
-					)
-				);
-
-				return;
-			}
-
 			$this->_sync_abandoned_carts();;
-
 		}
 
 
@@ -1097,6 +1117,20 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				wp_send_json_error( [
 					'message' => __( 'Invalid request', 'emailchef-for-woocommerce' )
 				] );
+			}
+
+			$list_id = wc_ec_get_option_value( 'list' );
+
+			if ( ! $list_id ) {
+                $message = __( 'Abandoned carts moved were not moved, list not provided.', 'emailchef-for-woocommerce' );
+
+				wp_send_json_error( [
+					'message' => esc_html($message)
+				] );
+
+				$this->wcec->log(
+					esc_html($message)
+				);
 			}
 
 			global $wpdb;
@@ -1120,9 +1154,15 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			}
 
+            $message = __( 'Abandoned carts moved succesfully', 'emailchef-for-woocommerce' );
+
 			wp_send_json_success( [
-				'message' => __( 'Abandoned carts moved succesfully', 'emailchef-for-woocommerce' )
+				'message' => esc_html($message)
 			] );
+
+			$this->wcec->log(
+				esc_html($message)
+			);
 
 		}
 
