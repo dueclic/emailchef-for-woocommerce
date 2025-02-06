@@ -103,7 +103,7 @@ final class WC_Emailchef_Plugin {
 			'list',
 			'policy_type',
 			'landing_page',
-			'fuck_page',
+			'unsubscription_page',
 		);
 
 		foreach ( $options as $option ) {

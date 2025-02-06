@@ -217,7 +217,7 @@ if ( $policy !== 'premium' ) {
                     <td class="forminp">
 						<?php
 						echo wc_ec_get_dropdown_pages(
-							"fuck_page",
+							"unsubscription_page",
 							[
 								'show_option_none' => ''
 							]

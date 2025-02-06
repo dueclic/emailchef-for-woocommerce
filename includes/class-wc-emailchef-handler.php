@@ -414,8 +414,8 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 
 				$list_id   = get_option( $this->prefixed_setting( "list" ) );
-				$fuck_page = get_option( $this->prefixed_setting( "fuck_page" ) ) !== "" ? get_page_link(
-					get_option( $this->prefixed_setting( "fuck_page" ) )
+				$unsubscription_page = get_option( $this->prefixed_setting( "unsubscription_page" ) ) !== "" ? get_page_link(
+					get_option( $this->prefixed_setting( "unsubscription_page" ) )
 				) : home_url();
 
 				$wcec = $this->wcec->emailchef();
@@ -432,7 +432,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				);
 
 				if ( $success ) {
-					wp_redirect( $fuck_page );
+					wp_redirect( $unsubscription_page );
 					exit;
 				}
 
