@@ -118,7 +118,7 @@ if ( $policy !== 'premium' ) {
 							?>
                         </select>
                         <p class="description "><br><a href="#" id="wc_emailchef_create_list">Add a new Emailchef destination
-                                list.</a></p>
+                                list</a></p>
                         <div class="ecwc-new-list-container">
                             <label>List name</label>
                             <input name="wc_emailchef_new_name" id="wc_emailchef_new_name" type="text" dir="ltr"
