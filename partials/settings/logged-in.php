@@ -67,7 +67,7 @@ if ( $policy !== 'premium' ) {
                 <a href="<?php echo esc_url( add_query_arg(
 	                [ 'source' => 'emailchef-for-woocommerce', 'paged' => 1 ],
 	                admin_url( '/admin.php?page=wc-status&tab=logs' )
-                ) ); ?>"><?php _e( "Show Logs", "emailchef-for-woocommerce" ); ?></a>
+                ) ); ?>" target="_blank"><?php _e( "Show Logs", "emailchef-for-woocommerce" ); ?></a>
             </p>
         </div>
 		<?php
