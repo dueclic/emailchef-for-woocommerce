@@ -73,10 +73,13 @@ if ( $policy !== 'premium' ) {
 		<?php
 		if ( isset( $_GET['debug'] ) ):
 			?>
-            <p class="ecwc-text-center">
-                <a class="button button-primary"
-                   href="<?php echo admin_url( '/admin.php?page=emailchef-debug' ); ?>"><?php _e( "Debug", "emailchef-for-woocommerce" ); ?></a>
-            </p>
+        <hr class="ecwc-hr-separator">
+            <div>
+                <p class="ecwc-text-center">
+                    <a class="button button-primary"
+                       href="<?php echo admin_url( '/admin.php?page=emailchef-debug' ); ?>"><?php _e( "Debug", "emailchef-for-woocommerce" ); ?></a>
+                </p>
+            </div>
 		<?php
 		endif;
 		?>
