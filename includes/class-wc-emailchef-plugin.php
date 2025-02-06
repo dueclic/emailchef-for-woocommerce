@@ -99,10 +99,11 @@ final class WC_Emailchef_Plugin {
 			'consumer_key',
 			'consumer_secret',
 			'enabled',
+			'cron_end_interval_value',
 			'list',
 			'policy_type',
 			'landing_page',
-			'fuck_page',
+			'unsubscription_page',
 		);
 
 		foreach ( $options as $option ) {
