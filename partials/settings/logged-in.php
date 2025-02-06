@@ -32,8 +32,8 @@ if ( $policy !== 'premium' ) {
     <div class="ecwc-main-account">
         <div class="ecwc-forms-logo">
             <img src="<?php
-			echo plugins_url( "/dist/img/logo-compact.svg",
-				WC_EMAILCHEF_FILE ); ?>" alt="">
+            echo plugins_url( "/dist/img/logo-compact.svg",
+                WC_EMAILCHEF_FILE  ); ?>" alt="">
             <div class="ecwc-account-status">
                 <div><?php _e( "Account connected", "emailchef-for-wocommerce" ); ?></div>
                 <div class="ecwc-account-connected"></div>
@@ -116,9 +116,9 @@ if ( $policy !== 'premium' ) {
 							endforeach;
 							?>
                         </select>
-                        <p class="description "><br><a href="#" id="wc_emailchef_create_list">Add a new destination
-                                list.</a></p>
-                        <div class="ecwc-new-list-container">
+                        <p class="description"><br><a href="#" id="wc_emailchef_create_list">Create a new destination
+                                list in Emailchef.</a></p>
+                        <div class="ecwc-new-list-container" style="margin-top: 20px;">
                             <label>List name</label>
                             <input name="wc_emailchef_new_name" id="wc_emailchef_new_name" type="text" dir="ltr"
                                    style="min-width:350px;" value="" class=""
@@ -148,7 +148,7 @@ if ( $policy !== 'premium' ) {
                             <legend class="screen-reader-text"><span>Sync customers</span></legend>
                             <label for="wc_emailchef_sync_customers">
                                 <input name="wc_emailchef_sync_customers" id="wc_emailchef_sync_customers"
-                                       type="checkbox" class="" value="1" checked="checked"> </label></fieldset>
+                                       type="checkbox" class="" value="1" checked="checked"> Sync existing customers on save</label></fieldset>
                     </td>
                 </tr>
                 </tbody>
