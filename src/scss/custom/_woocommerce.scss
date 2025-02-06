@@ -312,6 +312,7 @@ input[name="emailchef_settings\[consumer_secret\]"].valid {
 }
 */
 .ecwc-new-list-container{
+  margin-top: 20px;
   border: 1px solid #dddddd;
   background-color: #f8f8f8;
   padding: 1rem;
@@ -330,4 +331,8 @@ input[name="emailchef_settings\[consumer_secret\]"].valid {
   display: flex;
   gap: .5rem;
   margin-top: .5rem;
+}
+.ecwc-hr-separator{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }

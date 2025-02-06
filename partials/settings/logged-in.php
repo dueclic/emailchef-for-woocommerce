@@ -52,45 +52,46 @@ if ( $policy !== 'premium' ) {
             </span>
 
         </div>
+        <hr class="ecwc-hr-separator">
         <div>
-             <span class="flex-grow-1">
-                <a class="button button-primary" href="<?php echo esc_url( add_query_arg(
+            <p><?php _e("Woocommerce users usually sync automatically with Emailchef. If an issue arises or you need an immediate update, use the button below for manual sync.", "emailchef-for-woocommerce"); ?></p>
+             <p class="ecwc-text-center">
+                <button type="button" id="wc_emailchef_sync_now" class="button button-secondary">
+                    <?php _e("Manual Sync Now", "emailchef-for-woocommerce"); ?>
+                </button>
+            </p>
+        </div>
+        <hr class="ecwc-hr-separator">
+        <div>
+             <p>
+                <a href="<?php echo esc_url( add_query_arg(
 	                [ 'source' => 'emailchef-for-woocommerce', 'paged' => 1 ],
 	                admin_url( '/admin.php?page=wc-status&tab=logs' )
                 ) ); ?>"><?php _e( "Show Logs", "emailchef-for-woocommerce" ); ?></a>
-            </span>
-        </div>
-        <div>
-             <span class="flex-grow-1">
-                <button type="button" id="wc_emailchef_sync_now" class="button button-secondary">
-                    <?php _e("Manual Sync", "emailchef-for-woocommerce"); ?>
-                </button>
-            </span>
+            </p>
         </div>
 		<?php
 		if ( isset( $_GET['debug'] ) ):
 			?>
-            <div>
-             <span class="flex-grow-1">
+            <p class="ecwc-text-center">
                 <a class="button button-primary"
                    href="<?php echo admin_url( '/admin.php?page=emailchef-debug' ); ?>"><?php _e( "Debug", "emailchef-for-woocommerce" ); ?></a>
-            </span>
-            </div>
+            </p>
 		<?php
 		endif;
 		?>
     </div>
     <div class="ecwc-main-forms">
         <h1>Emailchef for Woocommerce settings</h1>
-        <p>Description</p>
+        <p>Welcome to the Emailchef Integration section for Woocommerce. In this crucial Woocommerce plugin, we offer you the convenience of effortlessly synchronizing your Woocommerce customers with your preferred Emailchef list. By taking advantage of this feature, you will ensure that your email marketing efforts are always up-to-date and targeting the right audience.</p>
         <div class="emailchef-form card accordion-container">
             <h2>Emailchef List Settings</h2>
-            <p>Info about this section...</p>
+            <p>Simply select the Emailchef list that aligns with your campaign objectives, and the plugin will handle the rest. Our seamless synchronization process automatically updates your chosen list with new users, modifications to existing user information, and any other relevant changes. This not only saves you valuable time but also enhances the effectiveness of your communication strategies.</p>
             <table class="form-table">
                 <tbody>
                 <tr class="" style="">
                     <th scope="row" class="titledesc">
-                        <label for="wc_emailchef_list">List <?php echo wc_help_tip( "Select your destination list or create a new." ); ?></label>
+                        <label for="wc_emailchef_list">Emailchef List <?php echo wc_help_tip( "Choose an existing Emailchef list to sync with, or opt to set up a brand-new list for immediate use." ); ?></label>
                     </th>
                     <td class="forminp forminp-select">
 
@@ -116,7 +117,7 @@ if ( $policy !== 'premium' ) {
 							endforeach;
 							?>
                         </select>
-                        <p class="description "><br><a href="#" id="wc_emailchef_create_list">Add a new destination
+                        <p class="description "><br><a href="#" id="wc_emailchef_create_list">Add a new Emailchef destination
                                 list.</a></p>
                         <div class="ecwc-new-list-container">
                             <label>List name</label>
@@ -127,8 +128,7 @@ if ( $policy !== 'premium' ) {
                             <input name="wc_emailchef_new_description" id="wc_emailchef_new_description" type="text"
                                    dir="ltr" style="min-width:350px;" value="" class=""
                                    placeholder="Provide a description for this new list.">
-                            <p>By creating a new list, you confirm its compliance with the privacy policy and the
-                                CAN-SPAM Act.</p>
+                            <p>By setting up a new list within Emailchef, you acknowledge and affirm adherence to Emailchef's <a href="https://emailchef.com/privacy-policy/" target="_blank">privacy policy</a> and <a href="https://emailchef.com/terms-of-use/" target="_blank">terms of use</a>, as well as compliance with the CAN-SPAM Act.</p>
                             <p class="ecwc-buttons-container">
                                 <button type="button" name="wc_emailchef_save"
                                         class="button-primary woocommerce-save-button"
@@ -142,13 +142,13 @@ if ( $policy !== 'premium' ) {
                     </td>
                 </tr>
                 <tr class="" style="">
-                    <th scope="row" class="titledesc">Sync customers</th>
+                    <th scope="row" class="titledesc">Sync existing customers</th>
                     <td class="forminp forminp-checkbox ">
                         <fieldset>
-                            <legend class="screen-reader-text"><span>Sync customers</span></legend>
+                            <legend class="screen-reader-text"><span>Sync existing customers</span></legend>
                             <label for="wc_emailchef_sync_customers">
                                 <input name="wc_emailchef_sync_customers" id="wc_emailchef_sync_customers"
-                                       type="checkbox" class="" value="1">  Sync existing customers on save </label></fieldset>
+                                       type="checkbox" class="" value="1">Sync existing Woocommerce customers on save</label></fieldset>
                     </td>
                 </tr>
                 </tbody>
@@ -157,7 +157,7 @@ if ( $policy !== 'premium' ) {
 
         <div class="emailchef-form card accordion-container">
             <h2>Emailchef Subscription settings</h2>
-            <p>Info about this section...</p>
+            <p>Customize your subscriber's journey by defining the pages they are directed to after subscribing or unsubscribing, and determine whether to use a single or a double opt-in approach based on your preferences and compliance requirements.</p>
             <table class="form-table">
                 <tbody>
 
@@ -193,7 +193,7 @@ if ( $policy !== 'premium' ) {
                 <tr class="single_select_page " style="">
                     <th scope="row" class="titledesc">
                         <label>Subscription page <?php echo wc_help_tip(
-								__( "Page where customer moved after subscribe newsletter in double opt-in", "emailchef-for-woocommerce" )
+								__( "Page to redirect the customer to after confirming their subscription with the double opt-in method", "emailchef-for-woocommerce" )
 							); ?></label>
                     </th>
                     <td class="forminp">
@@ -212,7 +212,7 @@ if ( $policy !== 'premium' ) {
                 <tr class="single_select_page " style="">
                     <th scope="row" class="titledesc">
                         <label>Unsubscription
-                            page <?php echo wc_help_tip( "Page where customer moved after unsubscribe newsletter in double opt-in" ); ?></label>
+                            page <?php echo wc_help_tip( "Page to which the customer is redirected after unsubscribing from the newsletter" ); ?></label>
                     </th>
                     <td class="forminp">
 						<?php
@@ -230,32 +230,34 @@ if ( $policy !== 'premium' ) {
         </div>
 
         <div class="emailchef-form card accordion-container">
-            <h2>Emailchef Cron settings</h2>
-            <p>Info about this section...</p>
+            <h2>Abandoned Cart settings</h2>
+            <p>Recover lost sales with Emailchef plugin's abandoned cart feature. Connect with Emailchef and remind customers to complete their purchases by setting a time frame for abandoned carts.</p>
             <table class="form-table">
                 <tbody>
 
                 <tr class="">
                     <th scope="row" class="titledesc">
-                        <label for="<?php echo esc_attr( wc_ec_get_option_name( "cron_end_interval_value" ) ); ?>">Consider an order as an abandoned cart after
+                        <label for="<?php echo esc_attr( wc_ec_get_option_name( "cron_end_interval_value" ) ); ?>">Cart Abandoned After
 						    <?php
 						    echo wc_help_tip(
-							    __( "interval?", "emailchef-for-woocommerce" )
+							    __( "Enter the number of hours after which a cart is considered abandoned.", "emailchef-for-woocommerce" )
 						    );
 						    ?>
                         </label>
                     </th>
                     <td class="forminp forminp-input">
-                        <input type="number" min="0" name="<?php echo esc_attr( wc_ec_get_option_name( "cron_end_interval_value" ) ); ?>"
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="number" style="max-width: 100px" min="0" name="<?php echo esc_attr( wc_ec_get_option_name( "cron_end_interval_value" ) ); ?>"
                                id="<?php echo esc_attr( wc_ec_get_option_name( "cron_end_interval_value" ) ); ?>" value="<?php echo wc_ec_get_option_value("cron_end_interval_value"); ?>">
 					    <?php echo esc_html(wc_ec_get_abandoned_carts_end_unit()); ?>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="ecwc-text-center submit">
+        <div class="submit">
             <button name="save" disabled class="woocommerce-save-button components-button is-primary" type="submit"
                     value="<?php esc_attr_e( 'Save changes', 'woocommerce' ); ?>"><?php esc_html_e( 'Save changes', 'woocommerce' ); ?></button>
         </div>
