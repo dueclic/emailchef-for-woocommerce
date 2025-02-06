@@ -136,6 +136,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 					update_option( wc_ec_get_option_name( 'consumer_key' ), $consumer_key );
 					update_option( wc_ec_get_option_name( 'consumer_secret' ), $consumer_secret );
 					update_option( wc_ec_get_option_name( 'enabled' ), "yes" );
+					update_option( wc_ec_get_option_name( 'cron_end_interval_value' ), 24 );
 				}
 
 			} else {
@@ -156,6 +157,9 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 					),
 					'fuck_page'         => sanitize_text_field(
 						$_POST[ wc_ec_get_option_name( "fuck_page" ) ]
+					),
+					'cron_end_interval_value'         => sanitize_text_field(
+						$_POST[ wc_ec_get_option_name( "cron_end_interval_value" ) ]
 					),
 				];
 

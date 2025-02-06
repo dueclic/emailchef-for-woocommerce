@@ -5,6 +5,7 @@ return array(
 	'consumer_secret'     => '',
 	'enabled'      => 'no',
 	'list'         => '',
+	'cron_end_interval_value' => 24,
 	'policy_type'  => 'dopt',
 	'landing_page' => '',
 	'fuck_page'    => ''

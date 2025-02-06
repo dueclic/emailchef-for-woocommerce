@@ -63,7 +63,7 @@ if ( $policy !== 'premium' ) {
         <div>
              <span class="flex-grow-1">
                 <button type="button" id="wc_emailchef_sync_now" class="button button-secondary">
-                    <?php _e("Manual Sync", "emailchef-for-woocommerce"); ?>
+                    <?php _e( "Manual Sync", "emailchef-for-woocommerce" ); ?>
                 </button>
             </span>
         </div>
@@ -148,7 +148,7 @@ if ( $policy !== 'premium' ) {
                             <legend class="screen-reader-text"><span>Sync customers</span></legend>
                             <label for="wc_emailchef_sync_customers">
                                 <input name="wc_emailchef_sync_customers" id="wc_emailchef_sync_customers"
-                                       type="checkbox" class="" value="1" checked="checked"> </label></fieldset>
+                                       type="checkbox" class="" value="1"> </label></fieldset>
                     </td>
                 </tr>
                 </tbody>
@@ -223,6 +223,32 @@ if ( $policy !== 'premium' ) {
 							]
 						);
 						?>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="emailchef-form card accordion-container">
+            <h2>Emailchef Cron settings</h2>
+            <p>Info about this section...</p>
+            <table class="form-table">
+                <tbody>
+
+                <tr class="">
+                    <th scope="row" class="titledesc">
+                        <label for="<?php echo esc_attr( wc_ec_get_option_name( "cron_end_interval_value" ) ); ?>">Consider an order as an abandoned cart after
+                            <?php
+							echo wc_help_tip(
+								__( "interval?", "emailchef-for-woocommerce" )
+							);
+							?>
+                        </label>
+                    </th>
+                    <td class="forminp forminp-input">
+                        <input type="number" min="0" name="<?php echo esc_attr( wc_ec_get_option_name( "cron_end_interval_value" ) ); ?>"
+                                id="<?php echo esc_attr( wc_ec_get_option_name( "cron_end_interval_value" ) ); ?>" value="<?php echo wc_ec_get_option_value("cron_end_interval_value"); ?>">
+                        <?php echo esc_html(wc_ec_get_abandoned_carts_end_unit()); ?>
                     </td>
                 </tr>
                 </tbody>

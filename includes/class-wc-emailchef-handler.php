@@ -79,23 +79,24 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$customer_id = $order->get_user_id();
 			$list_id     = get_option( $this->prefixed_setting( "list" ) );
 
-            if (!$list_id){
-	            $this->wcec->log(
-		            sprintf(
-			            __(
-				            "Insert failure in list %d for updated data of guest customer (Order %d from status %s to %s). List not provided.",
-				            "emailchef-for-woocommerce"
-			            ),
-			            get_option( $this->prefixed_setting( "list" ) ),
-			            $order_id,
-			            $status,
-			            $new_status
-		            )
-	            );
-                return;
-            }
+			if ( ! $list_id ) {
+				$this->wcec->log(
+					sprintf(
+						__(
+							"Insert failure in list %d for updated data of guest customer (Order %d from status %s to %s). List not provided.",
+							"emailchef-for-woocommerce"
+						),
+						get_option( $this->prefixed_setting( "list" ) ),
+						$order_id,
+						$status,
+						$new_status
+					)
+				);
 
-			$wcec        = $this->wcec->emailchef();
+				return;
+			}
+
+			$wcec = $this->wcec->emailchef();
 
 			if ( $customer_id == 0 ) {
 				$this->wcec->log( __( "Guest synchronization to Emailchef in progress", "emailchef-for-woocommerce" ) );
@@ -855,7 +856,11 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$basic_query = "SELECT user_id, user_email, product_id, created FROM {$abc} WHERE synced = 0";
 
 			if ( $limit ) {
-				$basic_query .= " AND created > (NOW() - INTERVAL " . apply_filters( 'ec_get_abandoned_carts_start_day', 7 ) . " DAY) AND created < (NOW() - INTERVAL " . apply_filters( 'ec_get_abandoned_carts_end_day', 1 ) . " DAY)";
+
+				$interval_start = wc_ec_get_abandoned_carts_start_interval();
+				$interval_end   = wc_ec_get_abandoned_carts_end_interval();
+
+				$basic_query .= " AND created > (NOW() - INTERVAL {$interval_start}) AND created < (NOW() - INTERVAL {$interval_end})";
 			}
 
 			$basic_query .= " " . $where;
@@ -913,10 +918,10 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$list_id = wc_ec_get_option_value( 'list' );
 			if ( ! $list_id ) {
 
-                $message = __(
-	                "Synchronization of abandoned cart failed. No list provided",
-	                "emailchef-for-woocommerce"
-                );
+				$message = __(
+					"Synchronization of abandoned cart failed. No list provided",
+					"emailchef-for-woocommerce"
+				);
 
 				$this->wcec->log(
 					$message
@@ -1048,12 +1053,12 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			$carts_synced = $this->_sync_abandoned_carts( $limit, $where );
 
-            if (is_wp_error($carts_synced)){
-	            wp_send_json_error( [
-		            'message' => __( $carts_synced->get_error_message(), 'emailchef-for-woocommerce' )
-	            ] );
+			if ( is_wp_error( $carts_synced ) ) {
+				wp_send_json_error( [
+					'message' => __( $carts_synced->get_error_message(), 'emailchef-for-woocommerce' )
+				] );
 
-            }
+			}
 
 			wp_send_json_success( [
 				'message' => __( 'Abandoned carts were successfully synced', 'emailchef-for-woocommerce' )
@@ -1138,10 +1143,10 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$list_id = wc_ec_get_option_value( 'list' );
 
 			if ( ! $list_id ) {
-                $message = __( 'Abandoned carts moved were not moved, list not provided.', 'emailchef-for-woocommerce' );
+				$message = __( 'Abandoned carts moved were not moved, list not provided.', 'emailchef-for-woocommerce' );
 
 				wp_send_json_error( [
-					'message' => esc_html($message)
+					'message' => esc_html( $message )
 				] );
 
 				$this->wcec->log(
@@ -1170,14 +1175,14 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			}
 
-            $message = __( 'Abandoned carts moved succesfully', 'emailchef-for-woocommerce' );
+			$message = __( 'Abandoned carts moved succesfully', 'emailchef-for-woocommerce' );
 
 			wp_send_json_success( [
-				'message' => esc_html($message)
+				'message' => esc_html( $message )
 			] );
 
 			$this->wcec->log(
-				esc_html($message)
+				esc_html( $message )
 			);
 
 		}
