@@ -281,6 +281,8 @@ final class WC_Emailchef_Plugin {
 				array( $this, 'enqueue_scripts' ) );
 		}
 
+        add_filter('cron_schedules', array($this, 'cron_schedules'));
+
 		add_action( "woocommerce_loaded", array( $this, "set_logger" ), 10 );
 
 		add_action( 'before_woocommerce_init', function () {
@@ -312,6 +314,15 @@ final class WC_Emailchef_Plugin {
 		add_filter( "wc_ec_add_prefix", array( $this, 'prefixed_setting' ), 10, 1 );
 
 	}
+
+    public function cron_schedules(){
+        return [
+	        'emailchef_15_minutes'     => array(
+		        'interval' => 15 * 60,
+		        'display'  => __( 'Fifteen minutes', 'emailchef-for-woocommerce' ),
+	        )
+        ];
+    }
 
 	public function emailchef_debug_js() {
 		$screen = get_current_screen();

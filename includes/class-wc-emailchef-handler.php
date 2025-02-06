@@ -757,7 +757,11 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 
 				if ( ! wp_next_scheduled( 'emailchef_abandoned_cart_sync' ) ) {
-					wp_schedule_event( time(), 'hourly', 'emailchef_abandoned_cart_sync' );
+					wp_schedule_event(
+                            time(),
+                            apply_filters('emailchef_abandoned_cart_cron_schedule', 'emailchef_15_minutes'),
+                            'emailchef_abandoned_cart_sync'
+                    );
 				}
 
 				add_action( 'emailchef_abandoned_cart_sync', array( $this, 'maybe_abandoned_cart_sync' ) );
