@@ -77,7 +77,7 @@ if ( $policy !== 'premium' ) {
         </div>
         <hr class="ecwc-hr-separator">
         <div>
-            <p><?php _e( "Woocommerce users usually sync automatically with Emailchef. If an issue arises or you need an immediate update, use the button below for manual sync.", "emailchef-for-woocommerce" ); ?></p>
+            <p><?php _e( "WooCommerce users usually sync automatically with Emailchef. If an issue arises or you need an immediate update, use the button below for manual sync.", "emailchef-for-woocommerce" ); ?></p>
             <p class="ecwc-text-center">
                 <button <?php disabled( wc_ec_get_option_value( 'list' ), null ); ?> type="button"
                                                                                      id="wc_emailchef_sync_now"
@@ -111,8 +111,8 @@ if ( $policy !== 'premium' ) {
 		?>
     </div>
     <div class="ecwc-main-forms">
-        <h1><?php _e( "Emailchef for Woocommerce settings", "emailchef-for-woocommerce" ); ?></h1>
-        <p><?php _e( "Welcome to the Emailchef Integration section for Woocommerce. In this crucial Woocommerce plugin, we offer you the convenience of effortlessly synchronizing your Woocommerce customers with your preferred Emailchef list. By taking advantage of this feature, you will ensure that your email marketing efforts are always up-to-date and targeting the right audience.", "emailchef-for-woocommerce" ); ?></p>
+        <h1><?php _e( "Emailchef for WooCommerce settings", "emailchef-for-woocommerce" ); ?></h1>
+        <p><?php _e( "Welcome to the Emailchef Integration section for WooCommerce. In this crucial Woocommerce plugin, we offer you the convenience of effortlessly synchronizing your Woocommerce customers with your preferred Emailchef list. By taking advantage of this feature, you will ensure that your email marketing efforts are always up-to-date and targeting the right audience.", "emailchef-for-woocommerce" ); ?></p>
         <div class="emailchef-form card accordion-container">
             <h2><?php _e( "Emailchef List Settings", "emailchef-for-woocommerce" ); ?></h2>
             <p><?php _e( "Simply select the Emailchef list that aligns with your campaign objectives, and the plugin will handle the rest. Our seamless synchronization process automatically updates your chosen list with new users, modifications to existing user information, and any other relevant changes. This not only saves you valuable time but also enhances the effectiveness of your communication strategies.", "emailchef-for-woocommerce" ); ?></p>
@@ -181,7 +181,7 @@ if ( $policy !== 'premium' ) {
                             <legend class="screen-reader-text"><span><?php _e( "Sync existing customers", "emailchef-for-woocommerce" ); ?></span></legend>
                             <label for="wc_emailchef_sync_customers">
                                 <input name="wc_emailchef_sync_customers" id="wc_emailchef_sync_customers"
-                                       type="checkbox" value="1"><?php _e( "Sync existing Woocommerce customers on save", "emailchef-for-woocommerce" ); ?>
+                                       type="checkbox" value="1"><?php _e( "Sync existing WooCommerce customers on save", "emailchef-for-woocommerce" ); ?>
                             </label>
                         </fieldset>
                     </td>
