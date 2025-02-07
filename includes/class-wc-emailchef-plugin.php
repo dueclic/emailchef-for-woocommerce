@@ -8,6 +8,10 @@ final class WC_Emailchef_Plugin {
 
 	private static $instance;
 
+	/**
+	 * @var WC_Emailchef_Handler
+	 */
+
 	private $handler;
 
 	/**
@@ -110,16 +114,22 @@ final class WC_Emailchef_Plugin {
 			'unsubscription_page',
 		);
 
-		$list_id = get_option('wc_emailchef_list');
+		$list_id = get_option( 'wc_emailchef_list' );
 
-        if ($list_id){
-            $emailchef = self::$instance->emailchef();
-	        $emailchef->delete_integration($list_id);
-        }
+		if ( $list_id ) {
+			$emailchef = self::$instance->emailchef();
+			$emailchef->delete_integration( $list_id );
+		}
 
 		foreach ( $options as $option ) {
 			delete_option( "wc_emailchef_" . $option );
 		}
+
+		wp_unschedule_event(
+			time(),
+			'emailchef_abandoned_cart_sync'
+		);
+
 		delete_transient( 'ecwc_authkey' );
 		delete_transient( 'ecwc_lists' );
 	}
@@ -170,9 +180,9 @@ final class WC_Emailchef_Plugin {
 				self::version() );
 
 			wp_localize_script( 'woocommerce-emailchef-backend-js', 'wcec', array(
-				"namespace"            => $this->namespace,
-				"disconnect_confirm"   => __( "Are you sure you want to disconnect this account?", "emailchef-for-woocommerce" ),
-				"ajax_manual_sync_url" => wp_nonce_url(
+				"namespace"                           => $this->namespace,
+				"disconnect_confirm"                  => __( "Are you sure you want to disconnect this account?", "emailchef-for-woocommerce" ),
+				"ajax_manual_sync_url"                => wp_nonce_url(
 					add_query_arg( [
 						'action' => $this->prefixed_setting(
 							'manual_sync'
@@ -182,7 +192,7 @@ final class WC_Emailchef_Plugin {
 					),
 					'emailchef_manual_sync'
 				),
-				"ajax_add_list_url" => wp_nonce_url(
+				"ajax_add_list_url"                   => wp_nonce_url(
 					add_query_arg( [
 						'action' => $this->prefixed_setting(
 							'add_list'
@@ -192,7 +202,7 @@ final class WC_Emailchef_Plugin {
 					),
 					'emailchef_add_list'
 				),
-				"ajax_sync_abandoned_carts_url" => wp_nonce_url(
+				"ajax_sync_abandoned_carts_url"       => wp_nonce_url(
 					add_query_arg( [
 						'action' => $this->prefixed_setting(
 							'sync_abandoned_carts'
@@ -222,7 +232,7 @@ final class WC_Emailchef_Plugin {
 					),
 					'emailchef_debug_move_abandoned_carts'
 				),
-				"ajax_disconnect_url"  => wp_nonce_url(
+				"ajax_disconnect_url"                 => wp_nonce_url(
 					add_query_arg( [
 						'action' => $this->prefixed_setting(
 							'disconnect'
@@ -232,7 +242,7 @@ final class WC_Emailchef_Plugin {
 					),
 					'emailchef_disconnect'
 				),
-				"ajax_lists_url"       => wp_nonce_url(
+				"ajax_lists_url"                      => wp_nonce_url(
 					add_query_arg( [
 						'action' => $this->prefixed_setting(
 							'lists'
@@ -292,7 +302,7 @@ final class WC_Emailchef_Plugin {
 				array( $this, 'enqueue_scripts' ) );
 		}
 
-        add_filter('cron_schedules', array($this, 'cron_schedules'));
+		add_filter( 'cron_schedules', array( $this, 'cron_schedules' ) );
 
 		add_action( "woocommerce_loaded", array( $this, "set_logger" ), 10 );
 
@@ -326,22 +336,22 @@ final class WC_Emailchef_Plugin {
 
 	}
 
-    public function cron_schedules(){
-        return [
-	        'emailchef_15_minutes'     => array(
-		        'interval' => 15 * 60,
-		        'display'  => __( 'Fifteen minutes', 'emailchef-for-woocommerce' ),
-	        )
-        ];
-    }
+	public function cron_schedules() {
+		return [
+			'emailchef_15_minutes' => array(
+				'interval' => 15 * 60,
+				'display'  => __( 'Fifteen minutes', 'emailchef-for-woocommerce' ),
+			)
+		];
+	}
 
 	public function emailchef_debug_js() {
 		$screen = get_current_screen();
 		if ( $screen->id === 'admin_page_emailchef-debug' ) {
 			?>
             <script>
-                (function($){
-                    $(document).ready(function() {
+                (function ($) {
+                    $(document).ready(function () {
                         WC_Emailchef.debugPage();
                     });
                 })(jQuery);
@@ -479,6 +489,7 @@ final class WC_Emailchef_Plugin {
 	public function double_opt_in() {
 		return $this->settings['policy_type'] === 'dopt';
 	}
+
 	public function get_api_url() {
 		return $this->emailchef->getApiUrl();
 	}

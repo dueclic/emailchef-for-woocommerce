@@ -542,17 +542,6 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 		}
 
-		public static function version_check( $version = '3.0' ) {
-			if ( class_exists( 'WooCommerce' ) ) {
-				global $woocommerce;
-				if ( version_compare( $woocommerce->version, $version, ">=" ) ) {
-					return true;
-				}
-			}
-
-			return false;
-		}
-
 		public function sync_cart() {
 
 			if ( is_user_logged_in() ) {
@@ -966,7 +955,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					continue;
 				}
 
-				if ( self::version_check() ) {
+				if ( WCEC()::version_check() ) {
 					$name              = $product->get_name();
 					$short_description = $product->get_short_description();
 				} else {
