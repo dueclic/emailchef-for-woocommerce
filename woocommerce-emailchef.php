@@ -246,7 +246,12 @@ function wc_ec_get_abandoned_carts_end_value(){
 
 
 function wc_ec_get_abandoned_carts_end_unit(){
-	return  apply_filters( 'ec_get_abandoned_carts_end_interval_unit', "HOUR" );
+	$default_unit = "HOUR";
+	$unit =  apply_filters( 'ec_get_abandoned_carts_end_interval_unit', $default_unit );
+	if (!in_array($unit, array("HOUR", "DAY"))){
+		return $default_unit;
+	}
+	return $unit;
 }
 
 function wc_ec_get_abandoned_carts_end_interval(): string {
