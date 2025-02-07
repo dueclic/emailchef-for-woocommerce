@@ -649,6 +649,19 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 	}
 
+	public function delete_integration( $list_id ) {
+
+		$integrations = $this->get_integrations($list_id);
+		foreach ($integrations as $integration) {
+			if ($integration['id'] == 3 && $integration['website'] == get_home_url()){
+				$route = "/lists/${list_id}/integrations/${integration["row_id"]}";
+				$response = $this->json( $route, array(), "DELETE" );
+				return ( $response["status"] == "OK" );
+			}
+		}
+		return false;
+	}
+
 	public function create_custom_field(
 		$list_id,
 		$type,

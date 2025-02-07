@@ -14,7 +14,7 @@ $emailchef = WCEC()->emailchef(
 );
 $account   = $emailchef->account();
 $lists     = $emailchef->lists();
-$policy    = $wcec->emailchef()->get_policy();
+$policy    = $emailchef->get_policy();
 
 $policy_types = [
 	'sopt' => __( "Single opt-in", "emailchef-for-woocommerce" ),

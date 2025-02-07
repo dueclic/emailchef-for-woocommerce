@@ -57,6 +57,18 @@ $list_id = wc_ec_get_option_value( "list" );
                 </button>
             </p>
 
+            <h1 class="wp-heading-inline"><?php
+				_e( "Active integrations", "emailchef-for-woocommerce" ); ?></h1>
+
+            <p>
+                <?php
+                $integrations = WCEC()->emailchef()->get_integrations($list_id);
+
+                var_dump($integrations);
+
+                ?>
+            </p>
+
 		<?php
 		endif;
 		?>

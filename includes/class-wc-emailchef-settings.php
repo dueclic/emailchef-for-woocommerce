@@ -141,24 +141,24 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 
 			} else {
 
-				$sync_customers = (boolean) sanitize_text_field(
-					$_POST[ wc_ec_get_option_name( "sync_customers" ) ]
-				);
+				$sync_customers = isset( $_POST[ wc_ec_get_option_name( "sync_customers" ) ] ) && (boolean) sanitize_text_field(
+						$_POST[ wc_ec_get_option_name( "sync_customers" ) ]
+					);
 
 				$fields = [
-					'list'              => (int) sanitize_text_field(
+					'list'                    => (int) sanitize_text_field(
 						$_POST[ wc_ec_get_option_name( "list" ) ]
 					),
-					'policy_type'       => sanitize_text_field(
+					'policy_type'             => sanitize_text_field(
 						$_POST[ wc_ec_get_option_name( "policy_type" ) ]
 					),
-					'subscription_page' => sanitize_text_field(
+					'subscription_page'       => sanitize_text_field(
 						$_POST[ wc_ec_get_option_name( "subscription_page" ) ]
 					),
-					'unsubscription_page'         => sanitize_text_field(
+					'unsubscription_page'     => sanitize_text_field(
 						$_POST[ wc_ec_get_option_name( "unsubscription_page" ) ]
 					),
-					'cron_end_interval_value'         => sanitize_text_field(
+					'cron_end_interval_value' => sanitize_text_field(
 						$_POST[ wc_ec_get_option_name( "cron_end_interval_value" ) ]
 					),
 				];

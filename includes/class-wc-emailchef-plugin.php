@@ -2,6 +2,10 @@
 
 final class WC_Emailchef_Plugin {
 
+	/**
+	 * @var WC_Emailchef_Plugin
+	 */
+
 	private static $instance;
 
 	private $handler;
@@ -105,6 +109,13 @@ final class WC_Emailchef_Plugin {
 			'landing_page',
 			'unsubscription_page',
 		);
+
+		$list_id = get_option('wc_emailchef_list');
+
+        if ($list_id){
+            $emailchef = self::$instance->emailchef();
+	        $emailchef->delete_integration($list_id);
+        }
 
 		foreach ( $options as $option ) {
 			delete_option( "wc_emailchef_" . $option );
