@@ -56,7 +56,7 @@ if ( $policy !== 'premium' ) {
         <div>
             <p><?php _e("Woocommerce users usually sync automatically with Emailchef. If an issue arises or you need an immediate update, use the button below for manual sync.", "emailchef-for-woocommerce"); ?></p>
              <p class="ecwc-text-center">
-                <button type="button" id="wc_emailchef_sync_now" class="button button-secondary">
+                <button <?php disabled(wc_ec_get_option_value('list'), null); ?> type="button" id="wc_emailchef_sync_now" class="button button-secondary">
                     <?php _e("Manual Sync Now", "emailchef-for-woocommerce"); ?>
                 </button>
             </p>
