@@ -112,7 +112,7 @@ if ( $policy !== 'premium' ) {
     </div>
     <div class="ecwc-main-forms">
         <h1><?php _e( "Emailchef for WooCommerce settings", "emailchef-for-woocommerce" ); ?></h1>
-        <p><?php _e( "Welcome to the Emailchef Integration section for WooCommerce. In this crucial Woocommerce plugin, we offer you the convenience of effortlessly synchronizing your Woocommerce customers with your preferred Emailchef list. By taking advantage of this feature, you will ensure that your email marketing efforts are always up-to-date and targeting the right audience.", "emailchef-for-woocommerce" ); ?></p>
+        <p><?php _e( "Welcome to the Emailchef Integration section for WooCommerce. In this crucial WooCommerce plugin, we offer you the convenience of effortlessly synchronizing your WooCommerce customers with your preferred Emailchef list. By taking advantage of this feature, you will ensure that your email marketing efforts are always up-to-date and targeting the right audience.", "emailchef-for-woocommerce" ); ?></p>
         <div class="emailchef-form card accordion-container">
             <h2><?php _e( "Emailchef List Settings", "emailchef-for-woocommerce" ); ?></h2>
             <p><?php _e( "Simply select the Emailchef list that aligns with your campaign objectives, and the plugin will handle the rest. Our seamless synchronization process automatically updates your chosen list with new users, modifications to existing user information, and any other relevant changes. This not only saves you valuable time but also enhances the effectiveness of your communication strategies.", "emailchef-for-woocommerce" ); ?></p>
