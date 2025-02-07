@@ -112,6 +112,7 @@ final class WC_Emailchef_Plugin {
 			'policy_type',
 			'landing_page',
 			'unsubscription_page',
+			'fuck_page'
 		);
 
 		$list_id = get_option( 'wc_emailchef_list' );
@@ -302,6 +303,9 @@ final class WC_Emailchef_Plugin {
 				array( $this, 'enqueue_scripts' ) );
 		}
 
+
+		add_action('plugins_loaded', array($this, 'ecwc_plugin_update_check'));
+
 		add_filter( 'cron_schedules', array( $this, 'cron_schedules' ) );
 
 		add_action( "woocommerce_loaded", array( $this, "set_logger" ), 10 );
@@ -335,6 +339,23 @@ final class WC_Emailchef_Plugin {
 		add_filter( "wc_ec_add_prefix", array( $this, 'prefixed_setting' ), 10, 1 );
 
 	}
+
+    public function ecwc_plugin_update_check() {
+
+	    if (!function_exists('get_plugin_data')) {
+		    require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+	    }
+
+
+	    $last_run_version = get_option('ecwc_last_run_version', '5.2');
+
+        if (version_compare( $last_run_version, self::version(), '<')) {
+            self::deactivate();
+            update_option( 'ecwc_last_run_version', self::version() );
+        }
+
+
+    }
 
 	public function cron_schedules() {
 		return [
@@ -499,14 +520,6 @@ final class WC_Emailchef_Plugin {
 	 */
 
 	public function define_constants() {
-		$this->define( 'WC_EMAILCHEF_MIN_WP', '4.0.0' );
-
-		// Minimum supported version of WooCommerce
-		$this->define( 'WC_EMAILCHEF_MIN_WC', '2.6.8' );
-
-		// Minimum supported version of PHP
-		$this->define( 'WC_EMAILCHEF_MIN_PHP', '5.4.0' );
-
 		// Plugin version
 		$this->define( "WC_EMAILCHEF_VERSION", self::version() );
 
