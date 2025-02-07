@@ -158,10 +158,7 @@ if ( $policy !== 'premium' ) {
                             <input name="wc_emailchef_new_description" id="wc_emailchef_new_description" type="text"
                                    dir="ltr" style="min-width:350px;" value=""
                                    placeholder="<?php _e( "Provide a description for this new list.", "emailchef-for-woocommerce" ); ?>">
-                            <p><?php _e( 'By setting up a new list within Emailchef, you acknowledge and affirm adherence to
-                                Emailchef\'s <a href="https://emailchef.com/privacy-policy/" target="_blank">privacy
-                                    policy</a> and <a href="https://emailchef.com/terms-of-use/" target="_blank">terms
-                                    of use</a>, as well as compliance with the CAN-SPAM Act.', "emailchef-for-woocommerce" ); ?></p>
+                            <p><?php _e( 'By setting up a new list within Emailchef, you acknowledge and affirm adherence to Emailchef\'s <a href="https://emailchef.com/privacy-policy/" target="_blank">privacy policy</a> and <a href="https://emailchef.com/terms-of-use/" target="_blank">terms of use</a>, as well as compliance with the CAN-SPAM Act.', "emailchef-for-woocommerce" ); ?></p>
                             <p class="ecwc-buttons-container">
                                 <button type="button" name="wc_emailchef_save"
                                         class="button-primary woocommerce-save-button"
@@ -192,9 +189,7 @@ if ( $policy !== 'premium' ) {
 
         <div class="emailchef-form card accordion-container">
             <h2><?php _e( "Emailchef Subscription Settings", "emailchef-for-woocommerce" ); ?></h2>
-            <p><?php _e( "Customize your subscriber's journey by defining the pages they are directed to after subscribing or
-                unsubscribing, and determine whether to use a single or a double opt-in approach based on your
-                preferences and compliance requirements.", "emailchef-for-woocommerce" ); ?></p>
+            <p><?php _e( "Customize your subscriber's journey by defining the pages they are directed to after subscribing or unsubscribing, and determine whether to use a single or a double opt-in approach based on your preferences and compliance requirements.", "emailchef-for-woocommerce" ); ?></p>
             <table class="form-table">
                 <tbody>
 

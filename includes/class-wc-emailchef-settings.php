@@ -165,7 +165,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 
 				if ( empty( $fields['list'] ) ) {
 					WC_Admin_Settings::add_error(
-						__( 'Choose an existing valid EmailChef mailing list or create a new one.', 'emailchef-for-woocommerce' )
+						__( 'Choose an existing valid Emailchef mailing list or create a new one.', 'emailchef-for-woocommerce' )
 					);
 
 					return;

@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  *
- * Full path to the WooCommerce EmailChef File
+ * Full path to the WooCommerce Emailchef File
  *
  */
 
