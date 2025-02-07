@@ -177,15 +177,15 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 					wc_ec_update_option( $name, $value );
 				}
 
-				$wcec->log( sprintf( __( "Plugin settings changed, selected list %d",
+				$wcec->log( sprintf( __( "Plugin settings changed, selected Emailchef list: %d",
 					"emailchef-for-woocommerce" ), $fields["list"] ) );
-				$wcec->log( sprintf( __( "Selected list %d, execution of cron for custom fields synchronization",
+				$wcec->log( sprintf( __( "Selected Emailchef list: %d. Cron job executed for custom fields syncing",
 					"emailchef-for-woocommerce" ), $fields['list'] ) );
 
 				if ( $sync_customers ) {
 
 					WC_Admin_Settings::add_message(
-						__( 'Custom fields and all customers are syncing now.', 'emailchef-for-woocommerce' )
+						__( 'Customer data and custom fields are currently synchronizing.', 'emailchef-for-woocommerce' )
 					);
 
 					$scheduled = wp_schedule_single_event( time(),
@@ -199,17 +199,17 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 				} else {
 
 					WC_Admin_Settings::add_message(
-						__( 'Custom fields are syncing now.', 'emailchef-for-woocommerce' )
+						__( 'Custom fields are currently synchronizing.', 'emailchef-for-woocommerce' )
 					);
 
 					$scheduled = wp_schedule_single_event( time(),
 						"emailchef_sync_cron_now",
 						array( $fields['list'], false ) );
 					if ( false === $scheduled ) {
-						$wcec->log( __( "Custom fields re-syncronised",
+						$wcec->log( __( "Custom fields re-synchronised",
 							"emailchef-for-woocommerce" ) );
 					}
-					$wcec->log( sprintf( __( "First synchronization not choosed for list %d",
+					$wcec->log( sprintf( __( "Initial synchronization option not selected for Emailchef list %d",
 						"emailchef-for-woocommerce" ), $fields['list'] ) );
 				}
 
