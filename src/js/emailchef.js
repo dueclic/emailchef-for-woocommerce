@@ -1,5 +1,5 @@
 /**
- * WooCommerce emailChef Plugins
+ * WooCommerce Emailchef Plugins
  */
 
 var WC_Emailchef = function ($) {

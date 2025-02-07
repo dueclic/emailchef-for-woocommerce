@@ -16,7 +16,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			$this->id        = 'emailchef';
 			$this->namespace = 'wc_' . $this->id;
-			$this->label     = __( 'emailChef', 'emailchef-for-woocommerce' );
+			$this->label     = __( 'Emailchef', 'emailchef-for-woocommerce' );
 			$this->wcec      = WCEC();
 			$this->hooks();
 
@@ -47,7 +47,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			);
 
 			$email_subject = __(
-				"Confirm your email to receive our newsletter",
+				"Confirm your email address to subscribe to our newsletter",
 				"emailchef-for-woocommerce"
 			);
 
@@ -83,7 +83,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				$this->wcec->log(
 					sprintf(
 						__(
-							"Insert failure in list %d for updated data of guest customer (Order %d from status %s to %s). List not provided.",
+							"Insert failure in list %d for updated data of guest customer (Order ID: %d, from status %s to %s). List not provided.",
 							"emailchef-for-woocommerce"
 						),
 						get_option( $this->prefixed_setting( "list" ) ),
@@ -123,7 +123,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					$this->wcec->log(
 						sprintf(
 							__(
-								"Insert failure in list %d for updated data of guest customer (Order %d from status %s to %s). Error: %s",
+								"Insert failure in list %d for updated data of guest customer (Order ID: %d, from status %s to %s). Error: %s",
 								"emailchef-for-woocommerce"
 							),
 							get_option( $this->prefixed_setting( "list" ) ),
@@ -169,7 +169,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					$this->wcec->log(
 						sprintf(
 							__(
-								"Insert success in list %d for updated data of customer %d (Order %d from status %s to %s)",
+								"Insert success in list %d for updated data of customer %d (Order ID: %d, from status %s to %s)",
 								"emailchef-for-woocommerce"
 							),
 							get_option( $this->prefixed_setting( "list" ) ),
@@ -185,7 +185,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					$this->wcec->log(
 						sprintf(
 							__(
-								"Insert failure in list %d for updated data of customer %d (order id: %d, from status %s to %s). Error: %s",
+								"Insert failure in list %d for updated data of customer %d (Order ID: %d, from status %s to %s). Error: %s",
 								"emailchef-for-woocommerce"
 							),
 							get_option( $this->prefixed_setting( "list" ) ),
@@ -269,7 +269,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 				$this->wcec->log(
 					sprintf(
-						__( "Synchronization customer %d in list %d done (Newsletter status: %s).",
+						__( "Synchronization of customer %d in list %d done (Newsletter status: %s).",
 							"emailchef-for-woocommerce" ),
 						$customer_id,
 						$list_id,
@@ -292,7 +292,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			} else {
 				$this->wcec->log(
-					sprintf( __( "Synchronization customer %d in list %d failed", "emailchef-for-woocommerce" ),
+					sprintf( __( "Synchronization of customer %d in list %d failed", "emailchef-for-woocommerce" ),
 						$customer_id, $list_id )
 				);
 			}
@@ -600,7 +600,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 						$this->wcec->log(
 							sprintf(
 								__(
-									"Abandoned cart successfully emptied for customer %d in table %s",
+									"Abandoned cart for customer %d successfully cleared from table %s",
 									"emailchef-for-woocommerce"
 								),
 								$customer_id,
@@ -610,7 +610,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					} else {
 						$this->wcec->log(
 							sprintf(
-								__( "Abandoned carty emptying failed for customer %d in table %s",
+								__( "Failed to clear abandoned cart for customer %d from table %s",
 									"emailchef-for-woocommerce" ),
 								$customer_id,
 								$abc
@@ -651,7 +651,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					$this->wcec->log(
 						sprintf(
 							__(
-								"Synchronization of abandoned cart for user %d in table %s successfully done",
+								"Abandoned cart for customer %d successfully synced from table %s",
 								"emailchef-for-woocommerce"
 							),
 							$customer_id,
@@ -661,7 +661,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				} else {
 					$this->wcec->log(
 						sprintf(
-							__( "Synchronization of abandoned cart for user %d in table %s successfully failed",
+							__( "Synchronization of abandoned cart for user %d in table %s failed",
 								"emailchef-for-woocommerce" ),
 							$customer_id,
 							$abc
@@ -769,7 +769,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 		public function manual_sync() {
 
 			$response = [
-				'text' => __( "Manual sync scheduled succesfully.",
+				'text' => __( "Manual sync successfully scheduled.",
 					"emailchef-for-woocommerce" ),
 				'type' => "success"
 			];
@@ -784,11 +784,11 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			} else if ( ! $list_id ) {
 				$response = [
 					'type' => 'error',
-					'text' => __( 'Please provide a list', 'emailchef-for-woocommerce' )
+					'text' => __( 'Please provide a valid Emailchef list', 'emailchef-for-woocommerce' )
 				];
 			} else {
 
-				WCEC()->log( __( "Manual sync triggered.",
+				WCEC()->log( __( "Manual sync triggered",
 					"emailchef-for-woocommerce" ) );
 
 				$scheduled = wp_schedule_single_event( time(),
@@ -874,7 +874,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_send_json_error( [
-					'message' => __( 'Permissions are not valid for this action', 'emailchef-for-woocommerce' )
+					'message' => __( 'Insufficient permissions to execute the requested action', 'emailchef-for-woocommerce' )
 				] );
 			}
 
@@ -882,21 +882,21 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$list_id = get_option( $this->prefixed_setting( "list" ) );
 
 			if ( $list_id ) {
-				WCEC()->log( sprintf( __( "[START] Custom fields rebuild for Emailchef list %d",
+				WCEC()->log( sprintf( __( "[START] Custom fields rebuild for Emailchef list %d was started",
 					"emailchef-for-woocommerce" ), $list_id ) );
 
 				$this->wcec->emailchef()->initialize_custom_fields(
 					$list_id
 				);
 				wp_send_json_success( [
-					'message' => __( 'Custom fields had been rebuilt succesfully', 'emailchef-for-woocommerce' )
+					'message' => __( 'Rebuild of custom fields was completed successfully', 'emailchef-for-woocommerce' )
 				] );
 
-				WCEC()->log( sprintf( __( "[END] Custom fields ad been rebuilt succesfully for list %d",
+				WCEC()->log( sprintf( __( "[END] Rebuild of custom fields for Emailchef list %d was completed successfully",
 					"emailchef-for-woocommerce" ), $list_id ) );
 			} else {
 				wp_send_json_error( [
-					'message' => __( 'List was not provided.', 'emailchef-for-woocommerce' )
+					'message' => __( 'Emailchef list not provided.', 'emailchef-for-woocommerce' )
 				] );
 			}
 		}
@@ -912,7 +912,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			if ( ! $list_id ) {
 
 				$message = __(
-					"Synchronization of abandoned cart failed. No list provided",
+					"Abandoned cart sync failed: Emailchef list missing.",
 					"emailchef-for-woocommerce"
 				);
 
@@ -987,7 +987,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					$this->wcec->log(
 						sprintf(
 							__(
-								"Synchronization of abandoned cart for user %d in Emailchef list %d successfully done",
+								"Abandoned cart for user %d successfully synchronized with Emailchef list %d",
 								"emailchef-for-woocommerce"
 							),
 							$customer_id,
@@ -1007,7 +1007,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				} else {
 					$this->wcec->log(
 						sprintf(
-							__( "Synchronization of abandoned cart for user %d in Emailchef list %d failed",
+							__( "Abandoned cart synchronization for user %d failed in Emailchef list %d.",
 								"emailchef-for-woocommerce" ),
 							$customer_id,
 							$list_id
@@ -1054,7 +1054,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			}
 
 			wp_send_json_success( [
-				'message' => __( 'Abandoned carts were successfully synced', 'emailchef-for-woocommerce' )
+				'message' => __( 'Failed to sync abandoned carts.', 'emailchef-for-woocommerce' )
 			] );
 
 		}
@@ -1100,7 +1100,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			if ( ! $list_id ) {
 				$this->wcec->log(
 					__(
-						"Synchronization and custom fields creation failed. No list provided",
+						"Custom fields creation and sync failed: no list provided.",
 						"emailchef-for-woocommerce"
 					)
 				);
@@ -1111,7 +1111,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$this->wcec->emailchef()->upsert_integration( $list_id );
 			$this->wcec->emailchef()->sync_list( $list_id, $all );
 			if ( $all ) {
-				$this->wcec->log( sprintf( __( "Synchronization and custom fields creation for Emailchef list %d",
+				$this->wcec->log( sprintf( __( "Custom fields creation and sync for Emailchef list %d",
 					"emailchef-for-woocommerce" ), $list_id ) );
 			} else {
 				$this->wcec->log( sprintf( __( "Custom fields creation for Emailchef list %d",
@@ -1136,7 +1136,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$list_id = wc_ec_get_option_value( 'list' );
 
 			if ( ! $list_id ) {
-				$message = __( 'Abandoned carts moved were not moved, list not provided.', 'emailchef-for-woocommerce' );
+				$message = __( 'Failed to move abandoned carts: missing target list.', 'emailchef-for-woocommerce' );
 
 				wp_send_json_error( [
 					'message' => esc_html( $message )
@@ -1168,7 +1168,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			}
 
-			$message = __( 'Abandoned carts moved succesfully', 'emailchef-for-woocommerce' );
+			$message = __( 'Abandoned carts successfully moved', 'emailchef-for-woocommerce' );
 
 			wp_send_json_success( [
 				'message' => esc_html( $message )
@@ -1209,7 +1209,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$this->wcec::deactivate();
 
 			wp_send_json_success( [
-				'message' => __( 'Emailchef account disconnected succesfully' )
+				'message' => __( 'Emailchef account successfully disconnected' )
 			] );
 
 		}
@@ -1240,7 +1240,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 				WCEC()->log(
 					sprintf(
-						__( "List created sucessfully (ID: %d, name: %s, description: %s)", "emailchef-for-woocommerce" ),
+						__( "Successfully generated list (ID: %d, Name: %s, Description: %s)", "emailchef-for-woocommerce" ),
 						$cl_id,
 						$list_name,
 						$list_desc
@@ -1257,7 +1257,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			WCEC()->log(
 				sprintf(
-					__( "Error occurs while creating the new list (Name: %s, Description: %s). Error: %s",
+					__( "Error occurred during the creation of the new list (Name: %s, Description: %s). Error details: %s",
 						"emailchef-for-woocommerce" ),
 					$list_name,
 					$list_desc,
@@ -1266,7 +1266,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			);
 
 			wp_send_json_error( [
-				'message' => __( "Error occurs while creating the new list: ",
+				'message' => __( "An error occurred during the creation of the new list ",
 						"emailchef-for-woocommerce" ) . $ecwc->lastError,
 			] );
 

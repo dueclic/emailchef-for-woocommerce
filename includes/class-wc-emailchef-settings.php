@@ -112,7 +112,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 
 		public function emailchef_api_user_error_msg() {
 			echo $this->send_msg(
-				__( 'Unable to display lists. Username and password are valid?',
+				__( 'Failed to retrieve mailing lists. Please check if the API keys are correct and valid.',
 					'emailchef-for-woocommerce' )
 			);
 		}
@@ -130,7 +130,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 
 				if ( isset( $account['status'] ) && $account['status'] === 'error' ) {
 					WC_Admin_Settings::add_error(
-						__( 'Login failed. Please check your credentials.', 'emailchef-for-woocommerce' )
+						__( 'Login attempt unsuccessful. Ensure your API keys are entered correctly.', 'emailchef-for-woocommerce' )
 					);
 				} else {
 					update_option( wc_ec_get_option_name( 'consumer_key' ), $consumer_key );
@@ -165,7 +165,7 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 
 				if ( empty( $fields['list'] ) ) {
 					WC_Admin_Settings::add_error(
-						__( 'Please provide a valid list.', 'emailchef-for-woocommerce' )
+						__( 'Choose an existing valid EmailChef mailing list or create a new one.', 'emailchef-for-woocommerce' )
 					);
 
 					return;

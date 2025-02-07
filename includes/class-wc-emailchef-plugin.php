@@ -23,7 +23,7 @@ final class WC_Emailchef_Plugin {
 	private $settings;
 
 	/**
-	 * Plugin emailChef
+	 * Plugin Emailchef
 	 *
 	 * @var WC_Emailchef
 	 */

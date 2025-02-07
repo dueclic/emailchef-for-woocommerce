@@ -599,8 +599,8 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 		/**
 		 *
-		 * Check if there are fields in emailChef
-		 * not present in @private $custom_fiels
+		 * Check if there are fields in Emailchef
+		 * not present in @private $custom_fields
 		 *
 		 * If fields are present delete
 		 *
