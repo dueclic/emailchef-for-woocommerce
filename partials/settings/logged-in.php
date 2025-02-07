@@ -70,7 +70,7 @@ if ( $policy !== 'premium' ) {
                 <span class="ecwc-list-none ecwc-list-none" id="ecwc-no-list-selected">
                     <?php _e( "No list connected...", "emailchef-for-woocommerce" ); ?>
                 </span>
-                <span class="truncate ecwc-list-selected" title="test on the fly" id="ecwc-list-selected">
+                <span class="truncate ecwc-list-selected" title="<?php echo $list_name; ?>" id="ecwc-list-selected">
                     <?php echo $list_name; ?>
                 </span>
             </div>
