@@ -182,8 +182,36 @@
   height: 14px;
   width: 14px;
 }
+.ecwc-list-container{
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-top: .5rem;
+
+  .ecwc-list-none {
+   font-style: italic;
+   color: #CCCCCC;
+  }
+  .ecwc-list-selected {
+   display:none;
+  }
+
+  &.ecwc-has-list{
+    svg path{
+      fill: #F58B3E;
+    }
+    .ecwc-list-none {
+      display: none;
+    }
+    .ecwc-list-selected {
+      display:block;
+    }
+
+  }
 
 
+
+}
 
 .error-field{
   color: var(--ecwc-error-color);
@@ -333,6 +361,10 @@ input[name="emailchef_settings\[consumer_secret\]"].valid {
   margin-top: .5rem;
 }
 .ecwc-hr-separator{
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.ecwc-hr-separator-half{
+  margin-top: .75rem;
+  margin-bottom: .75rem;
 }
