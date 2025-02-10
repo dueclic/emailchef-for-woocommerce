@@ -171,6 +171,14 @@ if ( ! class_exists( 'WC_Emailchef_Settings' ) ) {
 					return;
 				}
 
+				if ( $fields['cron_end_interval_value'] < 1 || $fields['cron_end_interval_value'] > 24 ) {
+					WC_Admin_Settings::add_error(
+						__( 'Number of hours for abandoned carts should be between 1 and 24.', 'emailchef-for-woocommerce' )
+					);
+
+					return;
+				}
+
 				$wcec = WCEC();
 
 				foreach ( $fields as $name => $value ) {

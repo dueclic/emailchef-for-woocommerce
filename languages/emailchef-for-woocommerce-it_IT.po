@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/emailchef-for-"
 "woocommerce\n"
-"POT-Creation-Date: 2025-02-10T09:19:12+00:00\n"
-"PO-Revision-Date: 2025-02-10 10:19+0100\n"
+"POT-Creation-Date: 2025-02-10T16:47:52+00:00\n"
+"PO-Revision-Date: 2025-02-10 17:48+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -471,36 +471,40 @@ msgid "Choose an existing valid Emailchef mailing list or create a new one."
 msgstr ""
 "Scegli una lista di mailing Emailchef esistente e valida o creane una nuova."
 
-#: includes/class-wc-emailchef-settings.php:180
+#: includes/class-wc-emailchef-settings.php:176
+msgid "Number of hours for abandoned carts should be between 1 and 24."
+msgstr "Il numero di ore per il carrello abbandonato deve essere tra 1 e 24."
+
+#: includes/class-wc-emailchef-settings.php:188
 msgid "Plugin settings changed, selected Emailchef list: %d"
 msgstr "Impostazioni del plugin modificate, lista Emailchef selezionata: %d"
 
-#: includes/class-wc-emailchef-settings.php:182
+#: includes/class-wc-emailchef-settings.php:190
 msgid ""
 "Selected Emailchef list: %d. Cron job executed for custom fields syncing"
 msgstr ""
 "Lista Emailchef selezionata: %d. Eseguito cron job per la sincronizzazione "
 "dei campi personalizzati"
 
-#: includes/class-wc-emailchef-settings.php:188
+#: includes/class-wc-emailchef-settings.php:196
 msgid "Customer data and custom fields are currently synchronizing."
 msgstr ""
 "I dati dei clienti e i campi personalizzati sono attualmente in "
 "sincronizzazione."
 
-#: includes/class-wc-emailchef-settings.php:196
+#: includes/class-wc-emailchef-settings.php:204
 msgid "First synchronization not scheduled."
 msgstr "Prima sincronizzazione non programmata."
 
-#: includes/class-wc-emailchef-settings.php:202
+#: includes/class-wc-emailchef-settings.php:210
 msgid "Custom fields are currently synchronizing."
 msgstr "I campi personalizzati sono attualmente in sincronizzazione."
 
-#: includes/class-wc-emailchef-settings.php:209
+#: includes/class-wc-emailchef-settings.php:217
 msgid "Custom fields re-synchronised"
 msgstr "Campi personalizzati risincronizzati"
 
-#: includes/class-wc-emailchef-settings.php:212
+#: includes/class-wc-emailchef-settings.php:220
 msgid "Initial synchronization option not selected for Emailchef list %d"
 msgstr ""
 "Opzione di sincronizzazione iniziale non selezionata per la lista Emailchef "
