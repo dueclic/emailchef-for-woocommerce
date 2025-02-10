@@ -224,7 +224,7 @@ if ( $policy !== 'premium' ) {
                 </tr>
                 <tr class="single_select_page">
                     <th scope="row" class="titledesc">
-                        <label>Subscription page <?php echo wc_help_tip(
+                        <label><?php _e( "Subscription page", "emailchef-for-woocommerce" ); ?> <?php echo wc_help_tip(
 								__( "Page to redirect the customer to after confirming their subscription with the double opt-in method", "emailchef-for-woocommerce" )
 							); ?></label>
                     </th>

@@ -1,0 +1,697 @@
+# Copyright (C) 2025 dueclic
+# This file is distributed under the GPL v2.
+msgid ""
+msgstr ""
+"Project-Id-Version: Emailchef for WooCommerce 5.3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/emailchef-for-woocommerce\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-02-10T09:19:12+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: emailchef-for-woocommerce\n"
+
+#. Plugin Name of the plugin
+#: woocommerce-emailchef.php
+msgid "Emailchef for WooCommerce"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: woocommerce-emailchef.php
+msgid "http://emailchef.com/email-marketing-woocommerce-emailchef/"
+msgstr ""
+
+#. Description of the plugin
+#: woocommerce-emailchef.php
+msgid "Using this WooCommerce plugin, Emailchef can communicate with your online store and it creates easy, simply and automatic targeted campaigns."
+msgstr ""
+
+#. Author of the plugin
+#: woocommerce-emailchef.php
+msgid "dueclic"
+msgstr ""
+
+#. Author URI of the plugin
+#: woocommerce-emailchef.php
+msgid "https://www.dueclic.com"
+msgstr ""
+
+#: cli/import.php:19
+msgid "Synchronization failed. List not provided."
+msgstr ""
+
+#: cli/import.php:31
+msgid "Synchronization and custom fields creation for Emailchef list %d"
+msgstr ""
+
+#: conf/custom_fields.php:30
+msgid "Name"
+msgstr ""
+
+#: conf/custom_fields.php:34
+msgid "Surname"
+msgstr ""
+
+#: conf/custom_fields.php:38
+msgid "Email address"
+msgstr ""
+
+#: conf/custom_fields.php:42
+msgid "Source"
+msgstr ""
+
+#: conf/custom_fields.php:47
+msgid "Company"
+msgstr ""
+
+#: conf/custom_fields.php:51
+msgid "Address"
+msgstr ""
+
+#: conf/custom_fields.php:55
+msgid "ZIP code"
+msgstr ""
+
+#: conf/custom_fields.php:59
+msgid "City"
+msgstr ""
+
+#: conf/custom_fields.php:63
+msgid "Phone"
+msgstr ""
+
+#: conf/custom_fields.php:67
+msgid "State"
+msgstr ""
+
+#: conf/custom_fields.php:71
+msgid "Country"
+msgstr ""
+
+#: conf/custom_fields.php:75
+msgid "Agreed to newsletter"
+msgstr ""
+
+#: conf/custom_fields.php:91
+msgid "Currency"
+msgstr ""
+
+#: conf/custom_fields.php:95
+msgid "Customer ID"
+msgstr ""
+
+#: conf/custom_fields.php:99
+msgid "Customer type"
+msgstr ""
+
+#: conf/custom_fields.php:111
+msgid "Subtotal"
+msgstr ""
+
+#: conf/custom_fields.php:115
+msgid "Total ordered in the last 30 days"
+msgstr ""
+
+#: conf/custom_fields.php:119
+msgid "Total ordered in the last 12 months"
+msgstr ""
+
+#: conf/custom_fields.php:123
+msgid "Orders"
+msgstr ""
+
+#: conf/custom_fields.php:127
+msgid "Ordered Product ID"
+msgstr ""
+
+#: conf/custom_fields.php:131
+msgid "Last order - ID"
+msgstr ""
+
+#: conf/custom_fields.php:135
+msgid "Last order - Date"
+msgstr ""
+
+#: conf/custom_fields.php:139
+msgid "Last order - Total"
+msgstr ""
+
+#: conf/custom_fields.php:143
+msgid "Last order - Status"
+msgstr ""
+
+#: conf/custom_fields.php:148
+msgid "Last order - Product ID"
+msgstr ""
+
+#: conf/custom_fields.php:152
+msgid "Last shipped order - ID"
+msgstr ""
+
+#: conf/custom_fields.php:156
+msgid "Last shipped order - Data"
+msgstr ""
+
+#: conf/custom_fields.php:160
+msgid "Last shipped order - Status"
+msgstr ""
+
+#: conf/custom_fields.php:165
+msgid "Abandoned cart - Yes/No"
+msgstr ""
+
+#: conf/custom_fields.php:169
+msgid "Abandoned cart - Most expensive product name"
+msgstr ""
+
+#: conf/custom_fields.php:173
+msgid "Abandoned cart - Most expensive product description"
+msgstr ""
+
+#: conf/custom_fields.php:177
+msgid "Abandoned cart - Most expensive pricing product"
+msgstr ""
+
+#: conf/custom_fields.php:181
+msgid "Abandoned cart - Most expensive product URL"
+msgstr ""
+
+#: conf/custom_fields.php:185
+msgid "Abandoned cart - Most expensive product image URL"
+msgstr ""
+
+#: conf/custom_fields.php:189
+msgid "Abandoned cart - Most expensive product ID"
+msgstr ""
+
+#: conf/custom_fields.php:193
+msgid "Abandoned cart - Date"
+msgstr ""
+
+#: conf/custom_fields.php:197
+msgid "Store Registration - Date"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:19
+#: includes/class-wc-emailchef-settings.php:54
+msgid "Emailchef"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:49
+msgid "Confirm your email address to subscribe to our newsletter"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:85
+msgid "Insert failure in list %d for updated data of guest customer (Order ID: %d, from status %s to %s). List not provided."
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:102
+msgid "Guest synchronization to Emailchef in progress"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:114
+#: includes/class-wc-emailchef-handler.php:164
+msgid "Opt-in sent via email to user %d in list %d"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:125
+msgid "Insert failure in list %d for updated data of guest customer (Order ID: %d, from status %s to %s). Error: %s"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:142
+msgid "Customer synchronization to Emailchef in progress (Customer ID: %d)"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:171
+msgid "Insert success in list %d for updated data of customer %d (Order ID: %d, from status %s to %s)"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:187
+msgid "Insert failure in list %d for updated data of customer %d (Order ID: %d, from status %s to %s). Error: %s"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:272
+msgid "Synchronization of customer %d in list %d done (Newsletter status: %s)."
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:295
+msgid "Synchronization of customer %d in list %d failed"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:602
+msgid "Abandoned cart for customer %d successfully cleared from table %s"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:613
+msgid "Failed to clear abandoned cart for customer %d from table %s"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:653
+msgid "Abandoned cart for customer %d successfully synced from table %s"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:664
+msgid "Synchronization of abandoned cart for user %d in table %s failed"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:772
+msgid "Manual sync successfully scheduled."
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:782
+#: includes/class-wc-emailchef-handler.php:871
+#: includes/class-wc-emailchef-handler.php:1028
+#: includes/class-wc-emailchef-handler.php:1132
+#: includes/class-wc-emailchef-handler.php:1187
+#: includes/class-wc-emailchef-handler.php:1204
+#: includes/class-wc-emailchef-handler.php:1221
+msgid "Invalid request"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:787
+msgid "Please provide a valid Emailchef list"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:791
+msgid "Manual sync triggered"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:800
+msgid "Manual sync not scheduled ("
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:877
+msgid "Insufficient permissions to execute the requested action"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:885
+msgid "[START] Custom fields rebuild for Emailchef list %d was started"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:892
+msgid "Rebuild of custom fields was completed successfully"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:895
+msgid "[END] Rebuild of custom fields for Emailchef list %d was completed successfully"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:899
+msgid "Emailchef list not provided."
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:914
+msgid "Abandoned cart sync failed: Emailchef list missing."
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:989
+msgid "Abandoned cart for user %d successfully synchronized with Emailchef list %d"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:1010
+msgid "Abandoned cart synchronization for user %d failed in Emailchef list %d."
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:1057
+msgid "Failed to sync abandoned carts."
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:1102
+msgid "Custom fields creation and sync failed: no list provided."
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:1114
+msgid "Custom fields creation and sync for Emailchef list %d"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:1117
+msgid "Custom fields creation for Emailchef list %d"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:1139
+msgid "Failed to move abandoned carts: missing target list."
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:1171
+msgid "Abandoned carts successfully moved"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:1227
+#: partials/settings/logged-in.php:156
+msgid "Provide a name for this new list."
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:1243
+msgid "Successfully generated list (ID: %d, Name: %s, Description: %s)"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:1251
+msgid "List successfully created."
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:1260
+msgid "Error occurred during the creation of the new list (Name: %s, Description: %s). Error details: %s"
+msgstr ""
+
+#: includes/class-wc-emailchef-handler.php:1269
+msgid "An error occurred during the creation of the new list "
+msgstr ""
+
+#: includes/class-wc-emailchef-plugin.php:97
+msgid "Well! Now that you activated Emailchef for WooCommerce, go to the "
+msgstr ""
+
+#: includes/class-wc-emailchef-plugin.php:100
+msgid "configuration"
+msgstr ""
+
+#: includes/class-wc-emailchef-plugin.php:185
+msgid "Are you sure you want to disconnect this account?"
+msgstr ""
+
+#: includes/class-wc-emailchef-plugin.php:364
+msgid "Fifteen minutes"
+msgstr ""
+
+#: includes/class-wc-emailchef-plugin.php:418
+msgid "Settings"
+msgstr ""
+
+#: includes/class-wc-emailchef-plugin.php:420
+msgid "Instruction manual"
+msgstr ""
+
+#: includes/class-wc-emailchef-plugin.php:440
+msgid "This plugin is powered by"
+msgstr ""
+
+#: includes/class-wc-emailchef-plugin.php:493
+msgid "Signup to our newsletter"
+msgstr ""
+
+#: includes/class-wc-emailchef-settings.php:115
+msgid "Failed to retrieve mailing lists. Please check if the API keys are correct and valid."
+msgstr ""
+
+#: includes/class-wc-emailchef-settings.php:133
+msgid "Login attempt unsuccessful. Ensure your API keys are entered correctly."
+msgstr ""
+
+#: includes/class-wc-emailchef-settings.php:168
+msgid "Choose an existing valid Emailchef mailing list or create a new one."
+msgstr ""
+
+#: includes/class-wc-emailchef-settings.php:180
+msgid "Plugin settings changed, selected Emailchef list: %d"
+msgstr ""
+
+#: includes/class-wc-emailchef-settings.php:182
+msgid "Selected Emailchef list: %d. Cron job executed for custom fields syncing"
+msgstr ""
+
+#: includes/class-wc-emailchef-settings.php:188
+msgid "Customer data and custom fields are currently synchronizing."
+msgstr ""
+
+#: includes/class-wc-emailchef-settings.php:196
+msgid "First synchronization not scheduled."
+msgstr ""
+
+#: includes/class-wc-emailchef-settings.php:202
+msgid "Custom fields are currently synchronizing."
+msgstr ""
+
+#: includes/class-wc-emailchef-settings.php:209
+msgid "Custom fields re-synchronised"
+msgstr ""
+
+#: includes/class-wc-emailchef-settings.php:212
+msgid "Initial synchronization option not selected for Emailchef list %d"
+msgstr ""
+
+#: includes/class-wc-emailchef.php:45
+msgid "[START] Synchronization and custom fields creation for Emailchef list %d"
+msgstr ""
+
+#: includes/class-wc-emailchef.php:69
+#: includes/class-wc-emailchef.php:85
+msgid "[PROGRESS] Synchronization of the list %d, chunk of %d contacts."
+msgstr ""
+
+#: includes/class-wc-emailchef.php:74
+#: includes/class-wc-emailchef.php:90
+msgid "[ERROR] Synchronization of the list %d, details : %s"
+msgstr ""
+
+#: partials/admin-debug.php:11
+msgid "API Url"
+msgstr ""
+
+#: partials/admin-debug.php:21
+#: partials/settings/logged-in.php:198
+msgid "Policy"
+msgstr ""
+
+#: partials/admin-debug.php:30
+msgid "List ID"
+msgstr ""
+
+#: partials/admin-debug.php:35
+msgid "Not found"
+msgstr ""
+
+#: partials/admin-debug.php:45
+msgid "Test Custom Fields"
+msgstr ""
+
+#: partials/admin-debug.php:56
+msgid "Rebuild Custom Fields"
+msgstr ""
+
+#: partials/admin-debug.php:61
+msgid "Active integrations"
+msgstr ""
+
+#: partials/admin-debug.php:82
+msgid "Abandoned carts"
+msgstr ""
+
+#: partials/admin-debug.php:91
+msgid "Move abandoned carts"
+msgstr ""
+
+#: partials/admin-debug.php:101
+msgid "User"
+msgstr ""
+
+#: partials/admin-debug.php:105
+msgid "Email"
+msgstr ""
+
+#: partials/admin-debug.php:109
+msgid "Product image"
+msgstr ""
+
+#: partials/admin-debug.php:113
+msgid "Product name"
+msgstr ""
+
+#: partials/admin-debug.php:117
+msgid "Product price"
+msgstr ""
+
+#: partials/admin-debug.php:121
+msgid "Created"
+msgstr ""
+
+#: partials/admin-debug.php:125
+msgid "Force Sync"
+msgstr ""
+
+#: partials/admin-debug.php:144
+msgid "No name provided"
+msgstr ""
+
+#: partials/admin-debug.php:198
+msgid "Sync"
+msgstr ""
+
+#: partials/admin-debug.php:212
+msgid "No abandoned carts found"
+msgstr ""
+
+#: partials/settings/logged-in.php:27
+msgid "Single opt-in"
+msgstr ""
+
+#: partials/settings/logged-in.php:28
+msgid "Double opt-in"
+msgstr ""
+
+#: partials/settings/logged-in.php:64
+msgid "Emailchef connected list"
+msgstr ""
+
+#: partials/settings/logged-in.php:71
+msgid "No list connected..."
+msgstr ""
+
+#: partials/settings/logged-in.php:80
+msgid "WooCommerce users usually sync automatically with Emailchef. If an issue arises or you need an immediate update, use the button below for manual sync."
+msgstr ""
+
+#: partials/settings/logged-in.php:86
+msgid "Manual Sync Now"
+msgstr ""
+
+#: partials/settings/logged-in.php:96
+msgid "Show Logs"
+msgstr ""
+
+#: partials/settings/logged-in.php:106
+msgid "Debug"
+msgstr ""
+
+#: partials/settings/logged-in.php:114
+msgid "Emailchef for WooCommerce settings"
+msgstr ""
+
+#: partials/settings/logged-in.php:115
+msgid "Welcome to the Emailchef Integration section for WooCommerce. In this crucial WooCommerce plugin, we offer you the convenience of effortlessly synchronizing your WooCommerce customers with your preferred Emailchef list. By taking advantage of this feature, you will ensure that your email marketing efforts are always up-to-date and targeting the right audience."
+msgstr ""
+
+#: partials/settings/logged-in.php:117
+msgid "Emailchef List Settings"
+msgstr ""
+
+#: partials/settings/logged-in.php:118
+msgid "Simply select the Emailchef list that aligns with your campaign objectives, and the plugin will handle the rest. Our seamless synchronization process automatically updates your chosen list with new users, modifications to existing user information, and any other relevant changes. This not only saves you valuable time but also enhances the effectiveness of your communication strategies."
+msgstr ""
+
+#: partials/settings/logged-in.php:123
+msgid "Emailchef List"
+msgstr ""
+
+#: partials/settings/logged-in.php:128
+msgid "Select a list..."
+msgstr ""
+
+#: partials/settings/logged-in.php:150
+msgid "Add a new Emailchef destination list"
+msgstr ""
+
+#: partials/settings/logged-in.php:153
+msgid "List name"
+msgstr ""
+
+#: partials/settings/logged-in.php:157
+msgid "List description"
+msgstr ""
+
+#: partials/settings/logged-in.php:160
+msgid "Provide a description for this new list."
+msgstr ""
+
+#: partials/settings/logged-in.php:161
+msgid "By setting up a new list within Emailchef, you acknowledge and affirm adherence to Emailchef's <a href=\"https://emailchef.com/privacy-policy/\" target=\"_blank\">privacy policy</a> and <a href=\"https://emailchef.com/terms-of-use/\" target=\"_blank\">terms of use</a>, as well as compliance with the CAN-SPAM Act."
+msgstr ""
+
+#: partials/settings/logged-in.php:165
+msgid "Create List"
+msgstr ""
+
+#: partials/settings/logged-in.php:168
+msgid "Undo"
+msgstr ""
+
+#: partials/settings/logged-in.php:175
+#: partials/settings/logged-in.php:178
+msgid "Sync existing customers"
+msgstr ""
+
+#: partials/settings/logged-in.php:181
+msgid "Sync existing WooCommerce customers on save"
+msgstr ""
+
+#: partials/settings/logged-in.php:191
+msgid "Emailchef Subscription Settings"
+msgstr ""
+
+#: partials/settings/logged-in.php:192
+msgid "Customize your subscriber's journey by defining the pages they are directed to after subscribing or unsubscribing, and determine whether to use a single or a double opt-in approach based on your preferences and compliance requirements."
+msgstr ""
+
+#: partials/settings/logged-in.php:201
+msgid "Which policy would you like to use?"
+msgstr ""
+
+#: partials/settings/logged-in.php:227
+msgid "Subscription page"
+msgstr ""
+
+#: partials/settings/logged-in.php:228
+msgid "Page to redirect the customer to after confirming their subscription with the double opt-in method"
+msgstr ""
+
+#: partials/settings/logged-in.php:246
+msgid "Unsubscription page"
+msgstr ""
+
+#: partials/settings/logged-in.php:264
+msgid "Abandoned Cart Settings"
+msgstr ""
+
+#: partials/settings/logged-in.php:265
+msgid "Recover lost sales with Emailchef plugin's abandoned cart feature. Connect with Emailchef and remind customers to complete their purchases by setting a time frame for abandoned carts."
+msgstr ""
+
+#: partials/settings/logged-in.php:271
+msgid "Cart is Abandoned After"
+msgstr ""
+
+#: partials/settings/logged-in.php:274
+msgid "Enter the number of hours after which a cart is considered abandoned."
+msgstr ""
+
+#: partials/settings/logged-in.php:290
+msgid "days"
+msgstr ""
+
+#: partials/settings/logged-in.php:294
+msgid "hours"
+msgstr ""
+
+#: partials/settings/logged-out.php:12
+msgid "Not a member?"
+msgstr ""
+
+#: partials/settings/logged-out.php:12
+msgid "Sign up for free"
+msgstr ""
+
+#: partials/settings/logged-out.php:20
+msgid "Consumer Key:"
+msgstr ""
+
+#: partials/settings/logged-out.php:21
+msgid "Get API Key"
+msgstr ""
+
+#: partials/settings/logged-out.php:29
+msgid "Consumer Secret:"
+msgstr ""
+
+#: partials/settings/logged-out.php:32
+msgid "Show Consumer Secret"
+msgstr ""
+
+#: partials/settings/logged-out.php:38
+msgid "Hide Consumer Secret"
+msgstr ""
+
+#: partials/settings/logged-out.php:47
+msgid "Login"
+msgstr ""
