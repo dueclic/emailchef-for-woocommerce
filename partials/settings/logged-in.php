@@ -278,7 +278,7 @@ if ( $policy !== 'premium' ) {
                     </th>
                     <td class="forminp forminp-input">
                         <div style="display: flex; align-items: center; gap: 10px;">
-                            <input type="number" style="max-width: 100px" min="0"
+                            <input type="number" style="max-width: 100px" min="1"
                                    name="<?php echo esc_attr( wc_ec_get_option_name( "cron_end_interval_value" ) ); ?>"
                                    id="<?php echo esc_attr( wc_ec_get_option_name( "cron_end_interval_value" ) ); ?>"
                                    value="<?php echo wc_ec_get_option_value( "cron_end_interval_value" ); ?>">
