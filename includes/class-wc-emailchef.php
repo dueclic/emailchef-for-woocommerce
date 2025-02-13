@@ -962,7 +962,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 			return false;
 		}
 
-		delete_transient( 'sswcmc_lists' );
+		delete_transient( 'ecwc_lists' );
 
 		return $response['list_id'];
 
