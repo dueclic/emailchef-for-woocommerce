@@ -13,15 +13,11 @@ $emailchef = WCEC()->emailchef(
 	)
 );
 $account   = $emailchef->account();
-$lists     = $emailchef->lists();
+$lists     = $emailchef->wrap_list();
 $policy    = $emailchef->get_policy();
-$list_id   =  wc_ec_get_option_value( 'list' );
+$list_id   = wc_ec_get_option_value( 'list' );
 
-$list_info = $list_id ? arraY_values(array_filter($lists, function($list) use ($list_id) {
-    return (int)$list['id'] === (int)$list_id;
-})) : null;
-
-$list_name =  $list_info ? $list_info[0]['name'] : "";
+$list_name = $list_id ? $lists[ $list_id ] : '';
 
 $policy_types = [
 	'sopt' => __( "Single opt-in", "emailchef-for-woocommerce" ),
@@ -64,7 +60,9 @@ if ( $policy !== 'premium' ) {
             <div><strong><?php _e( "Emailchef connected list", "emailchef-for-woocommerce" ); ?></strong></div>
             <div class="ecwc-list-container <?php echo $list_id != null ? "ecwc-has-list" : ""; ?>" id="listName">
                 <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" style="height: 16px; margin-top: 2px; display: block" viewBox="0 0 640 512"><path fill="#CCCCCC" d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3zM609.3 512l-137.8 0c5.4-9.4 8.6-20.3 8.6-32l0-8c0-60.7-27.1-115.2-69.8-151.8c2.4-.1 4.7-.2 7.1-.2l61.4 0C567.8 320 640 392.2 640 481.3c0 17-13.8 30.7-30.7 30.7zM432 256c-31 0-59-12.6-79.3-32.9C372.4 196.5 384 163.6 384 128c0-26.8-6.6-52.1-18.3-74.3C384.3 40.1 407.2 32 432 32c61.9 0 112 50.1 112 112s-50.1 112-112 112z"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" style="height: 16px; margin-top: 2px; display: block"
+                         viewBox="0 0 640 512"><path fill="#CCCCCC"
+                                                     d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3zM609.3 512l-137.8 0c5.4-9.4 8.6-20.3 8.6-32l0-8c0-60.7-27.1-115.2-69.8-151.8c2.4-.1 4.7-.2 7.1-.2l61.4 0C567.8 320 640 392.2 640 481.3c0 17-13.8 30.7-30.7 30.7zM432 256c-31 0-59-12.6-79.3-32.9C372.4 196.5 384 163.6 384 128c0-26.8-6.6-52.1-18.3-74.3C384.3 40.1 407.2 32 432 32c61.9 0 112 50.1 112 112s-50.1 112-112 112z"></path></svg>
 
                 </span>
                 <span class="ecwc-list-none ecwc-list-none" id="ecwc-no-list-selected">
@@ -82,8 +80,8 @@ if ( $policy !== 'premium' ) {
                 <button <?php disabled( wc_ec_get_option_value( 'list' ), null ); ?> type="button"
                                                                                      id="wc_emailchef_sync_now"
                                                                                      class="button button-secondary"
-                                                                                     title="<?php _e(wc_ec_get_option_value('list') == null ? "Please select a list and save settings first" : "", "emailchef-for-woocommerce") ?>" >
-                    <?php _e("Manual Sync Now", "emailchef-for-woocommerce"); ?>
+                                                                                     title="<?php _e( wc_ec_get_option_value( 'list' ) == null ? "Please select a list and save settings first" : "", "emailchef-for-woocommerce" ) ?>">
+					<?php _e( "Manual Sync Now", "emailchef-for-woocommerce" ); ?>
                 </button>
             </p>
         </div>
@@ -120,7 +118,7 @@ if ( $policy !== 'premium' ) {
                 <tbody>
                 <tr>
                     <th scope="row" class="titledesc">
-                        <label for="wc_emailchef_list"><?php _e( "Emailchef List", "emailchef-for-woocommerce" ); ?> <?php echo wc_help_tip( "Choose an existing Emailchef list to sync with, or opt to set up a brand-new list for immediate use.", "emailchef-for-woocommerce" ); ?></label>
+                        <label for="wc_emailchef_list"><?php _e( "Emailchef List", "emailchef-for-woocommerce" ); ?><?php echo wc_help_tip( "Choose an existing Emailchef list to sync with, or opt to set up a brand-new list for immediate use.", "emailchef-for-woocommerce" ); ?></label>
                     </th>
                     <td class="forminp forminp-select">
 
@@ -133,21 +131,22 @@ if ( $policy !== 'premium' ) {
                         >
                             <option></option>
 							<?php
-							foreach ( $lists as $list ):
+							foreach ( $lists as $list_id => $list_name ):
 								?>
                                 <option
-                                        value="<?php echo $list['id']; ?>"
+                                        value="<?php echo $list_id; ?>"
 									<?php
-									selected( wc_ec_get_option_value( "list" ), (string) $list['id'] );
+									selected( wc_ec_get_option_value( "list" ), (string) $list_id );
 
 									?>
-                                ><?php echo esc_html( $list['name'] ); ?></option>
+                                ><?php echo esc_html( $list_name ); ?></option>
 							<?php
 							endforeach;
 							?>
                         </select>
                         <p class="description" style="margin-top: 1rem">
-                            <a href="#" id="wc_emailchef_create_list"><?php _e( "Add a new Emailchef destination list", "emailchef-for-woocommerce" ); ?></a>
+                            <a href="#"
+                               id="wc_emailchef_create_list"><?php _e( "Add a new Emailchef destination list", "emailchef-for-woocommerce" ); ?></a>
                         </p>
                         <div class="ecwc-new-list-container">
                             <label><?php _e( "List name", "emailchef-for-woocommerce" ); ?></label>
@@ -172,13 +171,17 @@ if ( $policy !== 'premium' ) {
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="titledesc"><?php _e( "Sync existing customers", "emailchef-for-woocommerce" ); ?></th>
+                    <th scope="row"
+                        class="titledesc"><?php _e( "Sync existing customers", "emailchef-for-woocommerce" ); ?></th>
                     <td class="forminp forminp-checkbox ">
                         <fieldset>
-                            <legend class="screen-reader-text"><span><?php _e( "Sync existing customers", "emailchef-for-woocommerce" ); ?></span></legend>
+                            <legend class="screen-reader-text">
+                                <span><?php _e( "Sync existing customers", "emailchef-for-woocommerce" ); ?></span>
+                            </legend>
                             <label for="wc_emailchef_sync_customers">
                                 <input name="wc_emailchef_sync_customers" id="wc_emailchef_sync_customers"
-                                       type="checkbox" value="1"><?php _e( "Sync existing WooCommerce customers on save", "emailchef-for-woocommerce" ); ?>
+                                       type="checkbox"
+                                       value="1"><?php _e( "Sync existing WooCommerce customers on save", "emailchef-for-woocommerce" ); ?>
                             </label>
                         </fieldset>
                     </td>
@@ -224,7 +227,7 @@ if ( $policy !== 'premium' ) {
                 </tr>
                 <tr class="single_select_page">
                     <th scope="row" class="titledesc">
-                        <label><?php _e( "Subscription page", "emailchef-for-woocommerce" ); ?> <?php echo wc_help_tip(
+                        <label><?php _e( "Subscription page", "emailchef-for-woocommerce" ); ?><?php echo wc_help_tip(
 								__( "Page to redirect the customer to after confirming their subscription with the double opt-in method", "emailchef-for-woocommerce" )
 							); ?></label>
                     </th>
@@ -243,7 +246,7 @@ if ( $policy !== 'premium' ) {
                 </tr>
                 <tr class="single_select_page">
                     <th scope="row" class="titledesc">
-                        <label><?php _e( "Unsubscription page", "emailchef-for-woocommerce" ); ?> <?php echo wc_help_tip( "Page to which the customer is redirected after unsubscribing from the newsletter", "emailchef-for-woocommerce" ); ?></label>
+                        <label><?php _e( "Unsubscription page", "emailchef-for-woocommerce" ); ?><?php echo wc_help_tip( "Page to which the customer is redirected after unsubscribing from the newsletter", "emailchef-for-woocommerce" ); ?></label>
                     </th>
                     <td class="forminp">
 						<?php
