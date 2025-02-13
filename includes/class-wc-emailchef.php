@@ -893,36 +893,26 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 	public function wrap_list( $args = array() ) {
 
-		/**
-		 * Implemented transient
-		 */
+		$args['offset']    = 0;
+		$args['orderby']   = 'cd';
+		$args['ordertype'] = 'd';
+		$args['pinned'] = 1;
 
-		if ( ! $results = get_transient( 'ecwc_lists' ) ) {
+		if ( ! array_key_exists( 'limit', $args ) ) {
+			$args['limit'] = 100;
+		}
 
-			$args['offset']    = 0;
-			$args['orderby']   = 'cd';
-			$args['ordertype'] = 'd';
-			$args['pinned'] = 1;
+		$lists = $this->lists( $args );
 
-			if ( ! array_key_exists( 'limit', $args ) ) {
-				$args['limit'] = 100;
-			}
+		if ( ! $lists ) {
+			return [];
+		}
 
-			$lists = $this->lists( $args );
+		$results = array();
 
-			if ( ! $lists ) {
-				return [];
-			}
+		foreach ( $lists as $list ) {
 
-			$results = array();
-
-			foreach ( $lists as $list ) {
-
-				$results[ $list['id'] ] = $list['name'];
-
-			}
-
-			set_transient( 'ecwc_lists', $results, 60 * 15 );
+			$results[ $list['id'] ] = $list['name'];
 
 		}
 
