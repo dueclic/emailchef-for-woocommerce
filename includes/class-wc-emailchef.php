@@ -902,6 +902,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 			$args['offset']    = 0;
 			$args['orderby']   = 'cd';
 			$args['ordertype'] = 'd';
+			$args['pinned'] = 1;
 
 			if ( ! array_key_exists( 'limit', $args ) ) {
 				$args['limit'] = 100;
@@ -921,7 +922,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 			}
 
-			set_transient( 'sswcmc_lists', $results, 60 * 15 * 1 );
+			set_transient( 'ecwc_lists', $results, 60 * 15 );
 
 		}
 
