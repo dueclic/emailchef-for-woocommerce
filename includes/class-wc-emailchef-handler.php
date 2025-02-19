@@ -1209,7 +1209,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$this->wcec::deactivate();
 
 			wp_send_json_success( [
-				'message' => __( 'Emailchef account successfully disconnected' )
+				'message' => __( 'Emailchef account successfully disconnected', 'emailchef-for-woocommerce' )
 			] );
 
 		}
