@@ -368,3 +368,30 @@ input[name="emailchef_settings\[consumer_secret\]"].valid {
   margin-top: .75rem;
   margin-bottom: .75rem;
 }
+
+
+@media screen and (max-width: 599px) {
+  .ecwc-main-container {
+    flex-direction: column;
+    margin-right: 0;
+  }
+  .ecwc-main-container > div:first-child {
+    border-right: none;
+    border-bottom: 1px solid #dddddd;
+    padding-right: 0;
+    padding-bottom: 1em;
+  }
+  .ecwc-main-account {
+    flex-grow: 0;
+    width: 100%;
+  }
+  .ecwc-account-status {
+    margin-bottom: .5em;
+  }
+  .ecwc-main-container > div:last-child {
+    padding-left: 0;
+  }
+  .emailchef-form{
+    margin-right: 0;
+  }
+}
