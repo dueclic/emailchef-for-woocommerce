@@ -4,7 +4,7 @@ Contributors: dueclic
 Tags: emailchef,newsletter,woocommerce,ecommerce,email 
 Requires at least:6.0
 Tested up to: 6.7
-Stable tag: 5.3
+Stable tag: 5.4
 WC requires at least: 8.3.1 
 WC tested up to: 9.6.1
 License: GPLv2 or later
@@ -70,6 +70,9 @@ add_filter('emailchef_abandoned_cart_image_size', 'emailchef_abandoned_cart_imag
 </code>
 
 == Changelog ==
+
+= 5.4 =
+* Responsive fixes in Admin Area
 
 = 5.3 =
 * API keys introduction
