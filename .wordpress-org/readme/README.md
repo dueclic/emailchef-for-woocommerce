@@ -205,11 +205,11 @@ add_filter('emailchef_abandoned_cart_image_size', 'emailchef_abandoned_cart_imag
 
 == Screenshots ==
 
-1. Access Emailchef account
-
-2. Configure Emailchef account
-
-3. Create a new Emailchef list
+1. Emailchef account login using API Keys
+2. List settings
+3. Subscription settings
+4. Abandoned cart settings
+5. Logs management
 
 == Upgrade Notice ==
 
