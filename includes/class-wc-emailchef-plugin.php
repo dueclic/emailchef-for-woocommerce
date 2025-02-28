@@ -347,12 +347,14 @@ final class WC_Emailchef_Plugin {
 	    }
 
 
+        /*
 	    $last_run_version = get_option('ecwc_last_run_version', '5.2');
 
         if (version_compare( $last_run_version, self::version(), '<')) {
             self::deactivate();
             update_option( 'ecwc_last_run_version', self::version() );
         }
+        */
 
 
     }
