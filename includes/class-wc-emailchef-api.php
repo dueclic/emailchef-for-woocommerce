@@ -35,6 +35,7 @@ class WC_Emailchef_Api {
 		$args = array(
 			'body'   => $args,
 			'method' => strtoupper( $method ),
+			'user-agent' => 'Emailchef for WooCommerce (WordPress Plugin)',
 			'headers' => [
 				'consumerKey' => $this->consumer_key,
 				'consumerSecret' => $this->consumer_secret
