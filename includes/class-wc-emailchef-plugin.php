@@ -56,7 +56,6 @@ final class WC_Emailchef_Plugin {
 			self::$instance->includes();
 			self::$instance->emailchef();
 			self::$instance->handler = WC_Emailchef_Handler::get_instance();
-			self::$instance->load_translations();
 
 
 			do_action( "wc_emailchef_loaded" );
@@ -83,12 +82,7 @@ final class WC_Emailchef_Plugin {
 	 */
 
 	public static function version() {
-		if ( ! function_exists( 'get_plugin_data' ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		}
-		$plugin_data = get_plugin_data( WC_EMAILCHEF_FILE );
-
-		return $plugin_data['Version'];
+		return WC_EMAILCHEF_VERSION;
 	}
 
 	public static function activate() {
@@ -178,7 +172,7 @@ final class WC_Emailchef_Plugin {
 
 			wp_register_script( 'woocommerce-emailchef-backend-js',
 				WC_EMAILCHEF_URL . "dist/js/emailchef.min.js", array( 'jquery' ),
-				self::version() );
+				WC_EMAILCHEF_VERSION );
 
 			wp_localize_script( 'woocommerce-emailchef-backend-js', 'wcec', array(
 				"namespace"                           => $this->namespace,
@@ -259,7 +253,7 @@ final class WC_Emailchef_Plugin {
 
 			wp_register_style( 'woocommerce-emailchef-backend-css',
 				WC_EMAILCHEF_URL . "dist/css/emailchef.min.css", array(),
-				self::version() );
+				WC_EMAILCHEF_VERSION );
 
 			wp_enqueue_script( 'woocommerce-emailchef-backend-js' );
 			wp_enqueue_style( 'woocommerce-emailchef-backend-css' );
@@ -342,20 +336,12 @@ final class WC_Emailchef_Plugin {
 
     public function ecwc_plugin_update_check() {
 
-	    if (!function_exists('get_plugin_data')) {
-		    require_once(ABSPATH . 'wp-admin/includes/plugin.php');
-	    }
-
-
-        /*
 	    $last_run_version = get_option('ecwc_last_run_version', '5.2');
 
-        if (version_compare( $last_run_version, self::version(), '<')) {
+        if (version_compare( $last_run_version, '5.4', '<')) {
             self::deactivate();
-            update_option( 'ecwc_last_run_version', self::version() );
+            update_option( 'ecwc_last_run_version', WC_EMAILCHEF_VERSION );
         }
-        */
-
 
     }
 
@@ -446,22 +432,6 @@ final class WC_Emailchef_Plugin {
 	public function dueclic_copyright() {
 		add_filter( 'admin_footer_text', array( $this, 'footer_text' ), 11 );
 	}
-
-	/**
-	 * Load translations
-	 */
-
-	public function load_translations() {
-		$lang_path = dirname( dirname( plugin_basename( __FILE__ ) ) )
-		             . '/languages/';
-
-		load_plugin_textdomain(
-			'emailchef-for-woocommerce',
-			false,
-			$lang_path
-		);
-	}
-
 	/**
 	 * Include libraries
 	 */
@@ -523,7 +493,6 @@ final class WC_Emailchef_Plugin {
 
 	public function define_constants() {
 		// Plugin version
-		$this->define( "WC_EMAILCHEF_VERSION", self::version() );
 
 		// Plugin folder path
 		$this->define( "WC_EMAILCHEF_DIR",

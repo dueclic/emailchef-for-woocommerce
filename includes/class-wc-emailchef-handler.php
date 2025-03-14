@@ -12,11 +12,16 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 		private $namespace;
 
+        private $id = "emailchef";
+
+		/**
+		 * @var WC_Emailchef_Plugin
+		 */
+		private $wcec;
+
 		public function __construct() {
 
-			$this->id        = 'emailchef';
 			$this->namespace = 'wc_' . $this->id;
-			$this->label     = __( 'Emailchef', 'emailchef-for-woocommerce' );
 			$this->wcec      = WCEC();
 			$this->hooks();
 
