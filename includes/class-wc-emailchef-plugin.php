@@ -96,7 +96,9 @@ final class WC_Emailchef_Plugin {
 		], 30 );
 	}
 
-	public static function deactivate() {
+	public static function deactivate(
+		$has_api_keys = true
+	) {
 		$options = array(
 			'consumer_key',
 			'consumer_secret',
@@ -111,7 +113,10 @@ final class WC_Emailchef_Plugin {
 
 		$list_id = get_option( 'wc_emailchef_list' );
 
-		if ( $list_id ) {
+		if (
+			$has_api_keys &&
+			$list_id
+		) {
 			$emailchef = self::$instance->emailchef();
 			$emailchef->delete_integration( $list_id );
 		}
@@ -298,7 +303,7 @@ final class WC_Emailchef_Plugin {
 		}
 
 
-		add_action('plugins_loaded', array($this, 'ecwc_plugin_update_check'));
+		add_action( 'plugins_loaded', array( $this, 'ecwc_plugin_update_check' ) );
 
 		add_filter( 'cron_schedules', array( $this, 'cron_schedules' ) );
 
@@ -334,16 +339,18 @@ final class WC_Emailchef_Plugin {
 
 	}
 
-    public function ecwc_plugin_update_check() {
+	public function ecwc_plugin_update_check() {
 
-	    $last_run_version = get_option('ecwc_last_run_version', '5.2');
+		$last_run_version = get_option( 'ecwc_last_run_version', '5.2' );
 
-        if (version_compare( $last_run_version, '5.4', '<')) {
-            self::deactivate();
-            update_option( 'ecwc_last_run_version', WC_EMAILCHEF_VERSION );
-        }
+		if ( version_compare( $last_run_version, '5.4', '<' ) ) {
+			self::deactivate(
+				false
+			);
+			update_option( 'ecwc_last_run_version', WC_EMAILCHEF_VERSION );
+		}
 
-    }
+	}
 
 	public function cron_schedules() {
 		return [
@@ -432,6 +439,7 @@ final class WC_Emailchef_Plugin {
 	public function dueclic_copyright() {
 		add_filter( 'admin_footer_text', array( $this, 'footer_text' ), 11 );
 	}
+
 	/**
 	 * Include libraries
 	 */
