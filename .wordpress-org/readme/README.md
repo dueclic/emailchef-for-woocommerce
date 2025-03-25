@@ -1,6 +1,6 @@
 === Emailchef for WooCommerce === 
 
-Contributors: dueclic 
+Contributors: emailchef,dueclic 
 Tags: emailchef,newsletter,woocommerce,ecommerce,email 
 Requires at least:6.0
 Tested up to: 6.7
