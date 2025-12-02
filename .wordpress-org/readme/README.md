@@ -3,10 +3,10 @@
 Contributors: emailchef,dueclic 
 Tags: emailchef,newsletter,woocommerce,ecommerce,email 
 Requires at least:6.0
-Tested up to: 6.7
-Stable tag: 5.5.1
+Tested up to: 6.9
+Stable tag: 5.5.2
 WC requires at least: 8.3.1 
-WC tested up to: 9.6.1
+WC tested up to: 10.3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,6 +70,9 @@ add_filter('emailchef_abandoned_cart_image_size', 'emailchef_abandoned_cart_imag
 </code>
 
 == Changelog ==
+
+= 5.5.2 =
+* Compatibility to WP 6.9 and WC 10.3.5
 
 = 5.5.1 =
 * version check fix
