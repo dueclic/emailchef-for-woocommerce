@@ -35,6 +35,20 @@ pnpm run env:destroy  # remove containers + volumes
 pnpm run env:cli ...  # WP-CLI inside the container, e.g. pnpm run env:cli option get wc_emailchef_list
 ```
 
+## Release / versioning
+
+Releases are driven by **conventional commits** (`feat:`, `fix:`, …) via `commit-and-tag-version`:
+
+```bash
+pnpm run release:dry   # preview: next version + changelog (no side effects)
+pnpm run release       # bump versions, update changelogs, commit, create tag
+git push --follow-tags origin master   # push manually — this triggers the WP.org deploy
+```
+
+`pnpm run release` computes the next semver from commits since the last tag and updates every version location in one commit: the `Version:` header **and** the `WC_EMAILCHEF_VERSION` constant in `woocommerce-emailchef.php`, `Stable tag:` in `.wordpress-org/readme/README.md`, `package.json`, and `CHANGELOG.md`. It also regenerates the user-facing `== Changelog ==` entry in the WP.org readme from the conventional commits (via `scripts/patch-version.sh`, hooked as the `postbump` lifecycle script). Config is in `.versionrc.js`; the custom updaters live in `scripts/version-updaters/`. Tags are plain versions with no `v` prefix (e.g. `5.5.2`). Never bump versions by hand.
+
+`scripts/patch-version.sh` can still be run standalone, e.g. `--tested-up 7.0` to update `Tested up to:` or `--changelog "<text>"` to override the auto-generated readme entry (run before `pnpm run release`, or re-run after and amend).
+
 ## Architecture
 
 ### Bootstrap (woocommerce-emailchef.php)
@@ -76,4 +90,5 @@ Deployment to the WordPress.org SVN repo happens automatically via GitHub Action
 ## Conventions
 
 - Code style is WordPress-flavored PHP as in existing files; match the surrounding file.
+- Commit messages follow conventional commits (`feat:`, `fix:`, `chore:`, …) — the release changelog is generated from them.
 - Everything written to the repo or GitHub is in **English**: PR titles and bodies, commit messages, code comments, and docs — regardless of the language used in conversation.
