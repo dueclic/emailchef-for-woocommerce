@@ -10,4 +10,7 @@ README.md
 CLAUDE.md
 gulpfile.js
 package.json
-package-lock.json
+pnpm-lock.yaml
+.nvmrc
+.wp-env.json
+.wp-env.override.json
