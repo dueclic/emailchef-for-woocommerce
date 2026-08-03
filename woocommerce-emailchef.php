@@ -8,7 +8,7 @@
 * Version: 5.5.2
 * Tested up to: 7.0
 * WC requires at least: 8.3.1
-* WC tested up to: 10.3.5
+* WC tested up to: 10.9
 * Text Domain: emailchef-for-woocommerce
 * Domain Path: /languages/
 * License: GPL v2
