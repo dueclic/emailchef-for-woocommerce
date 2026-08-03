@@ -12,7 +12,7 @@ Requires WooCommerce 8.3.1+; HPOS (custom order tables) compatibility is declare
 
 Toolchain: Node 20 (`.nvmrc`) + pnpm 9 (pinned via `packageManager`, use through corepack: `corepack enable` once, then plain `pnpm` works).
 
-Admin CSS/JS are compiled from `src/` to `dist/` with gulp; **`dist/` is committed** — after editing `src/`, rebuild and commit the regenerated files too.
+Admin CSS/JS are compiled from `src/` to `dist/` with gulp. **`dist/css` and `dist/js` are NOT committed** (git-ignored) — CI builds them for the PR package check and the WP.org deploy; run `pnpm run build` locally after cloning (e.g. before `pnpm run env:start`, or the admin assets 404). Static images in `dist/img` ARE committed. Edit sources in `src/scss` / `src/js`, never the built files.
 
 ```bash
 pnpm install
@@ -85,7 +85,7 @@ All user-facing strings use the `emailchef-for-woocommerce` text domain; transla
 
 ## Deployment
 
-Deployment to the WordPress.org SVN repo happens automatically via GitHub Actions (`.github/workflows/deploy.yml`) when a git tag is pushed; the same workflow attaches the deployed zip to a GitHub release for the tag. A package check workflow (`.github/workflows/build.yml`) runs on every PR and uploads the zip as an artifact. Pushes to `master` touching `src/` trigger `.github/workflows/fe-compile.yml`, which rebuilds `dist/` and commits it if it changed. `.distignore` controls what is excluded from the deployed zip (`src/`, build tooling and dev files are excluded; `dist/` ships).
+Deployment to the WordPress.org SVN repo happens automatically via GitHub Actions (`.github/workflows/deploy.yml`) when a git tag is pushed. The workflow builds the assets first (`dist/css` and `dist/js` are not committed), then deploys and attaches the packaged zip to a GitHub release for the tag — the exact zip deployed to WP.org. A build & package check workflow (`.github/workflows/build.yml`) does the same build + packaging on every PR and uploads the zip as an artifact. `.distignore` controls what is excluded from the deployed zip (`src/`, build tooling and dev files are excluded; `dist/` ships).
 
 ## Conventions
 
