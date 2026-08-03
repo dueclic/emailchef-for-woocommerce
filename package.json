@@ -4,6 +4,8 @@
   "description": "Connect your WooCommerce store to Emailchef: sync customers, orders and abandoned carts",
   "private": true,
   "scripts": {
+    "release": "commit-and-tag-version",
+    "release:dry": "commit-and-tag-version --dry-run",
     "build": "gulp",
     "watch": "gulp watch",
     "watch:css": "gulp scss:watch",
@@ -26,6 +28,7 @@
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
     "@wordpress/env": "^10.0.0",
+    "commit-and-tag-version": "^12.5.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-babel": "^8.0.0",

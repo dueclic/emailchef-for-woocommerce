@@ -4,11 +4,14 @@
 /.claude
 /.idea
 /node_modules
+/scripts
 /src
 .distignore
 .gitignore
 README.md
 CLAUDE.md
+CHANGELOG.md
+.versionrc.js
 gulpfile.js
 package.json
 pnpm-lock.yaml
