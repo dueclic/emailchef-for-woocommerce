@@ -4,7 +4,7 @@ Contributors: emailchef,dueclic
 Tags: emailchef,newsletter,woocommerce,ecommerce,email 
 Requires at least: 6.0
 Tested up to: 7.0
-Stable tag: 5.5.2
+Stable tag: 5.5.3
 WC requires at least: 8.3.1 
 WC tested up to: 10.9
 License: GPLv2 or later
@@ -70,6 +70,13 @@ add_filter('emailchef_abandoned_cart_image_size', 'emailchef_abandoned_cart_imag
 </code>
 
 == Changelog ==
+= 5.5.3 =
+* Fix: replace deprecated WooCommerce order/product property access
+* Docs: add CLAUDE.md, repo hygiene, WordPress 7.0 compatibility
+* build dist assets in CI instead of committing them
+* drive releases with commit-and-tag-version
+* add package check on PRs and GitHub release with plugin zip
+* add Node 20 + pnpm 9 toolchain and wp-env dev environment
 
 = 5.5.2 =
 * Compatibility to WP 6.9 and WC 10.3.5
