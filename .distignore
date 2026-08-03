@@ -1,11 +1,13 @@
 /.wordpress-org
 /.git
 /.github
+/.claude
 /node_modules
 /src
 .distignore
 .gitignore
 README.md
+CLAUDE.md
 gulpfile.js
 package.json
 package-lock.json

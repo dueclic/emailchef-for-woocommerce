@@ -2,8 +2,8 @@
 
 Contributors: emailchef,dueclic 
 Tags: emailchef,newsletter,woocommerce,ecommerce,email 
-Requires at least:6.0
-Tested up to: 6.9
+Requires at least: 6.0
+Tested up to: 7.0
 Stable tag: 5.5.2
 WC requires at least: 8.3.1 
 WC tested up to: 10.3.5
