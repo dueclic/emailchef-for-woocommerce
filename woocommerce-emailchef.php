@@ -1,12 +1,12 @@
 <?php
 /*
 * Plugin Name: Emailchef for WooCommerce
-* Plugin Uri: http://emailchef.com/email-marketing-woocommerce-emailchef/
+* Plugin URI: http://emailchef.com/email-marketing-woocommerce-emailchef/
 * Description: Using this WooCommerce plugin, Emailchef can communicate with your online store and it creates easy, simply and automatic targeted campaigns.
 * Author: emailchef
 * Author URI: https://www.emailchef.com
 * Version: 5.5.2
-* Tested up: 6.9
+* Tested up to: 7.0
 * WC requires at least: 8.3.1
 * WC tested up to: 10.3.5
 * Text Domain: emailchef-for-woocommerce
