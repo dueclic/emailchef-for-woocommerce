@@ -1,0 +1,25 @@
+name: Package check
+on:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  package:
+    name: Package plugin zip
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Package with the same rsync + .distignore logic used by the
+      # WP.org deploy action, so the artifact matches what gets deployed.
+      - name: Package plugin zip
+        run: |
+          mkdir -p /tmp/package/emailchef-for-woocommerce
+          rsync -rc --exclude-from=.distignore ./ /tmp/package/emailchef-for-woocommerce/ --delete --delete-excluded
+          cd /tmp/package
+          zip -rq emailchef-for-woocommerce.zip emailchef-for-woocommerce
+          echo "── zip contents ──"
+          unzip -l emailchef-for-woocommerce.zip
+      - name: Upload zip artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: emailchef-for-woocommerce-zip
+          path: /tmp/package/emailchef-for-woocommerce.zip
