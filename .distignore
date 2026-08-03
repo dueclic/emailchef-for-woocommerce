@@ -2,6 +2,7 @@
 /.git
 /.github
 /.claude
+/.idea
 /node_modules
 /src
 .distignore

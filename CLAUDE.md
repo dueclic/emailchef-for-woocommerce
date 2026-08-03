@@ -71,7 +71,7 @@ All user-facing strings use the `emailchef-for-woocommerce` text domain; transla
 
 ## Deployment
 
-Deployment to the WordPress.org SVN repo happens automatically via GitHub Actions (`.github/workflows/deploy.yml`) when a git tag is pushed. `.distignore` controls what is excluded from the deployed zip (`src/`, build tooling and dev files are excluded; `dist/` ships).
+Deployment to the WordPress.org SVN repo happens automatically via GitHub Actions (`.github/workflows/deploy.yml`) when a git tag is pushed; the same workflow attaches the deployed zip to a GitHub release for the tag. A package check workflow (`.github/workflows/build.yml`) runs on every PR and uploads the zip as an artifact. Pushes to `master` touching `src/` trigger `.github/workflows/fe-compile.yml`, which rebuilds `dist/` and commits it if it changed. `.distignore` controls what is excluded from the deployed zip (`src/`, build tooling and dev files are excluded; `dist/` ships).
 
 ## Conventions
 
