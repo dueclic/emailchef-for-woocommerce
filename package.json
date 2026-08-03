@@ -1,40 +1,43 @@
 {
   "name": "emailchef-for-woocommerce",
-  "version": "2.0.0",
-  "description": "Easily send emails from your WordPress website using turboSMTP's services",
-  "main": "gulpfile.js",
+  "version": "5.5.2",
+  "description": "Connect your WooCommerce store to Emailchef: sync customers, orders and abandoned carts",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "gulp",
+    "watch": "gulp watch",
     "watch:css": "gulp scss:watch",
     "watch:js": "gulp js:watch",
     "build:css": "gulp styles",
     "build:js": "gulp scripts",
-    "watch": "gulp watch",
-    "clean": "gulp clean"
+    "clean": "gulp clean",
+    "env:start": "wp-env start",
+    "env:stop": "wp-env stop",
+    "env:destroy": "wp-env destroy",
+    "env:cli": "wp-env run cli wp"
   },
   "author": "dueclic",
-  "license": "GPLv3",
+  "license": "GPL-2.0-or-later",
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=20"
+  },
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
+    "@wordpress/env": "^10.0.0",
     "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
     "gulp-babel": "^8.0.0",
+    "gulp-clean": "^0.4.0",
     "gulp-clean-css": "^4.2.0",
     "gulp-concat": "^2.6.1",
     "gulp-cssimport": "^7.0.0",
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.1.0",
+    "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2",
-    "jquery": "^1.4.1",
     "sass": "^1.55.0"
-  },
-  "dependencies": {
-    "chart.js": "^2.9.3",
-    "daterangepicker": "^3.0.5",
-    "gulp-autoprefixer": "^7.0.1",
-    "gulp-clean": "^0.4.0",
-    "gulp-sourcemaps": "^2.6.5"
   }
 }

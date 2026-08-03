@@ -10,17 +10,30 @@ Requires WooCommerce 8.3.1+; HPOS (custom order tables) compatibility is declare
 
 ## Commands
 
+Toolchain: Node 20 (`.nvmrc`) + pnpm 9 (pinned via `packageManager`, use through corepack: `corepack enable` once, then plain `pnpm` works).
+
 Admin CSS/JS are compiled from `src/` to `dist/` with gulp; **`dist/` is committed** — after editing `src/`, rebuild and commit the regenerated files too.
 
 ```bash
-npm install
-npm run build        # clean + styles + scripts (dist/css, dist/js)
-npm run watch        # watch scss + js
-npm run build:css    # gulp styles only
-npm run build:js     # gulp scripts only
+pnpm install
+pnpm run build        # clean + styles + scripts (dist/css, dist/js)
+pnpm run watch        # watch scss + js
+pnpm run build:css    # gulp styles only
+pnpm run build:js     # gulp scripts only
 ```
 
 There are no tests and no PHP linting configured; PHP is loaded directly by WordPress.
+
+## Local dev environment (wp-env)
+
+`@wordpress/env` (needs Docker) spins up WordPress with WooCommerce (latest stable) and the plugin mounted and activated; config in `.wp-env.json` (PHP 8.2, `WP_DEBUG` on).
+
+```bash
+pnpm run env:start    # http://localhost:8888 — admin: admin/password
+pnpm run env:stop
+pnpm run env:destroy  # remove containers + volumes
+pnpm run env:cli ...  # WP-CLI inside the container, e.g. pnpm run env:cli option get wc_emailchef_list
+```
 
 ## Architecture
 
