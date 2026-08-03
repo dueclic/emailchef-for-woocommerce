@@ -352,14 +352,16 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 				$customer = get_user_by( "email", $email );
 
+				$orders = $this->em_orders( $email );
+
 				/**
-				 * @var $order WC_Order
+				 * @var $order WC_Order|null
 				 */
-				$order = $this->em_orders( $email )[0];
+				$order = ! empty( $orders ) ? $orders[0] : null;
 
 				if ( ! $customer ) {
-					$firstname = $order->billing_first_name;
-					$lastname  = $order->billing_last_name;
+					$firstname = $order ? $order->get_billing_first_name() : '';
+					$lastname  = $order ? $order->get_billing_last_name() : '';
 				} else {
 					$firstname = $customer->first_name;
 					$lastname  = $customer->last_name;
@@ -403,14 +405,16 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 				$customer = get_user_by( "email", $data['customer_email'] );
 
+				$orders = $this->em_orders( $email );
+
 				/**
-				 * @var $order WC_Order
+				 * @var $order WC_Order|null
 				 */
-				$order = $this->em_orders( $email )[0];
+				$order = ! empty( $orders ) ? $orders[0] : null;
 
 				if ( ! $customer ) {
-					$firstname = $order->billing_first_name;
-					$lastname  = $order->billing_last_name;
+					$firstname = $order ? $order->get_billing_first_name() : '';
+					$lastname  = $order ? $order->get_billing_last_name() : '';
 				} else {
 					$firstname = $customer->first_name;
 					$lastname  = $customer->last_name;
@@ -960,13 +964,8 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					continue;
 				}
 
-				if ( WCEC()::version_check() ) {
-					$name              = $product->get_name();
-					$short_description = $product->get_short_description();
-				} else {
-					$name              = $product->post->post_name;
-					$short_description = $product->post->post_excerpt;
-				}
+				$name              = $product->get_name();
+				$short_description = $product->get_short_description();
 
 				$list_id = get_option( $this->prefixed_setting( "list" ) );
 
