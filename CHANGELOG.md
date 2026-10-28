@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.0.1](https://github.com/dueclic/emailchef-for-woocommerce/compare/6.0.0...6.0.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* allow controlled recovery of stalled synchronization ([828adee](https://github.com/dueclic/emailchef-for-woocommerce/commit/828adeef066fec8ad09f8ca7873a7012491eba6e))
+
 ## [6.0.0](https://github.com/dueclic/emailchef-for-woocommerce/compare/5.5.3...6.0.0) (2026-10-28)
 
 

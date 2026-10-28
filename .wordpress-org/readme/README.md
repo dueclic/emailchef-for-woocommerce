@@ -4,7 +4,7 @@ Contributors: emailchef,dueclic
 Tags: emailchef,newsletter,woocommerce,ecommerce,email 
 Requires at least: 7.1.3
 Tested up to: 7.1
-Stable tag: 6.0.0
+Stable tag: 6.0.1
 WC requires at least: 11.2.1
 WC tested up to: 11.2
 License: GPLv2 or later
@@ -70,6 +70,8 @@ add_filter('emailchef_abandoned_cart_image_size', 'emailchef_abandoned_cart_imag
 </code>
 
 == Changelog ==
+= 6.0.1 =
+* Fix: allow controlled recovery of stalled synchronization
 = 6.0.0 =
 * Breaking change: requires WordPress 7.1.3 and WooCommerce 11.2.1 or later.
 * Feature: add resumable initial customer synchronization
