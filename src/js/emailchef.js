@@ -190,18 +190,20 @@ var WC_Emailchef = function ($) {
                     $('#emailchef-batch-size-value').text(savedBatchSize);
                 }
                 var active = job.status === 'queued' || job.status === 'running';
-                $('#emailchef-sync-status').attr('data-status', job.status);
+                var displayStatus = job.stalled ? 'stalled' : job.status;
+                $('#emailchef-sync-status').attr('data-status', displayStatus);
                 var progress = job.total ? Math.min(100, Math.round(job.processed * 100 / job.total)) : 0;
                 if (job.status === 'completed') progress = 100;
                 $('#emailchef-sync-progress').val(progress);
-                $('#emailchef-sync-message').text(syncMessages[job.status] || syncMessages.idle);
+                $('#emailchef-sync-message').text(syncMessages[displayStatus] || syncMessages.idle);
                 var details = job.status === 'idle' ? '' : syncMessages.list + ': ' + job.list_id + ' | ' + syncMessages.contacts + ': ' + job.processed + ' / ' + job.total + ' (' + progress + '%)';
+                if (job.updated_at) details += ' | ' + syncMessages.updated + ': ' + new Date(job.updated_at * 1000).toLocaleString();
                 if (job.phase === 'setup' && active) details += ' | ' + syncMessages.setup;
                 if (job.message) details += ' | ' + job.message;
                 $('#emailchef-sync-details').text(details);
-                $('#emailchef-sync-dialog-status').text((syncMessages[job.status] || syncMessages.idle) + (details ? ' ' + details : ''));
+                $('#emailchef-sync-dialog-status').text((syncMessages[displayStatus] || syncMessages.idle) + (details ? ' ' + details : ''));
                 renderChunks(job);
-                syncButton.prop('disabled', active || sliderPending || $('.emailchef-debug__sync').attr('data-list-available') !== '1').text(job.status === 'error' ? syncMessages.resume : syncMessages.start);
+                syncButton.prop('disabled', (active && !job.stalled) || sliderPending || $('.emailchef-debug__sync').attr('data-list-available') !== '1').text(job.status === 'error' || job.stalled ? syncMessages.resume : syncMessages.start);
             }).fail(function () {
                 $('#emailchef-sync-message').text(syncMessages.unavailable);
             });
@@ -215,10 +217,14 @@ var WC_Emailchef = function ($) {
             syncButton.prop('disabled', true);
             showSyncDialog();
             $.post(wcec.ajax_manual_sync_url, {}, function (response) {
-                if (!response.success) $('#emailchef-sync-message').text(response.data.message);
-                updateSyncStatus();
+                if (!response.success) {
+                    $('#emailchef-sync-dialog-status').text(response.data.message);
+                    syncButton.prop('disabled', false);
+                } else {
+                    updateSyncStatus();
+                }
             }).fail(function () {
-                $('#emailchef-sync-message').text(syncMessages.unavailable);
+                $('#emailchef-sync-message, #emailchef-sync-dialog-status').text(syncMessages.unavailable);
                 syncButton.prop('disabled', false);
             });
         });
