@@ -31,7 +31,7 @@
   &__status-dot { flex: none; width: 9px; height: 9px; border-radius: 50%; background: #a9a4a2; }
   [data-status="running"] &__status-dot, [data-status="queued"] &__status-dot { background: #f58b3e; box-shadow: 0 0 0 4px #fde5d4; }
   [data-status="completed"] &__status-dot { background: #16875a; }
-  [data-status="error"] &__status-dot { background: #ca4848; }
+  [data-status="stalled"] &__status-dot, [data-status="error"] &__status-dot { background: #ca4848; }
   &__sync-status progress { appearance: none; display: block; width: 100%; height: 9px; margin: 19px 0 10px; border: 0; border-radius: 99px; overflow: hidden; background: #e3e5e8; }
   &__sync-status progress::-webkit-progress-bar { background: #e3e5e8; }
   &__sync-status progress::-webkit-progress-value { background: #f58b3e; border-radius: 99px; }

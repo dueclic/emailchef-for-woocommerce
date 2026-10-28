@@ -14,6 +14,7 @@ class WC_Emailchef_Initial_Sync {
 	const BATCH_OPTION = 'wc_emailchef_initial_sync_batch_size';
 	const MIN_BATCH = 5;
 	const MAX_BATCH = 100;
+	const STALLED_AFTER = 900;
 
 	public static function init() {
 		add_action( self::HOOK, array( __CLASS__, 'run' ), 10, 1 );
@@ -43,6 +44,61 @@ class WC_Emailchef_Initial_Sync {
 		return $value === false ? self::suggested_batch_size() : max( self::MIN_BATCH, min( self::MAX_BATCH, (int) $value ) );
 	}
 
+	public static function is_stalled( $job ) {
+		return is_array( $job ) && isset( $job['status'], $job['updated_at'] )
+			&& in_array( $job['status'], array( 'queued', 'running' ), true )
+			&& time() - (int) $job['updated_at'] >= self::STALLED_AFTER;
+	}
+
+	/** A database advisory lock is released automatically if a worker dies. */
+	private static function acquire_worker_lock() {
+		global $wpdb;
+		$name = 'wcec_sync_' . substr( md5( DB_NAME . ':' . $wpdb->prefix ), 0, 32 );
+		$result = $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK(%s, 0)', $name ) );
+		return (string) $result === '1' ? $name : false;
+	}
+
+	private static function release_worker_lock( $name ) {
+		global $wpdb;
+		$wpdb->get_var( $wpdb->prepare( 'SELECT RELEASE_LOCK(%s)', $name ) );
+	}
+
+	/** Reschedule a stalled job without changing its confirmed cursor. */
+	private static function resume_stalled( $list_id ) {
+		$lock = self::acquire_worker_lock();
+		if ( ! $lock ) {
+			return new WP_Error( 'busy', __( 'A worker is still running or the database lock is unavailable.', 'emailchef-for-woocommerce' ) );
+		}
+		try {
+			$job = get_option( self::OPTION );
+			if ( ! self::is_stalled( $job ) || (int) $job['list_id'] !== (int) $list_id ) {
+				return new WP_Error( 'busy', __( 'The synchronization is active or belongs to another list.', 'emailchef-for-woocommerce' ) );
+			}
+			$old_lock = get_option( self::LOCK, false );
+			if ( $old_lock !== false && ( ! is_numeric( $old_lock ) || time() - (int) $old_lock < self::STALLED_AFTER ) ) {
+				return new WP_Error( 'busy', __( 'A synchronization worker may still be running. Please wait.', 'emailchef-for-woocommerce' ) );
+			}
+			if ( $old_lock !== false ) {
+				delete_option( self::LOCK );
+			}
+			$cleared = wp_clear_scheduled_hook( self::HOOK, array( $job['id'] ), true );
+			if ( is_wp_error( $cleared ) ) return $cleared;
+			$scheduled = self::schedule( self::HOOK, $job['id'], time() + 1 );
+			if ( is_wp_error( $scheduled ) ) return $scheduled;
+			$scheduled = self::schedule( self::WATCHDOG, $job['id'], time() + 600 );
+			if ( is_wp_error( $scheduled ) ) return $scheduled;
+			$job['status'] = 'queued';
+			$job['message'] = '';
+			$job['updated_at'] = time();
+			update_option( self::OPTION, $job, false );
+			return $job;
+		} catch ( Throwable $error ) {
+			return new WP_Error( 'resume_failed', sprintf( __( 'Could not resume synchronization: %s', 'emailchef-for-woocommerce' ), $error->getMessage() ) );
+		} finally {
+			self::release_worker_lock( $lock );
+		}
+	}
+
 	private static function schedule( $hook, $id, $when ) {
 		$args = array( $id );
 		if ( wp_next_scheduled( $hook, $args ) ) {
@@ -61,6 +117,9 @@ class WC_Emailchef_Initial_Sync {
 	public static function start( $list_id ) {
 		global $wpdb;
 		$job = get_option( self::OPTION );
+		if ( self::is_stalled( $job ) ) {
+			return self::resume_stalled( $list_id );
+		}
 		if ( is_array( $job ) && in_array( $job['status'], array( 'queued', 'running' ), true ) ) {
 			return new WP_Error( 'busy', __( 'A synchronization is already in progress.', 'emailchef-for-woocommerce' ) );
 		}
@@ -97,24 +156,19 @@ class WC_Emailchef_Initial_Sync {
 		if ( ! is_array( $job ) || $job['id'] !== $id || ! in_array( $job['status'], array( 'queued', 'running' ), true ) ) {
 			return;
 		}
-		if ( time() - (int) $job['updated_at'] >= 600 ) {
-			delete_option( self::LOCK );
-			$scheduled = self::schedule( self::HOOK, $id, time() + 1 );
-			if ( is_wp_error( $scheduled ) ) {
-				$job['status'] = 'error';
-				$job['message'] = $scheduled->get_error_message();
-				update_option( self::OPTION, $job, false );
-				return;
-			}
+		// A stalled worker requires an explicit, guarded resume.
+		if ( ! self::is_stalled( $job ) ) {
+			self::schedule( self::WATCHDOG, $id, time() + 600 );
 		}
-		self::schedule( self::WATCHDOG, $id, time() + 600 );
 	}
 
 	public static function run( $id ) {
-		if ( ! add_option( self::LOCK, time(), '', false ) ) {
-			return;
-		}
+		$worker_lock = self::acquire_worker_lock();
+		if ( ! $worker_lock ) return;
+		$option_lock = false;
 		try {
+			$option_lock = add_option( self::LOCK, time(), '', false );
+			if ( ! $option_lock ) return;
 			$job = get_option( self::OPTION );
 			if ( ! is_array( $job ) || $job['id'] !== $id || ! in_array( $job['status'], array( 'queued', 'running' ), true ) ) {
 				return;
@@ -191,7 +245,8 @@ class WC_Emailchef_Initial_Sync {
 				WCEC()->log( 'Initial synchronization error: ' . $error->getMessage() );
 			}
 		} finally {
-			delete_option( self::LOCK );
+			if ( $option_lock ) delete_option( self::LOCK );
+			self::release_worker_lock( $worker_lock );
 		}
 	}
 }

@@ -805,7 +805,11 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				WCEC()->log( __( "Manual sync triggered",
 					"emailchef-for-woocommerce" ) );
 
-				$scheduled = WC_Emailchef_Initial_Sync::start( $list_id );
+				try {
+					$scheduled = WC_Emailchef_Initial_Sync::start( $list_id );
+				} catch ( Throwable $error ) {
+					$scheduled = new WP_Error( 'sync_error', sprintf( __( 'Could not resume synchronization: %s', 'emailchef-for-woocommerce' ), $error->getMessage() ) );
+				}
 				if ( is_wp_error( $scheduled ) ) {
 					$response['text'] = $scheduled->get_error_message();
 					$response['type'] = 'error';
@@ -837,6 +841,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			}
 			$job = get_option( WC_Emailchef_Initial_Sync::OPTION );
 			$data = is_array( $job ) ? array_intersect_key( $job, array_flip( array( 'status', 'phase', 'processed', 'total', 'list_id', 'message', 'updated_at', 'chunks' ) ) ) : array( 'status' => 'idle' );
+			$data['stalled'] = WC_Emailchef_Initial_Sync::is_stalled( $job );
 			$data['batch_size'] = WC_Emailchef_Initial_Sync::batch_size();
 			wp_send_json_success( $data );
 		}
