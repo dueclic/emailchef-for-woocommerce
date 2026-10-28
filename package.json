@@ -1,6 +1,6 @@
 {
   "name": "emailchef-for-woocommerce",
-  "version": "5.5.3",
+  "version": "6.0.0",
   "description": "Connect your WooCommerce store to Emailchef: sync customers, orders and abandoned carts",
   "private": true,
   "scripts": {
