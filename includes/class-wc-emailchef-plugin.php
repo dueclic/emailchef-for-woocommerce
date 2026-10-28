@@ -177,11 +177,38 @@ final class WC_Emailchef_Plugin {
 
 			wp_register_script( 'woocommerce-emailchef-backend-js',
 				WC_EMAILCHEF_URL . "dist/js/emailchef.min.js", array( 'jquery' ),
-				WC_EMAILCHEF_VERSION );
+				WC_EMAILCHEF_VERSION . '.' . filemtime( WC_EMAILCHEF_DIR . 'dist/js/emailchef.min.js' ) );
 
 			wp_localize_script( 'woocommerce-emailchef-backend-js', 'wcec', array(
 				"namespace"                           => $this->namespace,
 				"disconnect_confirm"                  => __( "Are you sure you want to disconnect this account?", "emailchef-for-woocommerce" ),
+				"initial_sync_messages" => array(
+					'idle' => __( 'No synchronization has been started.', 'emailchef-for-woocommerce' ),
+					'queued' => __( 'Waiting for WordPress cron.', 'emailchef-for-woocommerce' ),
+					'running' => __( 'Synchronization in progress.', 'emailchef-for-woocommerce' ),
+					'completed' => __( 'Synchronization completed: all batches were accepted by Emailchef.', 'emailchef-for-woocommerce' ),
+					'error' => __( 'Synchronization stopped. You can resume it.', 'emailchef-for-woocommerce' ),
+					'setup' => __( 'Preparing integration and custom fields', 'emailchef-for-woocommerce' ),
+					'list' => __( 'List', 'emailchef-for-woocommerce' ),
+					'contacts' => __( 'Contacts sent', 'emailchef-for-woocommerce' ),
+					'start' => __( 'Schedule initial synchronization', 'emailchef-for-woocommerce' ),
+					'resume' => __( 'Resume synchronization', 'emailchef-for-woocommerce' ),
+					'unavailable' => __( 'Unable to retrieve synchronization status.', 'emailchef-for-woocommerce' ),
+					'batch_saved' => __( 'Saved. This applies to the next batch.', 'emailchef-for-woocommerce' ),
+					'batch_error_save' => __( 'Unable to save the batch size.', 'emailchef-for-woocommerce' ),
+					'accepted' => __( 'Accepted', 'emailchef-for-woocommerce' ),
+					'batch_error' => __( 'Error', 'emailchef-for-woocommerce' ),
+					'task' => __( 'Import task', 'emailchef-for-woocommerce' ),
+					'warnings' => __( 'Warnings', 'emailchef-for-woocommerce' ),
+				),
+				"ajax_initial_sync_batch_size_url" => wp_nonce_url(
+					add_query_arg( array( 'action' => $this->prefixed_setting( 'initial_sync_batch_size' ) ), admin_url( 'admin-ajax.php' ) ),
+					'emailchef_manual_sync'
+				),
+				"ajax_initial_sync_status_url" => wp_nonce_url(
+					add_query_arg( array( 'action' => $this->prefixed_setting( 'initial_sync_status' ) ), admin_url( 'admin-ajax.php' ) ),
+					'emailchef_manual_sync'
+				),
 				"ajax_manual_sync_url"                => wp_nonce_url(
 					add_query_arg( [
 						'action' => $this->prefixed_setting(
@@ -258,7 +285,7 @@ final class WC_Emailchef_Plugin {
 
 			wp_register_style( 'woocommerce-emailchef-backend-css',
 				WC_EMAILCHEF_URL . "dist/css/emailchef.min.css", array(),
-				WC_EMAILCHEF_VERSION );
+				WC_EMAILCHEF_VERSION . '.' . filemtime( WC_EMAILCHEF_DIR . 'dist/css/emailchef.min.css' ) );
 
 			wp_enqueue_script( 'woocommerce-emailchef-backend-js' );
 			wp_enqueue_style( 'woocommerce-emailchef-backend-css' );

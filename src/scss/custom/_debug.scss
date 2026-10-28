@@ -1,0 +1,93 @@
+.emailchef-debug {
+  max-width: 1400px;
+  margin: 26px 24px 40px 0;
+  color: #1e2151;
+
+  * { box-sizing: border-box; }
+  &__logo { display: block; width: 94px; height: auto; margin-bottom: 14px; }
+  &__header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 8px 4px 24px; }
+  &__header h1 { margin: 7px 0; padding: 0; color: #1e2151; font-size: 30px; font-weight: 700; line-height: 1.2; letter-spacing: -.025em; }
+  &__header p, &__card p { color: #6d6874; line-height: 1.55; }
+  &__header p { margin: 0; font-size: 14px; }
+  &__eyebrow { color: #9d4d16; font-size: 10px; font-weight: 700; letter-spacing: .12em; }
+  &__badge, &__count { border: 1px solid #f2d8c6; border-radius: 99px; background: #fff4ec; color: #78401a; font-size: 11px; font-weight: 700; padding: 7px 12px; }
+  &__overview { display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; margin-bottom: 18px; }
+  &__tools { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+  &__card { background: #fff; border: 1px solid #e8e3df; border-radius: 12px; box-shadow: 0 2px 8px rgba(20, 38, 63, .04); padding: 24px; min-width: 0; }
+  &__card h2 { margin: 6px 0 0; color: #1e2151; font-size: 18px; line-height: 1.3; }
+  &__section-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  &__section-heading .dashicons { color: #b25718; background: #fff1e7; border-radius: 10px; width: 38px; height: 38px; padding: 9px; }
+  &__facts { margin: 18px 0 0; }
+  &__facts div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid #f0eae6; }
+  &__facts dt { color: #746c72; }
+  &__facts dd { margin: 0; color: #1e2151; font-weight: 600; text-align: right; overflow-wrap: anywhere; }
+  &__sync { display: grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 1.1fr); gap: 32px; align-items: center; margin-bottom: 18px; border: 1px solid #dedede; border-radius: 8px; box-shadow: none; color: #1d2327; }
+  &__sync .emailchef-debug__eyebrow { display: none; }
+  &__sync h2 { color: #1d2327; font-size: 16px; }
+  &__sync p { color: #3c434a; }
+  &__sync-intro p { max-width: 460px; margin: 9px 0 17px; }
+  &__sync-status { border: 1px solid #e0e0e0; border-radius: 6px; padding: 20px; background: #f8f8f8; min-width: 0; }
+  &__status-heading { display: flex; align-items: center; gap: 9px; color: #1d2327; }
+  &__status-dot { flex: none; width: 9px; height: 9px; border-radius: 50%; background: #a9a4a2; }
+  [data-status="running"] &__status-dot, [data-status="queued"] &__status-dot { background: #f58b3e; box-shadow: 0 0 0 4px #fde5d4; }
+  [data-status="completed"] &__status-dot { background: #16875a; }
+  [data-status="error"] &__status-dot { background: #ca4848; }
+  &__sync-status progress { appearance: none; display: block; width: 100%; height: 9px; margin: 19px 0 10px; border: 0; border-radius: 99px; overflow: hidden; background: #e3e5e8; }
+  &__sync-status progress::-webkit-progress-bar { background: #e3e5e8; }
+  &__sync-status progress::-webkit-progress-value { background: #f58b3e; border-radius: 99px; }
+  &__sync-status progress::-moz-progress-bar { background: #f58b3e; border-radius: 99px; }
+  &__sync-status p { margin: 0; font-size: 12px; overflow-wrap: anywhere; }
+  &__batch-setting { max-width: 360px; margin: 14px 0; }
+  &__batch-setting label { display: flex; justify-content: space-between; color: #1d2327; }
+  &__batch-setting input[type="range"] { width: 100%; margin: 10px 0 0; }
+  &__batch-setting p { margin: 5px 0; font-size: 12px; }
+  &.emailchef-settings-sync { margin: 0; max-width: 100%; }
+  &.emailchef-settings-sync .emailchef-debug__sync { display: block; margin: 0; padding: 16px; border: 1px solid #dedede; border-radius: 8px; box-shadow: none; background: #fff; }
+  &.emailchef-settings-sync .emailchef-debug__sync-intro h2 { font-size: 15px; }
+  &.emailchef-settings-sync .emailchef-debug__sync-intro p { margin: 8px 0 12px; }
+  &.emailchef-settings-sync .emailchef-debug__sync-status { margin-top: 14px; padding: 14px; }
+  &.emailchef-settings-sync .emailchef-debug__batch-setting p { margin: 5px 0; }
+  &.emailchef-settings-sync .emailchef-debug__sync-intro .button { max-width: 100%; white-space: normal; }
+  & .button.button-primary { background: #1e2151; border-color: #1e2151; color: #fff; }
+  & .button.button-primary:hover, & .button.button-primary:focus { background: #343875; border-color: #343875; color: #fff; }
+  & .button.button-primary:disabled { background: #e8e3df !important; border-color: #e8e3df !important; color: #777 !important; }
+  &__sync input[type="range"] { accent-color: #f58b3e; }
+  & .emailchef-debug__sync .button.button-primary { background: #3858e9; border-color: #3858e9; color: #fff; }
+  & .emailchef-debug__sync .button.button-primary:hover, & .emailchef-debug__sync .button.button-primary:focus { background: #2447ce; border-color: #2447ce; color: #fff; }
+  &__results-button { margin-top: 15px !important; }
+  &__dialog { width: min(960px, calc(100% - 32px)); max-width: 960px; max-height: calc(100vh - 50px); padding: 24px; border: 1px solid #dedede; border-radius: 8px; box-shadow: 0 18px 60px rgba(0, 0, 0, .2); color: #1d2327; }
+  &__dialog::backdrop { background: rgba(18, 34, 56, .56); }
+  &__dialog-header { display: flex; justify-content: space-between; gap: 20px; }
+  &__dialog-header .emailchef-debug__eyebrow { display: none; }
+  &__dialog-header h2 { margin: 0 0 6px; color: #1d2327; font-size: 18px; }
+  &__dialog-header p { color: #6d6874; line-height: 1.5; }
+  &__dialog-close { flex: none; align-self: flex-start; padding: 0; width: 36px; height: 36px; border: 0; border-radius: 6px; background: #f0f0f1; color: #1d2327; font-size: 26px; line-height: 1; cursor: pointer; }
+  &__dialog-status { padding: 12px; border-radius: 8px; background: #f6f7f7; color: #1d2327; }
+  &__dialog-table { overflow: auto; max-height: 55vh; }
+  &__dialog-table table { min-width: 650px; }
+  &__dialog-table td { overflow-wrap: anywhere; vertical-align: top; }
+  &__details { margin-top: 18px; border-top: 1px solid #f0eae6; padding-top: 15px; }
+  &__details summary { cursor: pointer; color: #98501a; font-weight: 600; }
+  &__details textarea, &__details pre { display: block; max-height: 240px; overflow: auto; margin-top: 14px; background: #faf8f6; border: 1px solid #e8e3df; border-radius: 6px; padding: 12px; color: #494557; font: 12px/1.5 monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+  &__cart-actions { margin: 18px 0; }
+  &__pagination { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 18px; color: #6d6874; }
+  &__pagination div { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; }
+  &__pagination .page-numbers { display: inline-block; min-width: 32px; padding: 6px 9px; border: 1px solid #e8e3df; border-radius: 6px; color: #78401a; text-align: center; text-decoration: none; }
+  &__pagination .page-numbers.current { color: #fff; background: #1e2151; border-color: #1e2151; }
+  &__pagination .page-numbers.dots { border-color: transparent; }
+  &__table-wrap { overflow-x: auto; }
+  &__table-wrap table { min-width: 750px; }
+  @media (max-width: 782px) {
+    & { margin: 18px 10px 30px 0; }
+    &__header { align-items: flex-start; }
+    &__header h1 { font-size: 25px; }
+    &__overview, &__tools, &__sync { grid-template-columns: 1fr; }
+    &__sync { gap: 18px; }
+    &__card { padding: 19px; }
+  }
+}
+
+.ecwc-main-account { flex: 0 0 280px; min-width: 0; }
+@media screen and (max-width: 599px) {
+  .ecwc-main-account { flex: 0 0 auto; width: 100%; }
+}

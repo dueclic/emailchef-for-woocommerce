@@ -15,6 +15,10 @@ class WC_Emailchef extends WC_Emailchef_Api {
 	 */
 	private $lastResponse;
 
+	private $import_response_diagnostic = '';
+
+	public $last_import_summary = array();
+
 	private function get_custom_fields() {
 		return require( WC_EMAILCHEF_DIR . "conf/custom_fields.php" );
 	}
@@ -35,70 +39,79 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 		wc_set_time_limit( 0 );
 
-		$customers = get_users( "role=customer" );
-
-		$this->initialize_custom_fields( $list_id );
-
-		if ( $all ) {
-			$data = array();
-
-			WCEC()->log( sprintf( __( "[START] Synchronization and custom fields creation for Emailchef list %d",
-				"emailchef-for-woocommerce" ), $list_id ) );
-
-			foreach ( $customers as $customer ) {
-				$curCustomer = array();
-
-				$wpdb->check_connection();
-
-				$wc_customer = new WC_Emailchef_Customer( $customer->ID );
-
-				foreach (
-					$wc_customer->sync_array() as $placeholder => $value
-				) {
-					if ( $placeholder == "user_email" ) {
-						$placeholder = "email";
-					}
-
-					$curCustomer[] = array(
-						"placeholder" => $placeholder,
-						"value"       => $value
-					);
-				}
-
-				if ( count( $data ) > 100 ) {
-					WCEC()->log( sprintf( __( "[PROGRESS] Synchronization of the list %d, chunk of %d contacts.",
-						"emailchef-for-woocommerce" ), $list_id,
-						count( $data ) ) );
-
-					if ( ! $this->import( $list_id, $data ) ) {
-						WCEC()->log( sprintf( __( "[ERROR] Synchronization of the list %d, details : %s",
-							"emailchef-for-woocommerce" ), $list_id,
-							$this->lastError ) );
-					}
-
-					$data = array();
-				}
-				$data[] = $curCustomer;
-			}
-
-			if ( count( $data ) > 0 ) {
-				WCEC()->log( sprintf( __( "[PROGRESS] Synchronization of the list %d, chunk of %d contacts.",
-					"emailchef-for-woocommerce" ), $list_id,
-					count( $data ) ) );
-
-				if ( ! $this->import( $list_id, $data ) ) {
-					WCEC()->log( sprintf( __( "[ERROR] Synchronization of the list %d, details : %s",
-						"emailchef-for-woocommerce" ), $list_id,
-						$this->lastError ) );
-				}
-			}
-
-			return true;
-
+		if ( ! $this->initialize_custom_fields( $list_id ) ) {
+			return false;
 		}
 
-		return true;
+		if ( ! $all ) {
+			return true;
+		}
 
+		WCEC()->log( sprintf( __( "[START] Synchronization and custom fields creation for Emailchef list %d",
+			"emailchef-for-woocommerce" ), $list_id ) );
+
+		$batch_size = 50;
+		$offset = 0;
+		$success = true;
+		do {
+			$customers = get_users( array(
+				'role' => 'customer',
+				'fields' => 'ID',
+				'number' => $batch_size,
+				'offset' => $offset,
+				'orderby' => 'ID',
+				'order' => 'ASC',
+				'count_total' => false,
+			) );
+			$data = array();
+			foreach ( $customers as $customer_id ) {
+				$wpdb->check_connection();
+				$wc_customer = new WC_Emailchef_Customer( $customer_id );
+				$contact = array();
+				foreach ( $wc_customer->sync_array() as $placeholder => $value ) {
+					$contact[] = array(
+						'placeholder' => $placeholder === 'user_email' ? 'email' : $placeholder,
+						'value' => $value,
+					);
+				}
+				$data[] = $contact;
+				unset( $wc_customer, $contact );
+			}
+			if ( $data ) {
+				WCEC()->log( sprintf( __( "[PROGRESS] Synchronization of the list %d, chunk of %d contacts.",
+					"emailchef-for-woocommerce" ), $list_id, count( $data ) ) );
+				if ( ! $this->import( $list_id, $data ) ) {
+					$success = false;
+					WCEC()->log( sprintf( __( "[ERROR] Synchronization of the list %d, details : %s",
+						"emailchef-for-woocommerce" ), $list_id, $this->lastError ) );
+				}
+			}
+			$count = count( $customers );
+			$offset += $count;
+			unset( $data, $customers );
+			// Release objects cached during this batch without clearing a persistent cache.
+			if ( function_exists( 'wp_cache_flush_runtime' ) ) {
+				wp_cache_flush_runtime();
+			}
+		} while ( $count === $batch_size );
+
+		return $success;
+	}
+
+	/** Send a bounded set of customers, without recreating custom fields. */
+	public function sync_customer_batch( $list_id, $customers ) {
+		global $wpdb;
+		$data = array();
+		foreach ( $customers as $customer_id ) {
+			$wpdb->check_connection();
+			$customer = new WC_Emailchef_Customer( $customer_id );
+			$contact = array();
+			foreach ( $customer->sync_array() as $placeholder => $value ) {
+				$contact[] = array( 'placeholder' => $placeholder === 'user_email' ? 'email' : $placeholder, 'value' => $value );
+			}
+			$data[] = $contact;
+		}
+		return ! $data || $this->import( $list_id, $data );
 	}
 
 	/**
@@ -214,13 +227,54 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 		$update = $this->json( "/lists/" . $list_id . "/import", $args, "POST" );
 
+		remove_filter( "ec_wc_get_args", array( $this, "filter_args_json" ) );
+		$this->last_import_summary = array(
+			'task_id' => is_array( $update ) && isset( $update['id'] ) && is_scalar( $update['id'] ) ? sanitize_text_field( (string) $update['id'] ) : '',
+			'accepted' => is_array( $update ) && isset( $update['contacts'] ) && is_numeric( $update['contacts'] ) ? (int) $update['contacts'] : 0,
+			'warnings' => is_array( $update ) && isset( $update['validation_warnings'] ) && is_array( $update['validation_warnings'] ) ? count( $update['validation_warnings'] ) : 0,
+			'warning_details' => array(),
+		);
+		if ( is_array( $update ) && ! empty( $update['validation_warnings'] ) && is_array( $update['validation_warnings'] ) ) {
+			foreach ( array_slice( $update['validation_warnings'], 0, 5 ) as $warning ) {
+				if ( is_array( $warning ) && isset( $warning['placeholder'], $warning['message'] ) && is_scalar( $warning['placeholder'] ) && is_scalar( $warning['message'] ) ) {
+					$this->last_import_summary['warning_details'][] = substr( sanitize_text_field( (string) $warning['placeholder'] ), 0, 100 ) . ': ' . substr( sanitize_text_field( (string) $warning['message'] ), 0, 100 );
+				}
+			}
+		}
+		if ( is_array( $update ) && isset( $update['validation_errors'] ) && is_array( $update['validation_errors'] ) && count( $update['validation_errors'] ) > 0 ) {
+			$reasons = array();
+			foreach ( $update['validation_errors'] as $error ) {
+				if ( isset( $error['item_index'], $error['message'] ) && is_scalar( $error['message'] ) ) {
+					$reasons[] = sprintf( __( 'contact %1$d: %2$s', 'emailchef-for-woocommerce' ), (int) $error['item_index'] + 1, sanitize_text_field( (string) $error['message'] ) );
+				}
+			}
+			$this->lastError = sprintf( __( 'Emailchef rejected %1$d contacts in this batch. Accepted: %2$d. %3$s', 'emailchef-for-woocommerce' ), count( $update['validation_errors'] ), isset( $update['contacts'] ) ? (int) $update['contacts'] : 0, implode( '; ', array_slice( $reasons, 0, 5 ) ) );
+			return false;
+		}
+		if ( is_array( $update ) && isset( $update['id'], $update['contacts'] ) && is_scalar( $update['id'] ) && (string) $update['id'] !== '' && (string) $update['id'] !== '0' && is_numeric( $update['contacts'] ) && (int) $update['contacts'] === count( $customers ) && isset( $update['validation_errors'] ) && is_array( $update['validation_errors'] ) ) {
+			return true;
+		}
 		if ( isset( $update['status'] ) && $update['status'] == "OK" ) {
+			$this->last_import_summary['accepted'] = count( $customers );
 			return true;
 		}
 
-		remove_filter( "ec_wc_get_args", array( $this, "filter_args_json" ) );
-
-		$this->lastError = $update['message'];
+		if ( isset( $update['status_code'] ) ) {
+			$code = (int) $update['status_code'];
+			$this->lastError = $code
+				? sprintf( __( 'Import request failed (HTTP %d).', 'emailchef-for-woocommerce' ), $code )
+				: __( 'Import request failed: the server could not reach Emailchef.', 'emailchef-for-woocommerce' );
+			if ( ! empty( $update['diagnostic'] ) ) {
+				$this->lastError .= ' ' . $update['diagnostic'];
+			}
+		} elseif ( isset( $update['message'] ) && is_scalar( $update['message'] ) ) {
+			$this->lastError = sanitize_text_field( (string) $update['message'] );
+		} else {
+			$this->lastError = __( 'Import request failed: unexpected API response.', 'emailchef-for-woocommerce' );
+			if ( $this->import_response_diagnostic ) {
+				$this->lastError .= ' ' . $this->import_response_diagnostic;
+			}
+		}
 
 		return false;
 
@@ -543,6 +597,10 @@ class WC_Emailchef extends WC_Emailchef_Api {
 	public function initialize_custom_fields( $list_id ) {
 
 		$collection = $this->get_collection( $list_id );
+		if ( ! is_array( $collection ) || isset( $collection['status'] ) ) {
+			$this->lastError = __( 'Unable to retrieve custom fields.', 'emailchef-for-woocommerce' );
+			return false;
+		}
 
 		$new_custom_fields = array();
 
@@ -584,7 +642,9 @@ class WC_Emailchef extends WC_Emailchef_Api {
 				$data_id   = $collection[ $cID ]['id'];
 
 				if ( $type != $data_type ) {
-					$this->delete_custom_field( $data_id );
+					if ( ! $this->delete_custom_field( $data_id ) ) {
+						return false;
+					}
 				} else {
 					$new_custom_fields[] = $data_id;
 					continue;
@@ -592,7 +652,9 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 			}
 
-			$this->create_custom_field( $list_id, $type, $name, $place_holder, $options, $default_value );
+			if ( ! $this->create_custom_field( $list_id, $type, $name, $place_holder, $options, $default_value ) ) {
+				return false;
+			}
 			$new_custom_fields[] = $this->new_custom_id;
 
 		}
@@ -605,6 +667,8 @@ class WC_Emailchef extends WC_Emailchef_Api {
 		 * If fields are present delete
 		 *
 		 */
+
+		return true;
 
 		/*$ec_id_custom_fields = array_column($collection, "id");
 		$diff                = array_diff($ec_id_custom_fields, $new_custom_fields);
@@ -752,11 +816,21 @@ class WC_Emailchef extends WC_Emailchef_Api {
 		] );
 
 		if ( $status_code !== 200 ) {
+			$diagnostic = '';
+			if ( is_wp_error( $response ) ) {
+				$diagnostic = sanitize_text_field( $response->get_error_message() );
+			} else {
+				$body = json_decode( wp_remote_retrieve_body( $response ), true );
+				if ( is_array( $body ) && isset( $body['message'] ) && is_scalar( $body['message'] ) ) {
+					$diagnostic = sanitize_text_field( (string) $body['message'] );
+				}
+			}
 			return apply_filters( "ec_wc_api_response_body_error",
 				[
 					"status"      => "error",
 					"sub_status"  => "api_error",
-					"status_code" => $status_code
+					"status_code" => $status_code,
+					"diagnostic"  => substr( $diagnostic, 0, 500 ),
 				],
 				$response,
 				$route,
@@ -766,9 +840,25 @@ class WC_Emailchef extends WC_Emailchef_Api {
 		}
 
 		$response_body = wp_remote_retrieve_body( $response );
+		$decoded = json_decode( $response_body, true );
+		if ( preg_match( '#^/lists/[0-9]+/import$#', $route ) ) {
+			$content_type = sanitize_text_field( (string) wp_remote_retrieve_header( $response, 'content-type' ) );
+			$description = is_array( $decoded ) ? 'JSON object/array' : gettype( $decoded );
+			if ( json_last_error() !== JSON_ERROR_NONE ) {
+				$description = 'invalid JSON: ' . json_last_error_msg();
+			} elseif ( is_array( $decoded ) ) {
+				// Only report known structural keys, never contact data or arbitrary response values.
+				$keys = array_intersect( array( 'status', 'message', 'error', 'errors', 'id', 'import_id', 'task_id', 'data' ), array_keys( $decoded ) );
+				$description .= '; known keys: ' . ( $keys ? implode( ', ', $keys ) : 'none' );
+				if ( isset( $decoded['status'] ) && is_string( $decoded['status'] ) && preg_match( '/^[A-Za-z_-]{1,30}$/', $decoded['status'] ) ) {
+					$description .= '; status: ' . $decoded['status'];
+				}
+			}
+			$this->import_response_diagnostic = sprintf( 'HTTP %d; Content-Type: %s; bytes: %d; %s.', $status_code, $content_type ?: 'unknown', strlen( $response_body ), $description );
+		}
 
 		return apply_filters( "ec_wc_api_response_body_success",
-			json_decode( $response_body, true ),
+			$decoded,
 			$response,
 			$route,
 			$args,
