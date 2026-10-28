@@ -38,7 +38,7 @@ if ( $policy !== 'premium' ) {
 			echo plugins_url( "/dist/img/logo-compact.svg",
 				WC_EMAILCHEF_FILE ); ?>" alt="">
             <div class="ecwc-account-status">
-                <div><?php _e( "Account connected", "emailchef-for-wocommerce" ); ?></div>
+                <div><?php _e( "Account connected", "emailchef-for-woocommerce" ); ?></div>
                 <div class="ecwc-account-connected"></div>
             </div>
         </div>
@@ -48,7 +48,7 @@ if ( $policy !== 'premium' ) {
             </span>
             <span>
                 <a id="emailchef-disconnect" class="ecwc-account-disconnect"
-                   title="<?php _e( "Disconnect account", "emailchef-for-wocommerce" ); ?>">
+                   title="<?php _e( "Disconnect account", "emailchef-for-woocommerce" ); ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path
                                 d="M280 24c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 240c0 13.3 10.7 24 24 24s24-10.7 24-24l0-240zM134.2 107.3c10.7-7.9 12.9-22.9 5.1-33.6s-22.9-12.9-33.6-5.1C46.5 112.3 8 182.7 8 262C8 394.6 115.5 502 248 502s240-107.5 240-240c0-79.3-38.5-149.7-97.8-193.3c-10.7-7.9-25.7-5.6-33.6 5.1s-5.6 25.7 5.1 33.6c47.5 35 78.2 91.2 78.2 154.7c0 106-86 192-192 192S56 368 56 262c0-63.4 30.7-119.7 78.2-154.7z"></path></svg>
                 </a>
@@ -74,17 +74,7 @@ if ( $policy !== 'premium' ) {
             </div>
         </div>
         <hr class="ecwc-hr-separator">
-        <div>
-            <p><?php _e( "WooCommerce users usually sync automatically with Emailchef. If an issue arises or you need an immediate update, use the button below for manual sync.", "emailchef-for-woocommerce" ); ?></p>
-            <p class="ecwc-text-center">
-                <button <?php disabled( wc_ec_get_option_value( 'list' ), null ); ?> type="button"
-                                                                                     id="wc_emailchef_sync_now"
-                                                                                     class="button button-secondary"
-                                                                                     title="<?php _e( wc_ec_get_option_value( 'list' ) == null ? "Please select a list and save settings first" : "", "emailchef-for-woocommerce" ) ?>">
-					<?php _e( "Manual Sync Now", "emailchef-for-woocommerce" ); ?>
-                </button>
-            </p>
-        </div>
+        <div class="emailchef-debug emailchef-settings-sync"><?php require WC_EMAILCHEF_DIR . 'partials/admin-sync-panel.php'; ?></div>
         <hr class="ecwc-hr-separator">
         <div>
             <p>
@@ -118,7 +108,7 @@ if ( $policy !== 'premium' ) {
                 <tbody>
                 <tr>
                     <th scope="row" class="titledesc">
-                        <label for="wc_emailchef_list"><?php _e( "Emailchef List", "emailchef-for-woocommerce" ); ?><?php echo wc_help_tip( "Choose an existing Emailchef list to sync with, or opt to set up a brand-new list for immediate use.", "emailchef-for-woocommerce" ); ?></label>
+                        <label for="wc_emailchef_list"><?php _e( "Emailchef List", "emailchef-for-woocommerce" ); ?><?php echo wc_help_tip( __( "Choose an existing Emailchef list to sync with, or opt to set up a brand-new list for immediate use.", "emailchef-for-woocommerce" ) ); ?></label>
                     </th>
                     <td class="forminp forminp-select">
 
@@ -246,7 +236,7 @@ if ( $policy !== 'premium' ) {
                 </tr>
                 <tr class="single_select_page">
                     <th scope="row" class="titledesc">
-                        <label><?php _e( "Unsubscription page", "emailchef-for-woocommerce" ); ?><?php echo wc_help_tip( "Page to which the customer is redirected after unsubscribing from the newsletter", "emailchef-for-woocommerce" ); ?></label>
+                        <label><?php _e( "Unsubscription page", "emailchef-for-woocommerce" ); ?><?php echo wc_help_tip( __( "Page to which the customer is redirected after unsubscribing from the newsletter", "emailchef-for-woocommerce" ) ); ?></label>
                     </th>
                     <td class="forminp">
 						<?php

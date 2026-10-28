@@ -4,6 +4,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 
+require_once WC_EMAILCHEF_DIR . 'includes/class-wc-emailchef-initial-sync.php';
+WC_Emailchef_Initial_Sync::init();
+
 if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 	final class WC_Emailchef_Handler {
@@ -734,6 +737,8 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				add_action( 'rest_api_init', array( $this, "rest_route" ) );
 
 
+				add_action( 'wp_ajax_' . $this->namespace . '_initial_sync_batch_size', array( $this, 'initial_sync_batch_size' ) );
+				add_action( 'wp_ajax_' . $this->namespace . '_initial_sync_status', array( $this, 'initial_sync_status' ) );
 				add_action( 'wp_ajax_' . $this->namespace . '_manual_sync',
 					array( $this, 'manual_sync' ) );
 				add_action( 'wp_ajax_' . $this->namespace . '_debug_move_abandoned_carts',
@@ -785,7 +790,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			$list_id = wc_ec_get_option_value( "list" );
 
-			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_manual_sync' ) ) {
+			if ( ! current_user_can( 'manage_options' ) || ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'emailchef_manual_sync' ) ) {
 				$response = [
 					'type' => 'error',
 					'text' => __( 'Invalid request', 'emailchef-for-woocommerce' )
@@ -800,15 +805,10 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				WCEC()->log( __( "Manual sync triggered",
 					"emailchef-for-woocommerce" ) );
 
-				$scheduled = wp_schedule_single_event( time(),
-					"emailchef_sync_cron_now",
-					array( $list_id, true ), true );
-
-
+				$scheduled = WC_Emailchef_Initial_Sync::start( $list_id );
 				if ( is_wp_error( $scheduled ) ) {
-					$response['text'] = __( "Manual sync not scheduled (" . $scheduled->get_error_message() . ")",
-						"emailchef-for-woocommerce" );
-					$response['type'] = "error";
+					$response['text'] = $scheduled->get_error_message();
+					$response['type'] = 'error';
 				}
 
 				WCEC()->log(
@@ -821,14 +821,36 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 			if ( $response['type'] === 'success' ) {
 				wp_send_json_success(
-					$response['message']
+					array( 'message' => $response['text'] )
 				);
 			}
 
 			wp_send_json_error(
-				$response['message']
+				array( 'message' => $response['text'] )
 			);
 
+		}
+
+		public function initial_sync_status() {
+			if ( ! current_user_can( 'manage_options' ) || ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'emailchef_manual_sync' ) ) {
+				wp_send_json_error( array( 'message' => __( 'Invalid request', 'emailchef-for-woocommerce' ) ), 403 );
+			}
+			$job = get_option( WC_Emailchef_Initial_Sync::OPTION );
+			$data = is_array( $job ) ? array_intersect_key( $job, array_flip( array( 'status', 'phase', 'processed', 'total', 'list_id', 'message', 'updated_at', 'chunks' ) ) ) : array( 'status' => 'idle' );
+			$data['batch_size'] = WC_Emailchef_Initial_Sync::batch_size();
+			wp_send_json_success( $data );
+		}
+
+		public function initial_sync_batch_size() {
+			if ( ! current_user_can( 'manage_options' ) || ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'emailchef_manual_sync' ) ) {
+				wp_send_json_error( array( 'message' => __( 'Invalid request', 'emailchef-for-woocommerce' ) ), 403 );
+			}
+			$value = isset( $_POST['batch_size'] ) ? wp_unslash( $_POST['batch_size'] ) : '';
+			if ( ! is_scalar( $value ) || ! ctype_digit( (string) $value ) || (int) $value < WC_Emailchef_Initial_Sync::MIN_BATCH || (int) $value > WC_Emailchef_Initial_Sync::MAX_BATCH || (int) $value % 5 !== 0 ) {
+				wp_send_json_error( array( 'message' => __( 'Invalid batch size.', 'emailchef-for-woocommerce' ) ), 400 );
+			}
+			update_option( WC_Emailchef_Initial_Sync::BATCH_OPTION, (int) $value, false );
+			wp_send_json_success( array( 'batch_size' => WC_Emailchef_Initial_Sync::batch_size() ) );
 		}
 
 		public function add_debug_page() {
@@ -846,7 +868,19 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 		}
 
 		public function render_debug_page() {
-			$carts = $this->get_abandoned_carts( false );
+			global $wpdb;
+			$table = $this->wcec->abcart_table();
+			$carts_per_page = 20;
+			$carts_total = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$table} WHERE synced = 0" );
+			$carts_pages = max( 1, (int) ceil( $carts_total / $carts_per_page ) );
+			$carts_page = isset( $_GET['carts_page'] ) ? max( 1, absint( wp_unslash( $_GET['carts_page'] ) ) ) : 1;
+			$carts_page = min( $carts_page, $carts_pages );
+			$offset = ( $carts_page - 1 ) * $carts_per_page;
+			$carts = $wpdb->get_results( $wpdb->prepare(
+				"SELECT user_id, user_email, product_id, created FROM {$table} WHERE synced = 0 ORDER BY created DESC, id DESC LIMIT %d OFFSET %d",
+				$carts_per_page,
+				$offset
+			), ARRAY_A );
 			require_once( WC_EMAILCHEF_DIR . "/partials/admin-debug.php" );
 		}
 
@@ -894,9 +928,9 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				WCEC()->log( sprintf( __( "[START] Custom fields rebuild for Emailchef list %d was started",
 					"emailchef-for-woocommerce" ), $list_id ) );
 
-				$this->wcec->emailchef()->initialize_custom_fields(
-					$list_id
-				);
+				if ( ! $this->wcec->emailchef()->initialize_custom_fields( $list_id ) ) {
+					wp_send_json_error( array( 'message' => __( 'Failed to rebuild custom fields. Check the plugin log.', 'emailchef-for-woocommerce' ) ) );
+				}
 				wp_send_json_success( [
 					'message' => __( 'Rebuild of custom fields was completed successfully', 'emailchef-for-woocommerce' )
 				] );
@@ -1112,9 +1146,18 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				return null;
 			}
 
-			$this->wcec->emailchef()->upsert_integration( $list_id );
-			$this->wcec->emailchef()->sync_list( $list_id, $all );
 			if ( $all ) {
+				$result = WC_Emailchef_Initial_Sync::start( $list_id );
+				if ( is_wp_error( $result ) ) {
+					$this->wcec->log( $result->get_error_message() );
+				}
+				return;
+			}
+			$this->wcec->emailchef()->upsert_integration( $list_id );
+			$success = $this->wcec->emailchef()->sync_list( $list_id, $all );
+			if ( ! $success ) {
+				$this->wcec->log( sprintf( __( "Synchronization failed for Emailchef list %d. See previous errors.", "emailchef-for-woocommerce" ), $list_id ) );
+			} elseif ( $all ) {
 				$this->wcec->log( sprintf( __( "Custom fields creation and sync for Emailchef list %d",
 					"emailchef-for-woocommerce" ), $list_id ) );
 			} else {

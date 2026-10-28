@@ -1,0 +1,413 @@
+msgid ""
+msgstr "Project-Id-Version: Emailchef for WooCommerce 5.5.3\nLanguage: it_IT\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Debug dashboard"
+msgstr "Pannello di debug"
+
+msgid "Monitor synchronization and inspect your store connection."
+msgstr "Monitora la sincronizzazione e controlla la connessione del negozio."
+
+msgid "Diagnostics"
+msgstr "Diagnostica"
+
+msgid "OVERVIEW"
+msgstr "PANORAMICA"
+
+msgid "Connection"
+msgstr "Connessione"
+
+msgid "API URL"
+msgstr "URL API"
+
+msgid "List ID"
+msgstr "ID della lista"
+
+msgid "Not found"
+msgstr "Non trovata"
+
+msgid "Policy"
+msgstr "Modalità di iscrizione"
+
+msgid "SERVER"
+msgstr "SERVER"
+
+msgid "Memory limits"
+msgstr "Limiti di memoria"
+
+msgid "WordPress maximum"
+msgstr "Massimo WordPress"
+
+msgid "SCHEMA"
+msgstr "STRUTTURA"
+
+msgid "Custom fields"
+msgstr "Campi personalizzati"
+
+msgid "Rebuild the fields used by the integration without synchronizing customers."
+msgstr "Ricrea i campi usati dall’integrazione senza sincronizzare i clienti."
+
+msgid "Rebuild custom fields"
+msgstr "Ricrea i campi personalizzati"
+
+msgid "View custom fields data"
+msgstr "Mostra i dati dei campi personalizzati"
+
+msgid "Custom fields data"
+msgstr "Dati dei campi personalizzati"
+
+msgid "CONNECTION"
+msgstr "CONNESSIONE"
+
+msgid "Active integrations"
+msgstr "Integrazioni attive"
+
+msgid "Inspect integrations connected to the selected list."
+msgstr "Controlla le integrazioni collegate alla lista selezionata."
+
+msgid "View integration data"
+msgstr "Mostra i dati delle integrazioni"
+
+msgid "STORE ACTIVITY"
+msgstr "ATTIVITÀ DEL NEGOZIO"
+
+msgid "Abandoned carts"
+msgstr "Carrelli abbandonati"
+
+msgid "Move abandoned carts"
+msgstr "Sposta i carrelli abbandonati"
+
+msgid "User"
+msgstr "Utente"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Product image"
+msgstr "Immagine del prodotto"
+
+msgid "Product name"
+msgstr "Nome del prodotto"
+
+msgid "Product price"
+msgstr "Prezzo del prodotto"
+
+msgid "Created"
+msgstr "Creato il"
+
+msgid "Force Sync"
+msgstr "Forza sincronizzazione"
+
+msgid "No name provided"
+msgstr "Nessun nome disponibile"
+
+msgid "Sync"
+msgstr "Sincronizza"
+
+msgid "Abandoned carts pages"
+msgstr "Pagine dei carrelli abbandonati"
+
+msgid "%1$d items · Page %2$d of %3$d"
+msgstr "%1$d elementi · Pagina %2$d di %3$d"
+
+msgid "Previous"
+msgstr "Precedente"
+
+msgid "Next"
+msgstr "Successiva"
+
+msgid "No abandoned carts found"
+msgstr "Nessun carrello abbandonato trovato"
+
+msgid "CUSTOMERS"
+msgstr "CLIENTI"
+
+msgid "Initial synchronization"
+msgstr "Sincronizzazione iniziale"
+
+msgid "Synchronize existing customers and custom fields in manageable batches."
+msgstr "Sincronizza i clienti esistenti e i campi personalizzati in blocchi di dimensioni controllate."
+
+msgid "Contacts per batch"
+msgstr "Contatti per blocco"
+
+msgid "Suggested: %d contacts, based on configured memory limits. Changes apply from the next batch; actual memory use varies."
+msgstr "Suggeriti: %d contatti, in base ai limiti di memoria configurati. Le modifiche si applicano dal blocco successivo; l’uso effettivo della memoria può variare."
+
+msgid "Schedule initial synchronization"
+msgstr "Avvia sincronizzazione iniziale"
+
+msgid "Loading synchronization status..."
+msgstr "Caricamento dello stato della sincronizzazione..."
+
+msgid "Synchronization progress"
+msgstr "Avanzamento della sincronizzazione"
+
+msgid "View batch results"
+msgstr "Mostra risultati dei blocchi"
+
+msgid "INITIAL SYNCHRONIZATION"
+msgstr "SINCRONIZZAZIONE INIZIALE"
+
+msgid "Batch results"
+msgstr "Risultati dei blocchi"
+
+msgid "Results update automatically. Accepted means Emailchef queued the batch for processing."
+msgstr "I risultati si aggiornano automaticamente. Accettato significa che Emailchef ha messo il blocco in coda per l’elaborazione."
+
+msgid "Close"
+msgstr "Chiudi"
+
+msgid "Batch"
+msgstr "Blocco"
+
+msgid "Time"
+msgstr "Ora"
+
+msgid "Result"
+msgstr "Risultato"
+
+msgid "Accepted / sent"
+msgstr "Accettati / inviati"
+
+msgid "Details"
+msgstr "Dettagli"
+
+msgid "No batch results recorded yet. Results are recorded from this update onward."
+msgstr "Nessun risultato disponibile. I risultati vengono registrati a partire da questo aggiornamento."
+
+msgid "Single opt-in"
+msgstr "Iscrizione con conferma singola"
+
+msgid "Double opt-in"
+msgstr "Iscrizione con doppia conferma"
+
+msgid "Account connected"
+msgstr "Account collegato"
+
+msgid "Disconnect account"
+msgstr "Scollega account"
+
+msgid "Emailchef connected list"
+msgstr "Lista Emailchef collegata"
+
+msgid "No list connected..."
+msgstr "Nessuna lista collegata..."
+
+msgid "Show Logs"
+msgstr "Mostra i log"
+
+msgid "Debug"
+msgstr "Debug"
+
+msgid "Emailchef for WooCommerce settings"
+msgstr "Impostazioni di Emailchef per WooCommerce"
+
+msgid "Welcome to the Emailchef Integration section for WooCommerce. In this crucial WooCommerce plugin, we offer you the convenience of effortlessly synchronizing your WooCommerce customers with your preferred Emailchef list. By taking advantage of this feature, you will ensure that your email marketing efforts are always up-to-date and targeting the right audience."
+msgstr "Benvenuto nelle impostazioni di Emailchef per WooCommerce. Collega i clienti del tuo negozio alla lista Emailchef scelta per mantenere aggiornati i dati dei contatti."
+
+msgid "Emailchef List Settings"
+msgstr "Impostazioni della lista Emailchef"
+
+msgid "Simply select the Emailchef list that aligns with your campaign objectives, and the plugin will handle the rest. Our seamless synchronization process automatically updates your chosen list with new users, modifications to existing user information, and any other relevant changes. This not only saves you valuable time but also enhances the effectiveness of your communication strategies."
+msgstr "Seleziona la lista Emailchef da collegare. Il plugin aggiornerà automaticamente la lista con i nuovi utenti e le modifiche ai dati dei clienti."
+
+msgid "Emailchef List"
+msgstr "Lista Emailchef"
+
+msgid "Select a list..."
+msgstr "Seleziona una lista..."
+
+msgid "Add a new Emailchef destination list"
+msgstr "Aggiungi una nuova lista Emailchef"
+
+msgid "List name"
+msgstr "Nome della lista"
+
+msgid "Provide a name for this new list."
+msgstr "Inserisci un nome per la nuova lista."
+
+msgid "List description"
+msgstr "Descrizione della lista"
+
+msgid "Provide a description for this new list."
+msgstr "Inserisci una descrizione per la nuova lista."
+
+msgid "By setting up a new list within Emailchef, you acknowledge and affirm adherence to Emailchef's <a href=\"https://emailchef.com/privacy-policy/\" target=\"_blank\">privacy policy</a> and <a href=\"https://emailchef.com/terms-of-use/\" target=\"_blank\">terms of use</a>, as well as compliance with the CAN-SPAM Act."
+msgstr "Creando una nuova lista in Emailchef, dichiari di rispettare l’<a href=\"https://emailchef.com/privacy-policy/\" target=\"_blank\">informativa sulla privacy</a>, i <a href=\"https://emailchef.com/terms-of-use/\" target=\"_blank\">termini di utilizzo</a> di Emailchef e il CAN-SPAM Act."
+
+msgid "Create List"
+msgstr "Crea lista"
+
+msgid "Undo"
+msgstr "Annulla"
+
+msgid "Sync existing customers"
+msgstr "Sincronizza i clienti esistenti"
+
+msgid "Sync existing WooCommerce customers on save"
+msgstr "Sincronizza i clienti WooCommerce esistenti al salvataggio"
+
+msgid "Emailchef Subscription Settings"
+msgstr "Impostazioni di iscrizione Emailchef"
+
+msgid "Customize your subscriber's journey by defining the pages they are directed to after subscribing or unsubscribing, and determine whether to use a single or a double opt-in approach based on your preferences and compliance requirements."
+msgstr "Scegli le pagine di destinazione dopo l’iscrizione o la cancellazione e la modalità di conferma dell’iscrizione."
+
+msgid "Which policy would you like to use?"
+msgstr "Quale modalità di iscrizione vuoi usare?"
+
+msgid "Subscription page"
+msgstr "Pagina di iscrizione"
+
+msgid "Page to redirect the customer to after confirming their subscription with the double opt-in method"
+msgstr "Pagina a cui indirizzare il cliente dopo la conferma dell’iscrizione con doppio opt-in"
+
+msgid "Unsubscription page"
+msgstr "Pagina di cancellazione"
+
+msgid "Abandoned Cart Settings"
+msgstr "Impostazioni dei carrelli abbandonati"
+
+msgid "Recover lost sales with Emailchef plugin's abandoned cart feature. Connect with Emailchef and remind customers to complete their purchases by setting a time frame for abandoned carts."
+msgstr "Recupera le vendite con la funzione carrelli abbandonati. Imposta dopo quanto tempo ricordare ai clienti di completare gli acquisti."
+
+msgid "Cart is Abandoned After"
+msgstr "Carrello considerato abbandonato dopo"
+
+msgid "Enter the number of hours after which a cart is considered abandoned."
+msgstr "Inserisci il numero di ore dopo il quale un carrello è considerato abbandonato."
+
+msgid "days"
+msgstr "giorni"
+
+msgid "hours"
+msgstr "ore"
+
+msgid "Save changes"
+msgstr "Salva modifiche"
+
+msgid "Are you sure you want to disconnect this account?"
+msgstr "Vuoi davvero scollegare questo account?"
+
+msgid "No synchronization has been started."
+msgstr "Nessuna sincronizzazione avviata."
+
+msgid "Waiting for WordPress cron."
+msgstr "In attesa del cron di WordPress."
+
+msgid "Synchronization in progress."
+msgstr "Sincronizzazione in corso."
+
+msgid "Synchronization completed: all batches were accepted by Emailchef."
+msgstr "Sincronizzazione completata: tutti i blocchi sono stati accettati da Emailchef."
+
+msgid "Synchronization stopped. You can resume it."
+msgstr "Sincronizzazione interrotta. Puoi riprenderla."
+
+msgid "Preparing integration and custom fields"
+msgstr "Preparazione dell’integrazione e dei campi personalizzati"
+
+msgid "List"
+msgstr "Lista"
+
+msgid "Contacts sent"
+msgstr "Contatti inviati"
+
+msgid "Resume synchronization"
+msgstr "Riprendi sincronizzazione"
+
+msgid "Unable to retrieve synchronization status."
+msgstr "Impossibile recuperare lo stato della sincronizzazione."
+
+msgid "Saved. This applies to the next batch."
+msgstr "Salvato. La modifica si applica dal prossimo blocco."
+
+msgid "Unable to save the batch size."
+msgstr "Impossibile salvare la dimensione del blocco."
+
+msgid "Accepted"
+msgstr "Accettato"
+
+msgid "Error"
+msgstr "Errore"
+
+msgid "Import task"
+msgstr "Attività di importazione"
+
+msgid "Warnings"
+msgstr "Avvisi"
+
+msgid "Manual sync successfully scheduled."
+msgstr "Sincronizzazione programmata correttamente."
+
+msgid "Invalid request"
+msgstr "Richiesta non valida."
+
+msgid "Please provide a valid Emailchef list"
+msgstr "Seleziona una lista Emailchef valida."
+
+msgid "Invalid batch size."
+msgstr "Dimensione del blocco non valida."
+
+msgid "Insufficient permissions to execute the requested action"
+msgstr "Non disponi dei permessi necessari per eseguire questa azione."
+
+msgid "Failed to rebuild custom fields. Check the plugin log."
+msgstr "Impossibile ricreare i campi personalizzati. Controlla il log del plugin."
+
+msgid "Rebuild of custom fields was completed successfully"
+msgstr "Campi personalizzati ricreati correttamente."
+
+msgid "Emailchef list not provided."
+msgstr "Lista Emailchef non indicata."
+
+msgid "Failed to sync abandoned carts."
+msgstr "Impossibile sincronizzare i carrelli abbandonati."
+
+msgid "Failed to move abandoned carts: missing target list."
+msgstr "Impossibile spostare i carrelli abbandonati: lista di destinazione mancante."
+
+msgid "Abandoned carts successfully moved"
+msgstr "Carrelli abbandonati spostati correttamente."
+
+msgid "WordPress could not schedule %1$s: %2$s (%3$s)."
+msgstr "WordPress non è riuscito a programmare %1$s: %2$s (%3$s)."
+
+msgid "WordPress could not schedule %s."
+msgstr "WordPress non è riuscito a programmare %s."
+
+msgid "A synchronization is already in progress."
+msgstr "Una sincronizzazione è già in corso."
+
+msgid "Emailchef connection is unavailable."
+msgstr "Connessione a Emailchef non disponibile."
+
+msgid "Failed to initialize custom fields."
+msgstr "Impossibile inizializzare i campi personalizzati."
+
+msgid "The contact import failed."
+msgstr "Importazione dei contatti non riuscita."
+
+msgid "contact %1$d: %2$s"
+msgstr "contatto %1$d: %2$s"
+
+msgid "Emailchef rejected %1$d contacts in this batch. Accepted: %2$d. %3$s"
+msgstr "Emailchef ha rifiutato %1$d contatti in questo blocco. Accettati: %2$d. %3$s"
+
+msgid "Import request failed (HTTP %d)."
+msgstr "Richiesta di importazione non riuscita (HTTP %d)."
+
+msgid "Import request failed: the server could not reach Emailchef."
+msgstr "Richiesta di importazione non riuscita: il server non riesce a contattare Emailchef."
+
+msgid "Import request failed: unexpected API response."
+msgstr "Richiesta di importazione non riuscita: risposta inattesa dall’API."
+
+msgid "Unable to retrieve custom fields."
+msgstr "Impossibile recuperare i campi personalizzati."
+
+msgid "Choose an existing Emailchef list to sync with, or opt to set up a brand-new list for immediate use."
+msgstr "Scegli una lista Emailchef esistente da sincronizzare o crea una nuova lista."
+
+msgid "Page to which the customer is redirected after unsubscribing from the newsletter"
+msgstr "Pagina a cui viene indirizzato il cliente dopo la cancellazione dalla newsletter."

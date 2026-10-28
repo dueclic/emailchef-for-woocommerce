@@ -6,9 +6,10 @@
 * Author: emailchef
 * Author URI: https://www.emailchef.com
 * Version: 5.5.3
-* Tested up to: 7.0
-* WC requires at least: 8.3.1
-* WC tested up to: 10.9
+* Requires at least: 7.1.3
+* Tested up to: 7.1
+* WC requires at least: 11.2.1
+* WC tested up to: 11.2
 * Text Domain: emailchef-for-woocommerce
 * Domain Path: /languages/
 * License: GPL v2
@@ -50,20 +51,24 @@ function wc_ec_get_total_by_days( $customer_id = null, $gap_days = 0 ) {
 
 	$date_from = ( new DateTime() )->modify( "-{$gap_days} days" )->format( 'Y-m-d H:i:s' );
 
-	$query = new WC_Order_Query( array(
-		'customer_id' => $customer_id,
-		'status'      => array( 'wc-completed', 'wc-processing' ),
-		'date_after'  => $date_from,
-		'return'      => 'ids',
-	) );
-
-	$order_ids   = $query->get_orders();
 	$total_spent = 0;
-
-	foreach ( $order_ids as $order_id ) {
-		$order       = wc_get_order( $order_id );
-		$total_spent += $order->get_total();
-	}
+	$page = 1;
+	do {
+		$order_ids = wc_get_orders( array(
+			'customer_id' => $customer_id,
+			'status' => array( 'wc-completed', 'wc-processing' ),
+			'date_after' => $date_from,
+			'return' => 'ids',
+			'limit' => 50,
+			'page' => $page++,
+		) );
+		foreach ( $order_ids as $order_id ) {
+			$order = wc_get_order( $order_id );
+			if ( $order ) {
+				$total_spent += $order->get_total();
+			}
+		}
+	} while ( count( $order_ids ) === 50 );
 
 	return $total_spent;
 }
@@ -83,20 +88,23 @@ function wc_ec_get_all_products( $customer_id, $no_order = - 1 ) {
 		$customer_id = get_current_user_id();
 	}
 
-	// Ottieni gli ordini del cliente
-	$query_args = array(
-		'customer_id' => $customer_id,
-		'status'      => array_keys( wc_get_order_statuses() ),
-		'limit'       => $no_order == - 1 ? - 1 : 1,
-		'orderby'     => 'date',
-		'order'       => 'DESC',
-	);
-
-	$query           = new WC_Order_Query( $query_args );
-	$customer_orders = $query->get_orders();
-
-	if ( ! empty( $customer_orders ) ) {
-		foreach ( $customer_orders as $order ) {
+	$page = 1;
+	$limit = $no_order == -1 ? 50 : 1;
+	do {
+		$order_ids = wc_get_orders( array(
+			'customer_id' => $customer_id,
+			'status' => array_keys( wc_get_order_statuses() ),
+			'limit' => $limit,
+			'page' => $page++,
+			'orderby' => 'date',
+			'order' => 'DESC',
+			'return' => 'ids',
+		) );
+		foreach ( $order_ids as $order_id ) {
+			$order = wc_get_order( $order_id );
+			if ( ! $order ) {
+				continue;
+			}
 			foreach ( $order->get_items() as $order_item ) {
 				$product_id = $order_item->get_product_id();
 				if ( ! in_array( $product_id, $products ) ) {
@@ -104,7 +112,7 @@ function wc_ec_get_all_products( $customer_id, $no_order = - 1 ) {
 				}
 			}
 		}
-	}
+	} while ( $no_order == -1 && count( $order_ids ) === $limit );
 
 	return implode( ", ", $products );
 }

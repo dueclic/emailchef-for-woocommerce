@@ -133,8 +133,6 @@ class WC_Emailchef_Customer
         $this->queue['newsletter'] = $meta->get("wc_emailchef_opt_in");
         $this->queue['source'] = WCEC()->get_platform();
 
-        $this->queue['all_ordered_product_ids'] = wc_ec_get_all_products($this->id);
-        $this->queue['latest_order_product_ids'] = wc_ec_get_all_products($this->id, 1);
 
         $this->queue['latest_shipped_order_id'] = $last_order ? $last_order->get_id() : 0;
         $this->queue['latest_shipped_order_date'] = $last_order ? $last_order->get_date_modified()->date_i18n() : '';
