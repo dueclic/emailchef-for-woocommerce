@@ -7,9 +7,9 @@
 * Author URI: https://www.emailchef.com
 * Version: 5.5.3
 * Requires at least: 7.1.3
-* Tested up to: 7.0
+* Tested up to: 7.1
 * WC requires at least: 11.2.1
-* WC tested up to: 10.9
+* WC tested up to: 11.2
 * Text Domain: emailchef-for-woocommerce
 * Domain Path: /languages/
 * License: GPL v2
@@ -54,15 +54,14 @@ function wc_ec_get_total_by_days( $customer_id = null, $gap_days = 0 ) {
 	$total_spent = 0;
 	$page = 1;
 	do {
-		$query = new WC_Order_Query( array(
+		$order_ids = wc_get_orders( array(
 			'customer_id' => $customer_id,
 			'status' => array( 'wc-completed', 'wc-processing' ),
 			'date_after' => $date_from,
 			'return' => 'ids',
 			'limit' => 50,
-			'paged' => $page++,
+			'page' => $page++,
 		) );
-		$order_ids = $query->get_orders();
 		foreach ( $order_ids as $order_id ) {
 			$order = wc_get_order( $order_id );
 			if ( $order ) {
@@ -92,16 +91,15 @@ function wc_ec_get_all_products( $customer_id, $no_order = - 1 ) {
 	$page = 1;
 	$limit = $no_order == -1 ? 50 : 1;
 	do {
-		$query = new WC_Order_Query( array(
+		$order_ids = wc_get_orders( array(
 			'customer_id' => $customer_id,
 			'status' => array_keys( wc_get_order_statuses() ),
 			'limit' => $limit,
-			'paged' => $page++,
+			'page' => $page++,
 			'orderby' => 'date',
 			'order' => 'DESC',
 			'return' => 'ids',
 		) );
-		$order_ids = $query->get_orders();
 		foreach ( $order_ids as $order_id ) {
 			$order = wc_get_order( $order_id );
 			if ( ! $order ) {

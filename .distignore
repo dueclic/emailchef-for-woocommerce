@@ -18,3 +18,5 @@ pnpm-lock.yaml
 .nvmrc
 .wp-env.json
 .wp-env.override.json
+
+/tests
