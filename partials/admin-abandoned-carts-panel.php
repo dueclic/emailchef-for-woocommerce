@@ -41,11 +41,12 @@
             <tbody id="emailchef-abcart-history"></tbody>
         </table></div>
         <p id="emailchef-abcart-history-empty" role="status"></p>
-        <nav class="emailchef-debug__pagination" aria-label="<?php esc_attr_e( 'Abandoned carts history pages', 'emailchef-for-woocommerce' ); ?>">
+        <?php // A div, not a nav: WooCommerce gives every nav of the settings form negative side margins. ?>
+        <div class="emailchef-debug__pagination emailchef-debug__abcart-pagination" role="navigation" aria-label="<?php esc_attr_e( 'Abandoned carts history pages', 'emailchef-for-woocommerce' ); ?>">
             <span id="emailchef-abcart-page" aria-live="polite"></span>
             <div>
                 <button type="button" class="button" id="emailchef-abcart-prev" aria-label="<?php esc_attr_e( 'Previous page', 'emailchef-for-woocommerce' ); ?>">&lsaquo;</button>
                 <button type="button" class="button" id="emailchef-abcart-next-page" aria-label="<?php esc_attr_e( 'Next page', 'emailchef-for-woocommerce' ); ?>">&rsaquo;</button>
             </div>
-        </nav>
+        </div>
     </dialog>

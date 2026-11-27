@@ -337,7 +337,7 @@ var WC_Emailchef = function ($) {
                 data.rows.forEach(function (row) {
                     var tr = $('<tr>');
                     $('<td>').append(when(row.time)).appendTo(tr);
-                    $('<td>').text(row.user_email).appendTo(tr);
+                    $('<td class="emailchef-debug__abcart-customer">').text(row.user_email).appendTo(tr);
                     $('<td>').append(productCell(row)).appendTo(tr);
                     $('<td>').append(badge(row.status)).appendTo(tr);
                     var detailsId = 'emailchef-abcart-detail-' + row.id;
