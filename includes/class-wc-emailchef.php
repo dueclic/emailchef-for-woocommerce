@@ -8,6 +8,21 @@ require_once( WC_EMAILCHEF_DIR . 'includes/class-wc-emailchef-api.php' );
 
 class WC_Emailchef extends WC_Emailchef_Api {
 
+	/**
+	 * Error message of an API response, also when the API returns no message.
+	 *
+	 * @param mixed $response
+	 *
+	 * @return string
+	 */
+	private function api_error_message( $response ) {
+		if ( is_array( $response ) && isset( $response['message'] ) && is_scalar( $response['message'] ) ) {
+			return (string) $response['message'];
+		}
+
+		return __( 'Unexpected response from Emailchef.', 'emailchef-for-woocommerce' );
+	}
+
 	private $new_custom_id;
 
 	/**
@@ -377,7 +392,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 		if ( isset( $response['status'] ) && $response['status'] == "OK" ) {
 			return true;
 		} else {
-			$this->lastError = $response['message'];
+			$this->lastError = $this->api_error_message( $response );
 
 			return false;
 		}
@@ -400,20 +415,15 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 		$collection = $this->get_collection( $list_id );
 
-		$custom_fields = array_map(
-			function ( $field ) use ( $customer ) {
-
-				$field['value'] = $customer[ $field['place_holder'] ];
-
-				if ( $field['value'] == null ) {
-					$field['value'] = "";
-				}
-
-				return $field;
-
-			},
-			$collection
-		);
+		// Fields of the list that the plugin does not manage are left untouched.
+		$custom_fields = array();
+		foreach ( (array) $collection as $field ) {
+			if ( ! isset( $field['place_holder'] ) || ! array_key_exists( $field['place_holder'], $customer ) ) {
+				continue;
+			}
+			$field['value']  = $customer[ $field['place_holder'] ] === null ? '' : $customer[ $field['place_holder'] ];
+			$custom_fields[] = $field;
+		}
 
 		$args = array(
 
@@ -443,7 +453,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 			return true;
 		}
 
-		$this->lastError = $response['message'];
+		$this->lastError = $this->api_error_message( $response );
 
 		return false;
 
@@ -485,7 +495,10 @@ class WC_Emailchef extends WC_Emailchef_Api {
 			return true;
 		}
 
-		$this->lastError = $update['message'] . ": " . $update['more_info'];
+		$this->lastError = $this->api_error_message( $update );
+		if ( is_array( $update ) && ! empty( $update['more_info'] ) && is_scalar( $update['more_info'] ) ) {
+			$this->lastError .= ': ' . $update['more_info'];
+		}
 
 		return false;
 
@@ -556,7 +569,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 			return true;
 		}
 
-		$this->lastError = $update['message'];
+		$this->lastError = $this->api_error_message( $update );
 
 		return false;
 
@@ -704,7 +717,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 		$status = $this->json( $route, array(), "DELETE" );
 
 		if ( $status !== "OK" ) {
-			$this->lastError = $status['message'];
+			$this->lastError = $this->api_error_message( $status );
 		}
 
 		remove_filter( "ec_wc_get_args", array( $this, "filter_args_json" ) );
@@ -766,7 +779,7 @@ class WC_Emailchef extends WC_Emailchef_Api {
 			return true;
 		}
 
-		$this->lastError = $response['message'];
+		$this->lastError = $this->api_error_message( $response );
 
 		return false;
 
@@ -933,8 +946,8 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 		$response = $this->json( "/integrations/" . $integration_id, $args, "PUT" );
 
-		if ( $response['status'] != "OK" ) {
-			$this->lastError    = $response['message'];
+		if ( ! isset( $response['status'] ) || $response['status'] != "OK" ) {
+			$this->lastError    = $this->api_error_message( $response );
 			$this->lastResponse = $response;
 
 			return false;
@@ -966,8 +979,8 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 		$response = $this->json( "/integrations", $args, "POST" );
 
-		if ( $response['status'] != "OK" ) {
-			$this->lastError    = $response['message'];
+		if ( ! isset( $response['status'] ) || $response['status'] != "OK" ) {
+			$this->lastError    = $this->api_error_message( $response );
 			$this->lastResponse = $response;
 
 			return false;
@@ -1036,8 +1049,8 @@ class WC_Emailchef extends WC_Emailchef_Api {
 
 		$response = $this->json( "/lists", $args, "POST" );
 
-		if ( $response['status'] != "OK" ) {
-			$this->lastError = $response['message'];
+		if ( ! isset( $response['status'] ) || $response['status'] != "OK" ) {
+			$this->lastError = $this->api_error_message( $response );
 
 			return false;
 		}

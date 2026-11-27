@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-27T11:30:22+00:00\n"
+"POT-Creation-Date: 2026-11-27T11:35:51+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: emailchef-for-woocommerce\n"
@@ -554,6 +554,7 @@ msgid "Page %1$s of %2$s · %3$s items"
 msgstr ""
 
 #: includes/class-wc-emailchef-plugin.php:222
+#: partials/admin-abandoned-carts-panel.php:40
 #: partials/admin-sync-panel.php:33
 msgid "Details"
 msgstr ""
@@ -646,39 +647,43 @@ msgstr ""
 msgid "Initial synchronization option not selected for Emailchef list %d"
 msgstr ""
 
-#: includes/class-wc-emailchef.php:50
+#: includes/class-wc-emailchef.php:23
+msgid "Unexpected response from Emailchef."
+msgstr ""
+
+#: includes/class-wc-emailchef.php:65
 msgid "[START] Synchronization and custom fields creation for Emailchef list %d"
 msgstr ""
 
-#: includes/class-wc-emailchef.php:81
+#: includes/class-wc-emailchef.php:96
 msgid "[PROGRESS] Synchronization of the list %d, chunk of %d contacts."
 msgstr ""
 
-#: includes/class-wc-emailchef.php:85
+#: includes/class-wc-emailchef.php:100
 msgid "[ERROR] Synchronization of the list %d, details : %s"
 msgstr ""
 
-#: includes/class-wc-emailchef.php:248
+#: includes/class-wc-emailchef.php:263
 msgid "contact %1$d: %2$s"
 msgstr ""
 
-#: includes/class-wc-emailchef.php:251
+#: includes/class-wc-emailchef.php:266
 msgid "Emailchef rejected %1$d contacts in this batch. Accepted: %2$d. %3$s"
 msgstr ""
 
-#: includes/class-wc-emailchef.php:265
+#: includes/class-wc-emailchef.php:280
 msgid "Import request failed (HTTP %d)."
 msgstr ""
 
-#: includes/class-wc-emailchef.php:266
+#: includes/class-wc-emailchef.php:281
 msgid "Import request failed: the server could not reach Emailchef."
 msgstr ""
 
-#: includes/class-wc-emailchef.php:273
+#: includes/class-wc-emailchef.php:288
 msgid "Import request failed: unexpected API response."
 msgstr ""
 
-#: includes/class-wc-emailchef.php:601
+#: includes/class-wc-emailchef.php:614
 msgid "Unable to retrieve custom fields."
 msgstr ""
 
@@ -708,6 +713,7 @@ msgid "View history"
 msgstr ""
 
 #: partials/admin-abandoned-carts-panel.php:24
+#: partials/admin-abandoned-carts-panel.php:39
 msgid "Abandoned carts history"
 msgstr ""
 
@@ -721,7 +727,7 @@ msgid "Close"
 msgstr ""
 
 #: partials/admin-abandoned-carts-panel.php:30
-#: partials/admin-abandoned-carts-panel.php:39
+#: partials/admin-abandoned-carts-panel.php:40
 #: partials/admin-sync-panel.php:33
 msgid "Result"
 msgstr ""
@@ -730,28 +736,28 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: partials/admin-abandoned-carts-panel.php:39
+#: partials/admin-abandoned-carts-panel.php:40
 #: partials/admin-sync-panel.php:33
 msgid "Time"
 msgstr ""
 
-#: partials/admin-abandoned-carts-panel.php:39
+#: partials/admin-abandoned-carts-panel.php:40
 msgid "Customer"
 msgstr ""
 
-#: partials/admin-abandoned-carts-panel.php:39
+#: partials/admin-abandoned-carts-panel.php:40
 msgid "Product"
 msgstr ""
 
-#: partials/admin-abandoned-carts-panel.php:43
+#: partials/admin-abandoned-carts-panel.php:44
 msgid "Abandoned carts history pages"
 msgstr ""
 
-#: partials/admin-abandoned-carts-panel.php:46
+#: partials/admin-abandoned-carts-panel.php:47
 msgid "Previous page"
 msgstr ""
 
-#: partials/admin-abandoned-carts-panel.php:47
+#: partials/admin-abandoned-carts-panel.php:48
 msgid "Next page"
 msgstr ""
 
