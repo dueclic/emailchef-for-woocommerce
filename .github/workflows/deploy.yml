@@ -32,10 +32,18 @@ jobs:
           README_DIR: .wordpress-org/readme
       # Package the plugin exactly as deployed (same rsync + .distignore
       # logic as the deploy action) and attach it to the GitHub release.
+      # The deploy action also writes emailchef-for-woocommerce.zip into the
+      # workspace: it is excluded by .distignore, and the check below fails
+      # the job if any zip ends up inside the package.
       - name: Package plugin zip
         run: |
           mkdir -p /tmp/package/emailchef-for-woocommerce
           rsync -rc --exclude-from=.distignore ./ /tmp/package/emailchef-for-woocommerce/ --delete --delete-excluded
+          if find /tmp/package/emailchef-for-woocommerce -name '*.zip' | grep -q .; then
+            echo "::error::The package contains zip files:"
+            find /tmp/package/emailchef-for-woocommerce -name '*.zip'
+            exit 1
+          fi
           cd /tmp/package
           zip -rq emailchef-for-woocommerce.zip emailchef-for-woocommerce
       - name: Create GitHub release with plugin zip

@@ -20,3 +20,6 @@ pnpm-lock.yaml
 .wp-env.override.json
 
 /tests
+
+# Zip generated in the workspace by the deploy action, never part of the package
+/emailchef-for-woocommerce.zip
