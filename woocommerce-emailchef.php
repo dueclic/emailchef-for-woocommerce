@@ -247,8 +247,8 @@ function wc_ec_get_abandoned_carts_start_interval(): string {
 }
 
 function wc_ec_get_abandoned_carts_end_value(){
-	$cron_end_interval_value = wc_ec_get_option_value("cron_end_interval_value");
-	if ($cron_end_interval_value){
+	$cron_end_interval_value = (int) wc_ec_get_option_value("cron_end_interval_value");
+	if ($cron_end_interval_value < 1){
 		$cron_end_interval_value = 24;
 	}
 	return apply_filters( 'ec_get_abandoned_carts_end_interval_value', $cron_end_interval_value );
