@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.1.1](https://github.com/dueclic/emailchef-for-woocommerce/compare/6.1.0...6.1.1) (2026-11-27)
+
+
+### Bug Fixes
+
+* keep the abandoned carts history pagination inside the dialog ([02f9c05](https://github.com/dueclic/emailchef-for-woocommerce/commit/02f9c059d5c39f0c742df1b2c15f846eb8cf8bca))
+
 ## [6.1.0](https://github.com/dueclic/emailchef-for-woocommerce/compare/6.0.2...6.1.0) (2026-11-27)
 
 
