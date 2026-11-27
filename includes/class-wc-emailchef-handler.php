@@ -1098,7 +1098,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 		public function sync_abandoned_carts() {
 
-			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_sync_abandoned_carts' ) ) {
+			if ( ! current_user_can( 'manage_options' ) || ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'emailchef_sync_abandoned_carts' ) ) {
 				wp_send_json_error( [
 					'message' => __( 'Invalid request', 'emailchef-for-woocommerce' )
 				] );
@@ -1107,14 +1107,16 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			$where = "";
 			$limit = true;
 
-			$email   = isset( $_POST['only_email'] ) && is_email( $_POST['only_email'] ) ? $_POST['only_email'] : null;
-			$user_id = isset( $_POST['only_userid'] ) && ! empty( $_POST['only_userid'] ) ? $_POST['only_userid'] : null;
+			global $wpdb;
 
-			if ( ! is_null( $email ) ) {
-				$where = " AND user_email='" . $email . "'";
+			$email   = isset( $_POST['only_email'] ) ? sanitize_email( wp_unslash( $_POST['only_email'] ) ) : '';
+			$user_id = isset( $_POST['only_userid'] ) ? absint( $_POST['only_userid'] ) : 0;
+
+			if ( is_email( $email ) ) {
+				$where = $wpdb->prepare( " AND user_email = %s", $email );
 				$limit = false;
-			} else if ( ! is_null( $user_id ) ) {
-				$where = " AND user_id='" . $user_id . "'";
+			} else if ( $user_id > 0 ) {
+				$where = $wpdb->prepare( " AND user_id = %d", $user_id );
 				$limit = false;
 			}
 
@@ -1211,7 +1213,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
 		public function debug_move_abandoned_carts() {
 
-			if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'emailchef_debug_move_abandoned_carts' ) ) {
+			if ( ! current_user_can( 'manage_options' ) || ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'emailchef_debug_move_abandoned_carts' ) ) {
 				wp_send_json_error( [
 					'message' => __( 'Invalid request', 'emailchef-for-woocommerce' )
 				] );
