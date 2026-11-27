@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.0.2](https://github.com/dueclic/emailchef-for-woocommerce/compare/6.0.1...6.0.2) (2026-11-27)
+
+
+### Bug Fixes
+
+* send plain text description and image URL for abandoned carts ([a0e8fe3](https://github.com/dueclic/emailchef-for-woocommerce/commit/a0e8fe3e599e404309288c6b4b5b9ce514a035e8))
+* track the most expensive product of the abandoned cart ([8e64c96](https://github.com/dueclic/emailchef-for-woocommerce/commit/8e64c96e3bab1d3a850bb6039f43aaa6c65c9f0c))
+
 ## [6.0.1](https://github.com/dueclic/emailchef-for-woocommerce/compare/6.0.0...6.0.1) (2026-10-28)
 
 

@@ -4,7 +4,7 @@ Contributors: emailchef,dueclic
 Tags: emailchef,newsletter,woocommerce,ecommerce,email 
 Requires at least: 7.1.3
 Tested up to: 7.1
-Stable tag: 6.0.1
+Stable tag: 6.0.2
 WC requires at least: 11.2.1
 WC tested up to: 11.2
 License: GPLv2 or later
@@ -69,7 +69,23 @@ function emailchef_abandoned_cart_image_size($size){ return 'newsize'; }
 add_filter('emailchef_abandoned_cart_image_size', 'emailchef_abandoned_cart_image_size', 10, 1);
 </code>
 
+= Can I change the length of the Abandoned Cart product description? =
+
+Yes. The description is sent as plain text (HTML and shortcodes are removed) and trimmed to 40 words by default. Use the
+<code>emailchef_abandoned_cart_description_words</code> filter hook to change it (return 0 to send it in full):
+
+
+<code>
+
+function emailchef_abandoned_cart_description_words($words, $product){ return 25; }
+
+add_filter('emailchef_abandoned_cart_description_words', 'emailchef_abandoned_cart_description_words', 10, 2);
+</code>
+
 == Changelog ==
+= 6.0.2 =
+* Fix: send plain text description and image URL for abandoned carts
+* Fix: track the most expensive product of the abandoned cart
 = 6.0.1 =
 * Fix: allow controlled recovery of stalled synchronization
 = 6.0.0 =
