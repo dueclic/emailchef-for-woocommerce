@@ -4,7 +4,7 @@ Contributors: emailchef,dueclic
 Tags: emailchef,newsletter,woocommerce,ecommerce,email 
 Requires at least: 7.1.3
 Tested up to: 7.1
-Stable tag: 6.0.2
+Stable tag: 6.1.0
 WC requires at least: 11.2.1
 WC tested up to: 11.2
 License: GPLv2 or later
@@ -97,6 +97,11 @@ add_filter('emailchef_abandoned_cart_retention_days', 'emailchef_abandoned_cart_
 </code>
 
 == Changelog ==
+= 6.1.0 =
+* Feature: show the abandoned carts sent to Emailchef
+* Fix: avoid PHP warnings for missing API messages and unmanaged custom fields
+* Fix: honour the abandoned cart delay set in the settings
+* Fix: check permissions and escape filters of the abandoned cart endpoints
 = 6.0.2 =
 * Fix: send plain text description and image URL for abandoned carts
 * Fix: track the most expensive product of the abandoned cart

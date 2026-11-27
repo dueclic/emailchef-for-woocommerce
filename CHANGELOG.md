@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.1.0](https://github.com/dueclic/emailchef-for-woocommerce/compare/6.0.2...6.1.0) (2026-11-27)
+
+
+### Features
+
+* show the abandoned carts sent to Emailchef ([27c007a](https://github.com/dueclic/emailchef-for-woocommerce/commit/27c007a12783029823131c89ab050d66ca9a352e))
+
+
+### Bug Fixes
+
+* avoid PHP warnings for missing API messages and unmanaged custom fields ([791426c](https://github.com/dueclic/emailchef-for-woocommerce/commit/791426c30050ac0f8c487a2dccadc616ca68a36d))
+* check permissions and escape filters of the abandoned cart endpoints ([1798267](https://github.com/dueclic/emailchef-for-woocommerce/commit/17982674fbf7ef080b0263d5c3a00ab5a3c5632f))
+* honour the abandoned cart delay set in the settings ([626cf9b](https://github.com/dueclic/emailchef-for-woocommerce/commit/626cf9b888e6678e14ea0a373774c8a9f958700d))
+
 ## [6.0.2](https://github.com/dueclic/emailchef-for-woocommerce/compare/6.0.1...6.0.2) (2026-11-27)
 
 
