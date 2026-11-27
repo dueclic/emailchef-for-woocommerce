@@ -248,6 +248,16 @@ var WC_Emailchef = function ($) {
                 return index ? args[Number(index) - 1] : args.shift();
             });
         }
+        function when(time) {
+            var date = new Date(time * 1000);
+            var text;
+            try {
+                text = date.toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' });
+            } catch (e) {
+                text = date.toLocaleString();
+            }
+            return $('<time>').attr('datetime', date.toISOString()).text(text);
+        }
         function badge(status) {
             return $('<span class="emailchef-debug__abcart-badge">').attr('data-status', status).text(messages[status] || status);
         }
@@ -268,13 +278,14 @@ var WC_Emailchef = function ($) {
         }
         function renderRecent(rows) {
             var list = $('#emailchef-abcart-recent').empty();
-            $('#emailchef-abcart-empty').text(messages.empty).prop('hidden', rows.length > 0);
+            $('#emailchef-abcart-empty').text(rows.length ? '' : messages.empty).prop('hidden', rows.length > 0);
+            list.prop('hidden', rows.length === 0);
             $('#emailchef-abcart-open-history').prop('hidden', rows.length === 0);
             rows.forEach(function (row) {
                 var item = $('<li>').append(productCell(row));
                 $('<div class="emailchef-debug__abcart-meta">')
-                    .append($('<span>').text(row.user_email))
-                    .append($('<time>').attr('datetime', new Date(row.time * 1000).toISOString()).text(new Date(row.time * 1000).toLocaleString()))
+                    .append($('<span class="emailchef-debug__abcart-email">').text(row.user_email))
+                    .append(when(row.time))
                     .append(badge(row.status))
                     .appendTo(item);
                 list.append(item);
@@ -284,6 +295,7 @@ var WC_Emailchef = function ($) {
             $.get(wcec.ajax_abandoned_carts_overview_url, function (response) {
                 if (!response.success) return;
                 var data = response.data;
+                $('#emailchef-abcart-stats').attr('aria-busy', 'false');
                 $('#emailchef-abcart-pending').text(data.stats.pending);
                 $('#emailchef-abcart-synced').text(data.stats.synced);
                 $('#emailchef-abcart-errors').text(data.stats.errors).closest('div').attr('data-has-errors', data.stats.errors > 0 ? '1' : '0');
@@ -292,10 +304,11 @@ var WC_Emailchef = function ($) {
                 $('#emailchef-abcart-retention').text(format(messages.retention, data.retention_days));
                 renderRecent(data.recent || []);
             }).fail(function () {
+                $('#emailchef-abcart-stats').attr('aria-busy', 'false');
                 $('#emailchef-abcart-empty').text(messages.unavailable).prop('hidden', false);
             });
         }
-        function detailsRow(row) {
+        function detailsRow(row, id) {
             var box = $('<div class="emailchef-debug__abcart-details">');
             if (row.status === 'legacy') {
                 $('<p>').text(messages.legacy_note).appendTo(box);
@@ -309,29 +322,36 @@ var WC_Emailchef = function ($) {
                 });
             }
             if (row.message) $('<p class="emailchef-debug__abcart-error">').text(row.message).appendTo(box);
-            return $('<tr class="emailchef-debug__abcart-detail-row">').attr('hidden', true).append($('<td colspan="5">').append(box));
+            return $('<tr class="emailchef-debug__abcart-detail-row">').attr({ id: id, hidden: true }).append($('<td colspan="5">').append(box));
         }
         function loadHistory() {
             var body = $('#emailchef-abcart-history');
+            var table = $('#emailchef-abcart-history-table').attr('aria-busy', 'true');
             $.get(wcec.ajax_abandoned_carts_history_url, { page: state.page, status: state.status }, function (response) {
                 if (!response.success) return;
                 var data = response.data;
                 state.page = data.page;
                 state.pages = data.pages;
                 body.empty();
-                $('#emailchef-abcart-history-empty').text(messages.empty).prop('hidden', data.rows.length > 0);
+                $('#emailchef-abcart-history-empty').text(data.rows.length ? '' : messages.empty).prop('hidden', data.rows.length > 0);
                 data.rows.forEach(function (row) {
                     var tr = $('<tr>');
-                    $('<td>').text(new Date(row.time * 1000).toLocaleString()).appendTo(tr);
+                    $('<td>').append(when(row.time)).appendTo(tr);
                     $('<td>').text(row.user_email).appendTo(tr);
                     $('<td>').append(productCell(row)).appendTo(tr);
                     $('<td>').append(badge(row.status)).appendTo(tr);
-                    var details = detailsRow(row);
-                    var toggle = $('<button type="button" class="button-link" aria-expanded="false">').text(messages.details).on('click', function () {
-                        var open = details.prop('hidden');
-                        details.prop('hidden', !open);
-                        toggle.attr('aria-expanded', open ? 'true' : 'false').text(open ? messages.hide : messages.details);
-                    });
+                    var detailsId = 'emailchef-abcart-detail-' + row.id;
+                    var details = detailsRow(row, detailsId);
+                    var label = $('<span>').text(messages.details);
+                    var context = (row.product_name || '') + ', ' + row.user_email;
+                    var toggle = $('<button type="button" class="button-link" aria-expanded="false">').attr('aria-controls', detailsId)
+                        .append(label, $('<span class="screen-reader-text">').text(': ' + context))
+                        .on('click', function () {
+                            var open = details.prop('hidden');
+                            details.prop('hidden', !open);
+                            toggle.attr('aria-expanded', open ? 'true' : 'false');
+                            label.text(open ? messages.hide : messages.details);
+                        });
                     $('<td>').append(toggle).appendTo(tr);
                     body.append(tr, details);
                 });
@@ -341,6 +361,8 @@ var WC_Emailchef = function ($) {
             }).fail(function () {
                 body.empty();
                 $('#emailchef-abcart-history-empty').text(messages.unavailable).prop('hidden', false);
+            }).always(function () {
+                table.attr('aria-busy', 'false');
             });
         }
 
