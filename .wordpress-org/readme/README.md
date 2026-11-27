@@ -82,6 +82,20 @@ function emailchef_abandoned_cart_description_words($words, $product){ return 25
 add_filter('emailchef_abandoned_cart_description_words', 'emailchef_abandoned_cart_description_words', 10, 2);
 </code>
 
+= How long is the Abandoned Cart history kept? =
+
+The "Abandoned carts" card in the plugin settings shows the carts sent to Emailchef with the data sent and the result.
+History entries and abandoned carts older than 30 days are deleted automatically once a day. Use the
+<code>emailchef_abandoned_cart_retention_days</code> filter hook to change the number of days:
+
+
+<code>
+
+function emailchef_abandoned_cart_retention_days($days){ return 60; }
+
+add_filter('emailchef_abandoned_cart_retention_days', 'emailchef_abandoned_cart_retention_days', 10, 1);
+</code>
+
 == Changelog ==
 = 6.0.2 =
 * Fix: send plain text description and image URL for abandoned carts
