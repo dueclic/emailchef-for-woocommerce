@@ -943,6 +943,49 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			}
 		}
 
+		/**
+		 * Plain text description of an abandoned cart product: the short description
+		 * (or the full one when empty) without HTML and shortcodes, trimmed to a number
+		 * of words filterable with emailchef_abandoned_cart_description_words.
+		 *
+		 * @param WC_Product $product
+		 *
+		 * @return string
+		 */
+		private function abandoned_cart_product_description( $product ) {
+			$to_text = function ( $html ) {
+				$text = wp_strip_all_tags( strip_shortcodes( (string) $html ), true );
+				$text = html_entity_decode( $text, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+
+				return trim( preg_replace( '/[\s\x{00A0}]+/u', ' ', $text ) );
+			};
+
+			$description = $to_text( $product->get_short_description() );
+			if ( $description === '' ) {
+				$description = $to_text( $product->get_description() );
+			}
+
+			$words = (int) apply_filters( 'emailchef_abandoned_cart_description_words', 40, $product );
+
+			return $words > 0 ? wp_trim_words( $description, $words, '…' ) : $description;
+		}
+
+		/**
+		 * URL of the image of an abandoned cart product (WooCommerce placeholder when
+		 * the product has none), in the size filterable with emailchef_abandoned_cart_image_size.
+		 *
+		 * @param WC_Product $product
+		 *
+		 * @return string
+		 */
+		private function abandoned_cart_product_image_url( $product ) {
+			$size = apply_filters( 'emailchef_abandoned_cart_image_size', 'woocommerce_thumbnail' );
+
+			$image_url = $product->get_image_id() ? wp_get_attachment_image_url( $product->get_image_id(), $size ) : false;
+
+			return $image_url ? $image_url : wc_placeholder_img_src( $size );
+		}
+
 		private function _sync_abandoned_carts(
 			$limit = true,
 			$where = ""
@@ -997,9 +1040,6 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					continue;
 				}
 
-				$name              = $product->get_name();
-				$short_description = $product->get_short_description();
-
 				$list_id = get_option( $this->prefixed_setting( "list" ) );
 
 				$send_data = array(
@@ -1007,13 +1047,11 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					'first_name'                 => get_user_meta( $customer_id, "first_name", true ),
 					'last_name'                  => get_user_meta( $customer_id, "last_name", true ),
 					'ab_cart_is_abandoned_cart'  => true,
-					'ab_cart_prod_name_pr_hr'    => $name,
-					'ab_cart_prod_desc_pr_hr'    => $short_description,
+					'ab_cart_prod_name_pr_hr'    => $product->get_name(),
+					'ab_cart_prod_desc_pr_hr'    => $this->abandoned_cart_product_description( $product ),
 					'ab_cart_prod_pr_pr_hr'      => $product->get_price(),
 					'ab_cart_prod_url_pr_hr'     => $product->get_permalink(),
-					'ab_cart_prod_url_img_pr_hr' => $product->get_image(
-						apply_filters( 'emailchef_abandoned_cart_image_size', 'woocommerce_thumbnail' )
-					),
+					'ab_cart_prod_url_img_pr_hr' => $this->abandoned_cart_product_image_url( $product ),
 					'ab_cart_prod_id_pr_hr'      => $product->get_id(),
 					'ab_cart_date'               => date( "Y-m-d" ),
 				);
