@@ -42,6 +42,7 @@ $api = $wcec->emailchef();
 
     <?php if ( $api && ! empty( $list_id ) ) : ?>
     <?php require WC_EMAILCHEF_DIR . 'partials/admin-sync-panel.php'; ?>
+    <?php require WC_EMAILCHEF_DIR . 'partials/admin-abandoned-carts-panel.php'; ?>
     <div class="emailchef-debug__tools">
         <section class="emailchef-debug__card">
             <span class="emailchef-debug__eyebrow"><?php esc_html_e( 'SCHEMA', 'emailchef-for-woocommerce' ); ?></span>

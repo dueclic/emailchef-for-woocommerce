@@ -75,6 +75,7 @@ if ( $policy !== 'premium' ) {
         </div>
         <hr class="ecwc-hr-separator">
         <div class="emailchef-debug emailchef-settings-sync"><?php require WC_EMAILCHEF_DIR . 'partials/admin-sync-panel.php'; ?></div>
+        <div class="emailchef-debug emailchef-settings-sync emailchef-settings-abcart"><?php require WC_EMAILCHEF_DIR . 'partials/admin-abandoned-carts-panel.php'; ?></div>
         <hr class="ecwc-hr-separator">
         <div>
             <p>

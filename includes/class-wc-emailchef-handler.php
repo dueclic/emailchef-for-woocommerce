@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once WC_EMAILCHEF_DIR . 'includes/class-wc-emailchef-initial-sync.php';
 WC_Emailchef_Initial_Sync::init();
+require_once WC_EMAILCHEF_DIR . 'includes/class-wc-emailchef-abandoned-cart-log.php';
+WC_Emailchef_Abandoned_Cart_Log::init();
 
 if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 
@@ -700,6 +702,8 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 		public function hooks() {
 
 			add_action( 'wp_ajax_' . $this->namespace . '_disconnect', array( $this, 'disconnect' ) );
+			add_action( 'wp_ajax_' . $this->namespace . '_abandoned_carts_overview', array( $this, 'abandoned_carts_overview' ) );
+			add_action( 'wp_ajax_' . $this->namespace . '_abandoned_carts_history', array( $this, 'abandoned_carts_history' ) );
 
 			$enabled = wc_ec_get_option_value(
 				'enabled'
@@ -1056,7 +1060,18 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 					'ab_cart_date'               => date( "Y-m-d" ),
 				);
 
-				$sc = $this->wcec->emailchef()->sync_cart( $list_id, $send_data );
+				$api = $this->wcec->emailchef();
+				$api->lastError = null;
+				$sc = $api->sync_cart( $list_id, $send_data );
+
+				WC_Emailchef_Abandoned_Cart_Log::record( array(
+					'user_id'    => $customer_id,
+					'user_email' => $result['user_email'],
+					'list_id'    => $list_id,
+					'sent'       => $send_data,
+					'success'    => (bool) $sc,
+					'message'    => $sc ? '' : (string) $api->lastError,
+				) );
 
 				if ( $sc ) {
 					$this->wcec->log(
@@ -1137,26 +1152,7 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 		}
 
 		public function create_ab_cart_table() {
-
-			global $wpdb;
-
-			$abc             = $this->wcec->abcart_table();
-			$charset_collate = $wpdb->get_charset_collate();
-
-			$sight_sql = "CREATE TABLE IF NOT EXISTS {$abc} (
-                id mediumint(9) NOT NULL AUTO_INCREMENT,
-                user_id INT(9),
-                user_email VARCHAR(255),
-                product_id INT(9),
-                created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                synced SMALLINT DEFAULT 0,
-                PRIMARY KEY  (id)
-            ) {$charset_collate};";
-
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-
-			dbDelta( $sight_sql );
-
+			WC_Emailchef_Abandoned_Cart_Log::install();
 		}
 
 		public function delete_ab_cart_table() {
@@ -1170,6 +1166,8 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 			$wpdb->query( $sight_sql );
+
+			WC_Emailchef_Abandoned_Cart_Log::uninstall();
 		}
 
 		public function sync_list_now( $list_id, $all = true ) {
@@ -1207,7 +1205,39 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 		}
 
 		public function maybe_abandoned_cart_sync() {
-			$this->_sync_abandoned_carts();;
+			WC_Emailchef_Abandoned_Cart_Log::purge();
+			$this->_sync_abandoned_carts();
+		}
+
+		private function verify_abandoned_carts_request() {
+			if ( ! current_user_can( 'manage_options' ) || ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ), 'emailchef_abandoned_carts' ) ) {
+				wp_send_json_error( array( 'message' => __( 'Invalid request', 'emailchef-for-woocommerce' ) ), 403 );
+			}
+		}
+
+		public function abandoned_carts_overview() {
+			$this->verify_abandoned_carts_request();
+
+			$next_run = wp_next_scheduled( 'emailchef_abandoned_cart_sync' );
+			$recent   = WC_Emailchef_Abandoned_Cart_Log::query( 1, 5 );
+
+			wp_send_json_success( array(
+				'stats'          => WC_Emailchef_Abandoned_Cart_Log::stats(),
+				'next_run'       => $next_run ? (int) $next_run : null,
+				'delay_value'    => (int) wc_ec_get_abandoned_carts_end_value(),
+				'delay_unit'     => wc_ec_get_abandoned_carts_end_unit(),
+				'retention_days' => WC_Emailchef_Abandoned_Cart_Log::retention_days(),
+				'recent'         => $recent['rows'],
+			) );
+		}
+
+		public function abandoned_carts_history() {
+			$this->verify_abandoned_carts_request();
+
+			$page   = isset( $_GET['page'] ) ? absint( $_GET['page'] ) : 1;
+			$status = isset( $_GET['status'] ) ? sanitize_key( wp_unslash( $_GET['status'] ) ) : '';
+
+			wp_send_json_success( WC_Emailchef_Abandoned_Cart_Log::query( $page, 20, $status ) );
 		}
 
 

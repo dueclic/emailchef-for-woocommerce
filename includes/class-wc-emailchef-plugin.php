@@ -203,6 +203,37 @@ final class WC_Emailchef_Plugin {
 					'task' => __( 'Import task', 'emailchef-for-woocommerce' ),
 					'warnings' => __( 'Warnings', 'emailchef-for-woocommerce' ),
 				),
+				"abandoned_carts_messages" => array(
+					'synced'        => __( 'Sent', 'emailchef-for-woocommerce' ),
+					'error'         => __( 'Error', 'emailchef-for-woocommerce' ),
+					'legacy'        => __( 'Previous history', 'emailchef-for-woocommerce' ),
+					'next_run'      => __( 'Next check', 'emailchef-for-woocommerce' ),
+					'not_scheduled' => __( 'not scheduled', 'emailchef-for-woocommerce' ),
+					/* translators: 1: number, 2: unit (hours or days) */
+					'delay'         => __( 'Carts are sent to Emailchef %1$s %2$s after they are abandoned.', 'emailchef-for-woocommerce' ),
+					'hours'         => __( 'hours', 'emailchef-for-woocommerce' ),
+					'days'          => __( 'days', 'emailchef-for-woocommerce' ),
+					/* translators: %s: number of days */
+					'retention'     => __( 'History older than %s days is deleted automatically.', 'emailchef-for-woocommerce' ),
+					'empty'         => __( 'No abandoned cart has been sent yet.', 'emailchef-for-woocommerce' ),
+					'unavailable'   => __( 'Unable to load abandoned carts.', 'emailchef-for-woocommerce' ),
+					/* translators: 1: current page, 2: total pages, 3: total items */
+					'page'          => __( 'Page %1$s of %2$s · %3$s items', 'emailchef-for-woocommerce' ),
+					'details'       => __( 'Details', 'emailchef-for-woocommerce' ),
+					'hide'          => __( 'Hide', 'emailchef-for-woocommerce' ),
+					'description'   => __( 'Description', 'emailchef-for-woocommerce' ),
+					'product_url'   => __( 'Product URL', 'emailchef-for-woocommerce' ),
+					'image_url'     => __( 'Image URL', 'emailchef-for-woocommerce' ),
+					'legacy_note'   => __( 'Sent before the history was introduced: only customer, product and date are known.', 'emailchef-for-woocommerce' ),
+				),
+				"ajax_abandoned_carts_overview_url" => wp_nonce_url(
+					add_query_arg( array( 'action' => $this->prefixed_setting( 'abandoned_carts_overview' ) ), admin_url( 'admin-ajax.php' ) ),
+					'emailchef_abandoned_carts'
+				),
+				"ajax_abandoned_carts_history_url" => wp_nonce_url(
+					add_query_arg( array( 'action' => $this->prefixed_setting( 'abandoned_carts_history' ) ), admin_url( 'admin-ajax.php' ) ),
+					'emailchef_abandoned_carts'
+				),
 				"ajax_initial_sync_batch_size_url" => wp_nonce_url(
 					add_query_arg( array( 'action' => $this->prefixed_setting( 'initial_sync_batch_size' ) ), admin_url( 'admin-ajax.php' ) ),
 					'emailchef_manual_sync'

@@ -411,3 +411,84 @@ msgstr "Scegli una lista Emailchef esistente da sincronizzare o crea una nuova l
 
 msgid "Page to which the customer is redirected after unsubscribing from the newsletter"
 msgstr "Pagina a cui viene indirizzato il cliente dopo la cancellazione dalla newsletter."
+
+msgid "Sent"
+msgstr "Inviato"
+
+msgid "Previous history"
+msgstr "Storico precedente"
+
+msgid "Next check"
+msgstr "Prossimo controllo"
+
+msgid "not scheduled"
+msgstr "non programmato"
+
+msgid "Carts are sent to Emailchef %1$s %2$s after they are abandoned."
+msgstr "I carrelli vengono inviati a Emailchef %1$s %2$s dopo l'abbandono."
+
+msgid "History older than %s days is deleted automatically."
+msgstr "Lo storico più vecchio di %s giorni viene eliminato automaticamente."
+
+msgid "No abandoned cart has been sent yet."
+msgstr "Nessun carrello abbandonato è stato ancora inviato."
+
+msgid "Unable to load abandoned carts."
+msgstr "Impossibile caricare i carrelli abbandonati."
+
+msgid "Page %1$s of %2$s · %3$s items"
+msgstr "Pagina %1$s di %2$s · %3$s elementi"
+
+msgid "Hide"
+msgstr "Nascondi"
+
+msgid "Description"
+msgstr "Descrizione"
+
+msgid "Product URL"
+msgstr "URL del prodotto"
+
+msgid "Image URL"
+msgstr "URL dell'immagine"
+
+msgid "Sent before the history was introduced: only customer, product and date are known."
+msgstr "Inviato prima dell'introduzione dello storico: sono noti solo cliente, prodotto e data."
+
+msgid "Waiting"
+msgstr "In attesa"
+
+msgid "Sent (7 days)"
+msgstr "Inviati (7 giorni)"
+
+msgid "Errors (7 days)"
+msgstr "Errori (7 giorni)"
+
+msgid "Last sent"
+msgstr "Ultimi inviati"
+
+msgid "View history"
+msgstr "Vedi storico"
+
+msgid "Abandoned carts history"
+msgstr "Storico carrelli abbandonati"
+
+msgid "Each row shows the data sent to Emailchef, which the abandoned cart email uses."
+msgstr "Ogni riga mostra i dati inviati a Emailchef, usati dall'email di carrello abbandonato."
+
+msgid "All"
+msgstr "Tutti"
+
+msgid "Customer"
+msgstr "Cliente"
+
+msgid "Product"
+msgstr "Prodotto"
+
+msgid "Abandoned carts history pages"
+msgstr "Pagine dello storico carrelli abbandonati"
+
+msgid "Previous page"
+msgstr "Pagina precedente"
+
+msgid "Next page"
+msgstr "Pagina successiva"
