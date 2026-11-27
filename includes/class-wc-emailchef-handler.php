@@ -578,24 +578,18 @@ if ( ! class_exists( 'WC_Emailchef_Handler' ) ) {
 				foreach ( $items as $item => $values ) {
 					$product = wc_get_product( $values['product_id'] );
 
-					$name              = $product->get_name();
-					$short_description = $product->get_short_description();
-					$description       = $product->get_description();
-					$image_to_send     = get_the_post_thumbnail_url( $product->get_id() );
+					if ( ! $product ) {
+						continue;
+					}
 
-					$description_to_send = ( empty( $short_description ) ? $description : $short_description );
-
+					// Only the product id and price are needed here: the data sent to
+					// Emailchef is built from the product when the cart is synchronized.
 					$current = array(
-						'ab_cart_prod_name_pr_hr'    => $name,
-						'ab_cart_prod_desc_pr_hr'    => $description_to_send,
-						'ab_cart_prod_pr_pr_hr'      => $product->get_price(),
-						'ab_cart_prod_url_pr_hr'     => $product->get_permalink(),
-						'ab_cart_prod_url_img_pr_hr' => $image_to_send,
-						'ab_cart_prod_id_pr_hr'      => $product->get_id(),
-						'ab_cart_date'               => date( "Y-m-d" ),
+						'ab_cart_prod_pr_pr_hr' => (float) $product->get_price(),
+						'ab_cart_prod_id_pr_hr' => $product->get_id(),
 					);
 
-					if ( empty( $bigger ) ) {
+					if ( empty( $bigger_in_cart ) ) {
 						$bigger_in_cart = $current;
 						continue;
 					}
